@@ -1,0 +1,23 @@
+{
+  "name": "mrp-sms",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "react-scripts": "0.6.1"
+  },
+  "dependencies": {
+    "firebase": "^3.5.0",
+    "object-assign": "^4.1.0",
+    "react": "^15.3.2",
+    "react-button": "^1.2.1",
+    "react-dom": "^15.3.2",
+    "react-tab-panel": "^2.2.2",
+    "reactable": "^0.14.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
