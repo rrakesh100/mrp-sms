@@ -14,6 +14,12 @@
   color: white;
 }
 
+
+.reactable-filter-input {
+       
+
+
+}
 .App-intro {
   font-size: large;
 }
@@ -38,7 +44,8 @@
 
 
 .centerTable {
-  width: 100%;
+  width: 80%;
+  margin:auto;
   align-content: center;
 }
 

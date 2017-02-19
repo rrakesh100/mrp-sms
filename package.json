@@ -8,10 +8,19 @@
   "dependencies": {
     "firebase": "^3.5.0",
     "object-assign": "^4.1.0",
-    "react": "^15.3.2",
+    "rc-collapse": "^1.6.12",
+    "rc-collapse-icon": "^1.5.3",
+    "react": "^15.4.2",
+    "react-addons-css-transition-group": "^15.4.2",
+    "react-alert": "^1.0.14",
     "react-button": "^1.2.1",
-    "react-dom": "^15.3.2",
-    "react-tab-panel": "^2.2.2",
+    "react-buttons": "0.0.11",
+    "react-data-grid": "^2.0.12",
+    "react-data-grid-addons": "^2.0.12",
+    "react-dom": "^15.4.2",
+    "react-icons": "^2.2.3",
+    "react-tab-panel": "^2.2.7",
+    "react-tabs": "^0.8.2",
     "reactable": "^0.14.0"
   },
   "scripts": {
