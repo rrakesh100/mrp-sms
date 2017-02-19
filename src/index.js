@@ -11,6 +11,15 @@ var config = {
     storageBucket: "stage-db-b035c.appspot.com",
     messagingSenderId: "950510485815"
   };
+
+// var config = {
+//   apiKey: "AIzaSyCFBpTX6MqN-w_vp6cjduKdyZY3lLR7ty8",
+//   authDomain: "mrps-orderform.firebaseapp.com",
+//   databaseURL: "https://mrps-orderform.firebaseio.com",
+//   storageBucket: "mrps-orderform.appspot.com",
+//   messagingSenderId: "742927862975"
+// };
+
 firebase.initializeApp(config);
 
 ReactDOM.render(
