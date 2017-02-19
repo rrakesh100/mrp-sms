@@ -136,7 +136,7 @@ class AddProduct extends Component {
               <input type="checkbox"
                 name="available"
                 checked={ this.state.available }
-                onChange= { this.updateCheckBoxValue.bind(this, 'available') }>
+                onChange={ this.updateCheckBoxValue.bind(this, 'available') }>
               </input>
             </span>
           </li>
@@ -145,7 +145,7 @@ class AddProduct extends Component {
             <span>
               <textarea name="description"
                 placeholder="small write up about the product"
-                value= { this.state.description }
+                value={ this.state.description }
                 onChange={ this.updateInputValue.bind(this,'description') }>
               </textarea>
             </span>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Collapse, { Panel } from 'rc-collapse-icon';
 import 'rc-collapse/assets/index.css';
 import Button from 'react-button';
 import * as firebase from 'firebase';

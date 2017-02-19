@@ -11,6 +11,8 @@ import ReactTabPanel, { ReactTabStrip } from 'react-tab-panel'
 import 'react-tab-panel/index.css';
 import Products from './Products';
 import Agents from './Agents';
+import Areas from './Areas';
+import PriceList from './PriceList';
 
 
 const PercentCompleteFormatter = React.createClass({
@@ -323,6 +325,10 @@ class App extends Component {
                 <h4>Add Outlet Details</h4>
               </div>
 
+              <div tabTitle="Areas"  className="areas">
+                <Areas />
+              </div>
+
               <div tabTitle="User Config"  className="user-config">
                 <h4>User Configuration Operations come here</h4>
               </div>
@@ -330,7 +336,7 @@ class App extends Component {
             </ReactTabPanel>
           </div>
           <div tabTitle="Price List" className="price-list">
-            <h4>Table to Update Prices Everyday</h4>
+            <PriceList />
           </div>
 
           <div tabTitle="Orders" className="order-list">

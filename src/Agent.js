@@ -68,7 +68,7 @@ class Agent extends Component {
       const element = outletsArray[index];
       outlets.push(
         <Panel header={ element.name } key={ element.shopId } className="product-panel" showArrow="true">
-          <Outlet data= { element }/>
+          <Outlet data={ element }/>
         </Panel>
       );
     });

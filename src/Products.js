@@ -5,9 +5,6 @@ import 'rc-collapse/assets/index.css';
 import Product from './Product';
 import AddProduct from './AddProduct';
 
-import FaPlus from 'react-icons/lib/fa/plus-circle';
-
-
 class Products extends Component {
   constructor(props) {
     super(props);

@@ -1,4 +1,4 @@
-body {
+  body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
@@ -124,38 +124,38 @@ footer {
   justify-content: center;
 
 }
-.add-product > ul {
+.add-product,.area > ul {
   list-style-type: none;
   min-width: 1000px;
 }
 
-.add-product li {
+.add-product,.area li {
   display: flex;
   flex-direction: column;
 }
 
-.add-product li label {
+.add-product,.area li label {
   color: #db70b8;
   font-size: 10px;
   display: inline-block;
 }
 
-.add-product li {
+.add-product,.area li {
   margin-top: 8px;
   margin-bottom: 8px;
 }
 
-.add-product li input, textarea, select {
+.add-product,.area li input, textarea, select {
   color: #red;
   font-size: 20px;
   width: 600px;
 }
 
-.add-product li textarea {
+.add-product,.area li textarea {
   height: 200px;
 }
 
-.add-product .save-button {
+.add-product,.area .save-button {
   width: 600px;
   height: 40px;
   margin-top: 20px !important;
@@ -165,7 +165,7 @@ footer {
 
 }
 
-.add-product li > span{
+.add-product,.area li > span{
     display: inline-block;
     font-size: 20px;
     margin-top: -4px;
@@ -252,3 +252,59 @@ footer {
 .alert .success {
   color: green;
 }
+
+.react-grid-Cell__value div {
+  color: black;
+  font-size: 18px;
+  text-align: left;
+}
+
+.editor-main {
+  color: blue !important;
+  font-size: 24px !important;
+  text-decoration: bold !important;
+  background: #90D4A6 !important;
+}
+
+.react-grid-HeaderCell {
+  background: #fffff0;
+}
+
+.react-grid-HeaderCell--locked {
+  background: #D490BE;
+}
+
+.update-button {
+  margin-right: 40px !important;
+  margin-top: 16px !important;
+  background: #D6FFFE;
+  height: 40px;
+  font-size: 28px;
+  border: 2px solid;
+  border-radius: 4px;
+}
+
+.sms-button {
+  margin-left: 40px !important;
+  margin-top: 16px !important;
+  background: #D6FFFE;
+  height: 40px;
+  font-size: 28px;
+  border: 2px solid;
+  border-radius: 4px;
+}
+
+svg   {
+  color: blue;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.widget-HeaderCell__value {
+  word-break: break-all !important;
+  white-space: nowrap;
+}
+
+label.required:after {
+   content:" *";
+ }

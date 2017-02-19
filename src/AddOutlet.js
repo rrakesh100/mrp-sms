@@ -28,7 +28,6 @@ class AddOutlet extends Component {
   saveOutlet() {
     console.log("SAVING OUTLET!");
     //Check uniqueness of agent ID
-    const agentId = this.state.agentId;
 
     const outletsRefPath = `agents/${this.state.agent_key}/outlets`;
     console.log("OUTLET PATH: " + outletsRefPath);
