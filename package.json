@@ -12,6 +12,7 @@
     "rc-collapse-icon": "^1.5.3",
     "react": "^15.4.2",
     "react-addons-css-transition-group": "^15.4.2",
+    "react-addons-pure-render-mixin": "^15.4.2",
     "react-alert": "^1.0.14",
     "react-button": "^1.2.1",
     "react-buttons": "0.0.11",

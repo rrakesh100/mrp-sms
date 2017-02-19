@@ -28,6 +28,7 @@ const PercentCompleteFormatter = React.createClass({
       </div>);
   }
 });
+const { Toolbar, Filters: { NumericFilter, AutoCompleteFilter }, Data: { Selectors } } = require('react-data-grid-addons');
 
 
 class App extends Component {
@@ -37,98 +38,12 @@ class App extends Component {
     const db = firebase.database();
 
     this.data = {
-      dbRef: db.ref().child('testUser').child('groups').child('testGroupName'),
+      dbRef: db.ref(),
       newContact: {},
       newItem: {}
     }
 
-    this._rows = [
-      {
-        orderId: '20160201001',
-        orderDate: '02 Feb 2016',
-        area: 'Vizag Rural',
-        status: 'PENDING',
-        agent: 'Kankatala Nanaji'
-      },
-      {
-        orderId: '20160201002',
-        orderDate: '01 Feb 2017',
-        area: 'Chennai Central',
-        status: 'Dispatched',
-        agent: 'Swami Reddy'
-      },
-      {
-        orderId: '20160201003',
-        orderDate: '01 Feb 2017',
-        area: 'T Nagar',
-        status: 'Dispatched',
-        agent: 'Swami Reddy'
-      },
-      {
-        orderId: '20160201004',
-        orderDate: '02 Feb 2017',
-        area: 'Chennai Central',
-        status: 'Dispatched',
-        agent: 'Swami Reddy'
-      },
-      {
-        orderId: '20160201005',
-        orderDate: '02 Feb 2017',
-        area: 'Perambadur',
-        status: 'Dispatched',
-        agent: 'Swami Reddy'
-      },
-      {
-        orderId: '20160201006',
-        orderDate: '04 Feb 2017',
-        area: 'Salem Rural',
-        status: 'Dispatched',
-        agent: 'Swami Reddy'
-      },
-      {
-        orderId: '20160201007',
-        orderDate: '02 Feb 2016',
-        area: 'Vizag Rural',
-        status: 'PENDING',
-        agent: 'Kankatala Nanaji'
-      },
-      {
-        orderId: '20160201008',
-        orderDate: '13 Feb 2017',
-        area: 'Chennai Central',
-        status: 'Dispatched',
-        agent: 'Swami Reddy'
-      },
-      {
-        orderId: '20160201009',
-        orderDate: '11 Feb 2017',
-        area: 'Chennai Central',
-        status: 'Dispatched',
-        agent: 'Swami Reddy'
-      },
-      {
-        orderId: '201602010010',
-        orderDate: '21 Feb 2017',
-        area: 'Perambadur',
-        status: 'Dispatched',
-        agent: 'Swami Reddy'
-      },
-      {
-        orderId: '20160201011',
-        orderDate: '10 Feb 2017',
-        area: 'T Nagar',
-        status: 'Cancelled',
-        agent: 'Swami Reddy'
-      },
-      {
-        orderId: '20160201012',
-        orderDate: '09 Feb 2017',
-        area: 'Chennai Central',
-        status: 'On Hold',
-        agent: 'Swami Reddy'
-      }
-    ];
-
+    let _defaultRows = [];
 
     this._columns = [
       {
@@ -136,31 +51,58 @@ class App extends Component {
         name: 'ORDER ID',
         resizable: true,
         sortable: true,
-        width: 200
+        width: 200,
+        filterable:true,
+        filterRenderer: NumericFilter
       },
       {
-        key: 'agent',
-        name: 'AGENT',
+        key: 'userName',
+        name: 'CUSTOMER NAME',
         resizable: true,
-        sortable: true
+        sortable: true,
+        filterable:true
       },
       {
-        key: 'status',
-        name: 'STATUS',
+        key: 'state',
+        name: 'STATE',
         resizable: true,
-        sortable: true
+        sortable: true,
+        filterable:true
       },
       {
-        key: 'orderDate',
-        name: 'ORDER DATE',
+        key: 'district',
+        name: 'DISTRICT',
         resizable: true,
-        sortable: true
+        sortable: true,
+        filterable:true
       },
       {
         key: 'area',
         name: 'AREA',
         resizable: true,
-        sortable: true
+        sortable: true,
+        filterable:true
+      },
+      {
+        key: 'city',
+        name: 'CITY',
+        resizable: true,
+        sortable: true,
+        filterable:true
+      },
+      {
+        key: 'status',
+        name: 'STATUS',
+        resizable: true,
+        sortable: true,
+        filterable:true
+      },
+      {
+        key: 'time',
+        name: 'DATE',
+        resizable: true,
+        sortable: true,
+        filterable:true
       }
     ];
 
@@ -217,10 +159,17 @@ class App extends Component {
       }
     };
 
-    this.state = {
+    this.defaultState = {
       name: '',
-      lastUpdated: ''
-    }
+      lastUpdated: '',
+      rows: _defaultRows,
+      filters: {}
+    };
+
+    this.state = {
+      ...this.defaultState
+    };
+
   }
 
   handleTabSelect(index, last) {
@@ -231,6 +180,37 @@ class App extends Component {
     var that = this;
     const itemsRef = this.data.dbRef.child('items');
     const contactsRef = this.data.dbRef.child('contacts');
+
+    const ordersRef = this.data.dbRef.child('orders');
+
+    ordersRef.once('value').then( snapshot => {
+      let tablerows = [];let orders = snapshot.val();
+      for(let key in orders){
+        let order = orders[key];
+        let dateTime = new Date(Number(order.time));
+        let formattedDate =
+    dateTime.getDate() + "/" +
+    dateTime.getMonth() + 1 + "/" +
+    dateTime.getFullYear() + " " +
+    dateTime.getHours() + ":" +
+    dateTime.getMinutes() + ":" +
+    dateTime.getSeconds();
+
+        tablerows.push( {
+          orderId: Number(order.orderId),
+          userName: order.userName,
+          state:order.state,
+          district:order.district,
+          area:order.area,
+          city: order.city,
+          status:order.status,
+          time : formattedDate
+        })
+      }
+      that.setState({
+         rows: tablerows
+      })
+    })
 
 
     this.data.dbRef.child('name').once('value').then( snapshot => {
@@ -277,7 +257,11 @@ class App extends Component {
   }
 
   rowGetter(i) {
-    return this._rows[i];
+    return Selectors.getRows(this.state)[i];
+  }
+
+  rowsCount() {
+   return Selectors.getRows(this.state).length;
   }
 
   handleFilterChange(filter) {
@@ -290,8 +274,12 @@ class App extends Component {
     this.setState({ filters: newFilters });
   }
 
-  onClearFilters() {
-    // all filters removed
+  getValidFilterValues(columnId) {
+   let values = this.state.rows.map(r => r[columnId]);
+   return values.filter((item, i, a) => { return i === a.indexOf(item); });
+  }
+
+  handleOnClearFilters() {
     this.setState({filters: {} });
   }
 
@@ -304,8 +292,8 @@ class App extends Component {
       }
     };
 
-    const newRows = sortDirection === 'NONE' ? this._rows.slice(0) : this._rows.sort(comparer);
-    this._rows =  newRows;
+    const newRows = sortDirection === 'NONE' ? this.state.rows.slice(0) : this.state.rows.sort(comparer);
+    this.setState({rows : newRows});
   }
 
   render() {
@@ -350,9 +338,14 @@ class App extends Component {
             <ReactDataGrid
               columns={this._columns}
               rowGetter={this.rowGetter.bind(this)}
-              rowsCount={this._rows.length}
+              rowsCount={this.rowsCount()}
               onGridSort={this.handleGridSort.bind(this)}
-              minHeight={500} />
+              minHeight={500}
+              toolbar={<Toolbar enableFilter={true}/>}
+              onAddFilter={this.handleFilterChange.bind(this)}
+              getValidFilterValues={this.getValidFilterValues}
+              onClearFilters={this.handleOnClearFilters}
+              />
           </div>
         </ReactTabPanel>
         <footer>© MRP Solutions 2017</footer>
