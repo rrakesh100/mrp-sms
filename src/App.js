@@ -4,7 +4,7 @@ import './App.css';
 import * as firebase from 'firebase';
 import Reactable from 'reactable';
 import 'react-tab-panel/index.css';
-import 'object-assign';
+import Obj from 'object-assign';
 import Button from 'react-button';
 import ReactDataGrid from 'react-data-grid';
 import ReactTabPanel, { ReactTabStrip } from 'react-tab-panel'
@@ -41,8 +41,9 @@ class App extends Component {
 
     this.data = {
       dbRef: db.ref(),
-      newContact: {},
-      newItem: {}
+      priceList: {
+        rows: {}
+      }
     }
 
     let _defaultRows = [];
@@ -180,10 +181,29 @@ class App extends Component {
 
   componentDidMount() {
     var that = this;
-    const itemsRef = this.data.dbRef.child('items');
-    const contactsRef = this.data.dbRef.child('contacts');
-
     const ordersRef = this.data.dbRef.child('orders');
+    const priceListRef = this.data.dbRef.child('priceList');
+
+    priceListRef.on('value', snap => {
+      const priceList = snap.val();
+      console.log("PRICE LIST: " + JSON.stringify(priceList, null, 2));
+
+      Object.keys(priceList).forEach( areaId => {
+        const areaData = priceList[areaId];
+        let areaObj = {
+          key: areaId
+        };
+        Object.keys(areaData).forEach( productId => {
+          const { Agent, Outlet } = areaData[productId];
+          const agentPriceKey = [ productId, 'Agent'].join('$');
+          const outletPriceKey = [ productId, 'Outlet'].join('$');
+          areaObj[agentPriceKey] = Agent;
+          areaObj[outletPriceKey] = Outlet;
+        });
+        this.data.priceList.rows[areaId] = areaObj;
+      });
+      console.log("FORMED ROW DATA: " + JSON.stringify(this.data.priceList.rows, null,2));
+    });
 
     ordersRef.once('value').then( snapshot => {
       let tablerows = [];let orders = snapshot.val();
@@ -191,12 +211,12 @@ class App extends Component {
         let order = orders[key];
         let dateTime = new Date(Number(order.time));
         let formattedDate =
-    dateTime.getDate() + "/" +
-    dateTime.getMonth() + 1 + "/" +
-    dateTime.getFullYear() + " " +
-    dateTime.getHours() + ":" +
-    dateTime.getMinutes() + ":" +
-    dateTime.getSeconds();
+          dateTime.getDate() + "/" +
+          dateTime.getMonth() + 1 + "/" +
+          dateTime.getFullYear() + " " +
+          dateTime.getHours() + ":" +
+          dateTime.getMinutes() + ":" +
+          dateTime.getSeconds();
 
         tablerows.push( {
           orderId: Number(order.orderId),
@@ -212,50 +232,8 @@ class App extends Component {
       that.setState({
          rows: tablerows
       })
-    })
-
-
-    this.data.dbRef.child('name').once('value').then( snapshot => {
-      that.setState({
-        name: snapshot.val()
-      })
     });
 
-    this.data.dbRef.child('lastUpdated').once('value').then( snapshot => {
-      that.setState({
-        lastUpdated: snapshot.val()
-      })
-    });
-
-    this.data.dbRef.child('template').once('value').then( snapshot => {
-      that.setState({
-        template: snapshot.val()
-      })
-    });
-
-    itemsRef.once('value').then(function(snapshot) {
-      that.setState({
-        items: snapshot.val()
-      });
-    });
-
-    contactsRef.once('value').then(function(snapshot) {
-      that.setState({
-        contacts: snapshot.val()
-      });
-    });
-
-
-    itemsRef.on('value', snap => {
-      that.setState({
-        items: snap.val()
-      });
-    });
-    contactsRef.on('value', snap => {
-      that.setState({
-        contacts: snap.val()
-      });
-    });
   }
 
   rowGetter(i) {
@@ -336,7 +314,7 @@ class App extends Component {
             </ReactTabPanel>
           </div>
           <div tabTitle="Price List" className="price-list">
-            <PriceList />
+            <PriceList rows={ this.data.priceList.rows }/>
           </div>
 
           <div tabTitle="Orders" className="order-list">

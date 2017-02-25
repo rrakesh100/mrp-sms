@@ -1,22 +1,32 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import ReactDataGrid from 'react-data-grid';
+import ObjectAssign from 'object-assign';
 import Button from 'react-button';
-const ObjectAssign = require('object-assign');
 import FaSave from 'react-icons/lib/fa/floppy-o';
 import FaMail from 'react-icons/lib/fa/envelope-o';
+import AlertContainer from 'react-alert';
 
-const columnWidth = 200;
+
+const columnWidth = 100;
 
 class PriceList extends Component {
   constructor(props) {
     super(props);
 
+    this.alertOptions = {
+      offset: 20,
+      position: 'top center',
+      theme: 'light',
+      time: 5000,
+      transition: 'fade'
+    };
+
     this.state = {
       cols: [
         {
-          key: 'product',
-          name: '↓Product/Area→',
+          key: 'area',
+          name: '↓Area/Product→',
           resizable: true,
           width: 400,
           locked: true,
@@ -30,33 +40,32 @@ class PriceList extends Component {
     const areasRef = firebase.database().ref().child('areas');
     const productsRef = firebase.database().ref().child('products/rice');
 
-
-    let rowObj = {};
-
     //COLUMNS
     // Whats the source of truth for areas and products? PriceList Node or
     // individual products and areas
-    areasRef.on('value', snap => {
-      const areasArray = snap.val();
+    productsRef.on('value', snap => {
+      const productArray = snap.val();
       let cols = ObjectAssign([],this.state.cols);
-      Object.keys(areasArray).forEach( areayKey => {
-        const area = areasArray[areayKey];
+      Object.keys(productArray).forEach( productKey => {
+        const product = productArray[productKey];
+        const productAgentKey = [productKey,'Agent'].join('$');
+        const productOutletKey = [productKey,'Outlet'].join('$');
+
         cols.push({
-          key: area.areaId + 'Agent',
-          name: area.displayName + ' Agent',
+          key: productAgentKey,
+          name: product.name + ' Agent',
           editable: true,
           width: columnWidth,
           resizable: true
         });
-        rowObj[area.areaId + 'Agent'] = '0.00';
+
         cols.push({
-          key: area.areaId + 'Outlet',
-          name: area.displayName + ' Outlet',
+          key: productOutletKey,
+          name: product.name + ' Outlet',
           editable: true,
           width: columnWidth,
           resizable: true
         });
-        rowObj[area.areaId + 'Outlet'] = '0.00';
       });
 
       this.setState({
@@ -64,13 +73,16 @@ class PriceList extends Component {
       });
     });
 
-    productsRef.on('value', snap => {
-      const productsArray = snap.val();
+    areasRef.on('value', snap => {
+      const areasArray = snap.val();
       let rows = [];
-      Object.keys(productsArray).forEach( productKey => {
+      Object.keys(areasArray).forEach( areaKey => {
+        const area = areasArray[areaKey];
+        const rowData = ObjectAssign({},this.props.rows[area.areaId]);
         const newRow = {
-          product: productKey,
-          ...rowObj
+          area: area.displayName,
+          key: area.areaId,
+          ...rowData
         };
         rows.push(newRow);
       });
@@ -107,11 +119,104 @@ class PriceList extends Component {
   }
 
   updatePrices() {
-    console.log("UPDATING PRICES");
+    const archiveLocRef = firebase.database().ref().child('priceListArchive');
+    const priceListRef = firebase.database().ref().child('priceList');
+    //CHECK IF THERE ARE ANY CHANGES
+
+    let currentPriceList = {};
+
+
+    //SAVE CURRET PRICES
+    priceListRef.once('value', snap => {
+      currentPriceList = snap.val();
+    });
+
+
+    const rows = this.state.rows;
+    const updatePriceList = {};
+    rows.forEach(row => {
+      let areaData = {};
+      const { key, area } = row;
+      updatePriceList[key] = this.rowToDbObject(row);
+    });
+
+    //NOT THE RIGHT COMPARISION, REVISIT LATER
+    if(JSON.stringify(currentPriceList) === JSON.stringify(updatePriceList)) {
+      this.msg.info(<div className="error">NO CHANGE</div>, {
+        time: 2000,
+        type: 'error',
+      });
+
+    } else {
+      //Archive existing price list
+      const date = new Date();
+      const currentTime = date.getTime().toString();
+      archiveLocRef.push({
+        timestamp: currentTime,
+        data: currentPriceList
+      }, error => {
+        if(error) {
+          this.msg.error(<div className="error">Error while archiving old price list: { error.message }</div>, {
+            time: 2000,
+            type: 'error',
+          });
+
+        } else {
+          this.msg.success( <div className="success">Old Price List is Successfully archived</div>, {
+            time: 2000,
+            type: 'success',
+          });
+        }
+      });
+
+      //save new price list
+      priceListRef.set(updatePriceList, error => {
+        if(error) {
+          this.msg.error(<div className="error">Error while saving price list: { error.message }</div>, {
+            time: 2000,
+            type: 'error',
+          });
+
+        } else {
+          this.msg.success( <div className="success">Price List is Successfully Saved</div>, {
+            time: 2000,
+            type: 'success',
+          });
+        }
+      });
+
+    }
+
+
   }
 
   sendSMS() {
     console.log("SENDING SMSes");
+  }
+
+  rowToDbObject(row) {
+    console.log("ROW: "+ JSON.stringify(row, null, 2));
+    let dbObject = {};
+    if(row) {
+      Object.keys(row).forEach( key => {
+        const value = row[key];
+        const [ product, priceType ] = key.split('$');
+        if(priceType) {
+          if(!dbObject[product]) {
+            dbObject[product] = {};
+          }
+          dbObject[product][priceType] = value;
+        }
+
+      });
+    }
+    return dbObject;
+  }
+
+  dbObjectToRow() {
+    console.log("DB OBJECT: "+ JSON.stringify(row, null, 2));
+    let row = {};
+    return row;
   }
 
 
@@ -121,9 +226,8 @@ class PriceList extends Component {
         overPressedStyle: {background: 'dark-blue', fontWeight: 'bold', fontSize: 32}
     };
 
-    console.log('ROWS: '+ JSON.stringify(this.state.cols, null, 2));
-
     return <div>
+      <AlertContainer ref={ a => this.msg = a} {...this.alertOptions} />
       <p>Double click on the price to change</p>
       <ReactDataGrid
         enableCellSelect={true}
