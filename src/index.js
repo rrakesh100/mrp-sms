@@ -4,13 +4,22 @@ import App from './App';
 import './index.css';
 import * as firebase from 'firebase';
 
+// var config = {
+//     apiKey: "AIzaSyD3C0GHIqn8g-CMATS60LDcoQotkqM3ex8",
+//     authDomain: "stage-db-b035c.firebaseapp.com",
+//     databaseURL: "https://stage-db-b035c.firebaseio.com",
+//     storageBucket: "stage-db-b035c.appspot.com",
+//     messagingSenderId: "950510485815"
+//   };
+
 var config = {
-  apiKey: "AIzaSyCahflwnjHNsaYDi0adV2IF7PuJmue8HoM",
-  authDomain: "mrpsms-c5251.firebaseapp.com",
-  databaseURL: "https://mrpsms-c5251.firebaseio.com",
-  storageBucket: "mrpsms-c5251.appspot.com",
-  messagingSenderId: "370088829658"
+  apiKey: "AIzaSyCFBpTX6MqN-w_vp6cjduKdyZY3lLR7ty8",
+  authDomain: "mrps-orderform.firebaseapp.com",
+  databaseURL: "https://mrps-orderform.firebaseio.com",
+  storageBucket: "mrps-orderform.appspot.com",
+  messagingSenderId: "742927862975"
 };
+
 firebase.initializeApp(config);
 
 ReactDOM.render(

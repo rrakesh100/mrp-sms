@@ -1,5 +1,330 @@
-body {
+  body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+}
+
+.App>h1 {
+  color: green;
+}
+
+pre {
+  width: 1200px;
+}
+
+.price-list,.order-list,.control-panel {
+  min-height: 600px;
+}
+
+.react-tab-panel__tab-strip-between--before-active {
+  color: blue;
+}
+
+.ram-panel {
+  align-items: center;
+}
+
+.add-agent {
+  width: 100%;
+}
+
+.price-list,.order-list,.control-panel {
+  min-width: 1200px;
+}
+
+.react-tab-panel__tab-title {
+  height: 40px;
+  width: 200px;
+  font-size: 18px;
+}
+
+footer {
+  height: 20px;
+  color: gray;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.react-tab-panel__tab-title--active {
+  font-weight: bold;
+  color: blue;
+  font-size: 18px;
+  font-weight: bold;
+  background: #fffff0;
+}
+.rc-collapse-header {
+  background-color: #e6e6ff;
+}
+
+.rc-collapse {
+  border: 0px !important;
+  min-width: 1000px;
+}
+.rc-collapse .rc-collapse-item {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.product-panel > .rc-collapse-header {
+  background-color: #ffcccc;
+}
+
+.rc-collapse > .rc-collapse-item > .rc-collapse-header {
+  color: green;
+  text-decoration: bold;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+.rc-collapse-item {
+    text-align: left;
+    color: green;
+}
+
+.rc-collapse {
+  background-color: white !important;
+}
+
+
+.price-list h4 {
+  text-align: center;
+  font-weight: bold;
+}
+
+.product {
+  display: flex;
+  justify-content: center;
+}
+
+.product > .left {
+  display: flex;
+  flex-direction: row-reverse;
+  min-width: 200px;
+  width: 30%;
+}
+.product > .right {
+  display: flex;
+  flex-direction: row;
+  min-width: 400px;
+  width: 50%;
+}
+
+.right > ul {
+  list-style-type: none;
+}
+
+.add-product {
+  display: flex;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.rc-collapse-item.add-product {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
+.add-product,.area > ul {
+  list-style-type: none;
+  min-width: 1000px;
+}
+
+.add-product,.area li {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-product,.area li label {
+  color: #db70b8;
+  font-size: 8px;
+  display: inline-block;
+}
+
+.add-product,.area li {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.add-product,.area li input, textarea, select {
+  color: #red;
+  font-size: 20px;
+  width: 600px;
+}
+
+.add-product,.area li textarea {
+  height: 200px;
+}
+
+.add-product,.area .save-button {
+  width: 600px;
+  height: 40px;
+  margin-top: 20px !important;
+}
+
+.add-product li input {
+
+}
+
+.add-product,.area li > span{
+    display: inline-block;
+    font-size: 20px;
+    margin-top: -4px;
+}
+
+.right label {
+  color: #db70b8;
+  font-size: 10px;
+}
+
+.right span {
+  color: #5900b3;
+  font-size: 20px;
+  display: block;
+  margin-top: -12px;
+}
+
+.add-panel > .rc-collapse-header {
+  background-color: white !important;
+  text-transform: capitalize !important;
+}
+
+.right svg.green {
+  color: green;
+
+  border-radius: 4rem;
+
+  opacity: 0.0;
+
+  -webkit-animation: pulsate 1000ms ease-out;
+  -webkit-animation-iteration-count: infinite;
+
+  -webkit-transition: background-color 300ms linear;
+  -moz-transition: background-color 300ms linear;
+  -o-transition: background-color 300ms linear;
+  -ms-transition: background-color 300ms linear;
+  transition: background-color 300ms linear;
+}
+
+.right  svg.red {
+  color: red;
+  opacity: 0.0;
+
+  -webkit-animation: pulsate 1000ms ease-out;
+  -webkit-animation-iteration-count: infinite;
+
+  -webkit-transition: background-color 300ms linear;
+  -moz-transition: background-color 300ms linear;
+  -o-transition: background-color 300ms linear;
+  -ms-transition: background-color 300ms linear;
+  transition: background-color 300ms linear;
+}
+
+@-webkit-keyframes pulsate {
+  0% {opacity: 0.1;}
+  40% {opacity: 1.0;}
+  60% {opacity: 1.0;}
+  100% {opacity: 0.1;}
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #f9ecf2;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: #f9ecf2;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: #f9ecf2;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: #f9ecf2;
+}
+
+
+.react-alerts .alert {
+  width: 600px;
+  min-height: 40px !important;
+}
+
+.alert .error {
+  color: red;
+}
+
+.alert .success {
+  color: green;
+}
+
+.react-grid-Cell__value div {
+  color: black;
+  font-size: 18px;
+  text-align: left;
+}
+
+.editor-main {
+  color: blue !important;
+  font-size: 24px !important;
+  text-decoration: bold !important;
+  background: #90D4A6 !important;
+}
+
+.react-grid-HeaderCell {
+  background: #fffff0;
+  height: 80px;
+  display: inline-block;
+  font-size: 10px;
+}
+
+.react-grid-HeaderRow>div {
+  height: 80px !important;
+}
+
+.react-grid-HeaderCell {
+  height: 80px !important;
+  margin-bottom: 20px !important;
+}
+
+.update-button {
+  margin-right: 40px !important;
+  margin-top: 16px !important;
+  background: #D6FFFE;
+  height: 40px;
+  font-size: 28px;
+  border: 2px solid;
+  border-radius: 4px;
+}
+
+.sms-button {
+  margin-left: 40px !important;
+  margin-top: 16px !important;
+  background: #D6FFFE;
+  height: 40px;
+  font-size: 28px;
+  border: 2px solid;
+  border-radius: 4px;
+}
+
+svg   {
+  color: blue;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.widget-HeaderCell__value {
+  word-break: break-all !important;
+  white-space: nowrap;
+}
+
+label.required:after {
+  content:" *";
+}
+
+div.react-grid-Header {
+  height: 80px !important;
+}
+
+div.widget-HeaderCell__value {
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
 }
