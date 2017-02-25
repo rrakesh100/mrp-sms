@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import AlertContainer from 'react-alert';
-import Button from 'react-button';
+import { Button } from 'react-bootstrap';
 import FaSave from 'react-icons/lib/fa/floppy-o';
-
-
-
 
 class AddArea extends Component {
   constructor(props) {
@@ -19,7 +16,7 @@ class AddArea extends Component {
 
     this.alertOptions = {
       offset: 20,
-      position: 'top center',
+      position: 'top right',
       theme: 'light',
       time: 5000,
       transition: 'fade'
@@ -105,6 +102,18 @@ class AddArea extends Component {
             </span>
           </li>
           <li>
+            <label>District</label>
+            <span>
+              <input type="text"
+                name="district"
+                placeholder="District"
+                value={ this.state.district }
+                onChange={ this.updateInputValue.bind(this,'district') }
+                required>
+              </input>
+            </span>
+          </li>
+          <li>
             <label>State</label>
             <span>
               <input type="text"
@@ -117,19 +126,7 @@ class AddArea extends Component {
             </span>
           </li>
           <li>
-            <label>District</label>
-            <span>
-              <input type="text"
-                name="district"
-                placeholder="district"
-                value={ this.state.district }
-                onChange={ this.updateInputValue.bind(this,'district') }
-                required>
-              </input>
-            </span>
-          </li>
-          <li>
-            <Button className="save-button" onClick={ this.saveArea.bind(this) } theme={ theme } disabled={ !(this.state.areaId && this.state.displayName ) }> <FaSave />ADD AREA</Button>
+            <Button className="save-button" bsStyle="primary" onClick={ this.saveArea.bind(this) } theme={ theme } disabled={ !(this.state.areaId && this.state.displayName ) }> <FaSave />ADD AREA</Button>
           </li>
         </ul>
       </div>
