@@ -116,6 +116,7 @@ footer {
   display: flex;
   -webkit-justify-content: center;
   justify-content: center;
+  flex-direction: column;
 }
 
 .rc-collapse-item.add-product {
@@ -124,48 +125,89 @@ footer {
   justify-content: center;
 
 }
-.add-product,.area > ul {
+.area > ul {
   list-style-type: none;
   min-width: 1000px;
 }
 
-.add-product,.area li {
+.area li {
   display: flex;
   flex-direction: column;
 }
 
-.add-product,.area li label {
+.area li label {
   color: #db70b8;
   font-size: 8px;
   display: inline-block;
 }
 
-.add-product,.area li {
+.area li {
   margin-top: 8px;
   margin-bottom: 8px;
 }
 
-.add-product,.area li input, textarea, select {
+.area li input, textarea, select {
   color: #red;
   font-size: 20px;
   width: 600px;
 }
 
-.add-product,.area li textarea {
+.area li textarea {
   height: 200px;
 }
 
-.add-product,.area .save-button {
+.area .save-button {
   width: 600px;
   height: 40px;
   margin-top: 20px !important;
 }
 
-.add-product li input {
-
+.area li > span{
+    display: inline-block;
+    font-size: 20px;
+    margin-top: -4px;
 }
 
-.add-product,.area li > span{
+
+.add-product > ul {
+  list-style-type: none;
+  min-width: 1000px;
+  justify-content: center;
+}
+
+.add-product li {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-product li label {
+  color: #db70b8;
+  font-size: 8px;
+  display: inline-block;
+}
+
+.add-product li {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.add-product li input, textarea, select {
+  color: #red;
+  font-size: 20px;
+  width: 600px;
+}
+
+.add-product li textarea {
+  height: 200px;
+}
+
+.add-product .save-button {
+  width: 600px;
+  height: 40px;
+  margin-top: 20px !important;
+}
+
+.add-product li > span{
     display: inline-block;
     font-size: 20px;
     margin-top: -4px;
@@ -330,6 +372,11 @@ div.widget-HeaderCell__value {
 }
 
 .rc-collapse .actions {
+  text-align: center;
+  font-size: 20px;
+}
+
+.product .actions {
   text-align: center;
   font-size: 20px;
 }

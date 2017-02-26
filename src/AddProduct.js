@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Button from 'react-button';
+import { Button } from 'react-bootstrap';
 import * as firebase from 'firebase';
 import AlertContainer from 'react-alert';
 
@@ -8,11 +8,11 @@ class AddProduct extends Component {
   constructor(props) {
     super(props);
     this.defaultState = {
-      productType: 'rice',
-      productKey: '',
-      name: '',
-      master_weight: '',
-      description: ''
+      productType: this.props.productType || 'rice',
+      productKey: this.props.productKey || '',
+      name: this.props.name || '',
+      master_weight: this.props.master_weight || '',
+      description: this.props.description || ''
     };
     this.state = {
       ...this.defaultState
@@ -28,7 +28,7 @@ class AddProduct extends Component {
 
   saveProduct() {
     console.log("CLICKED!");
-    const productType = this.state.productType || 'rice';
+    const productType = this.state.productType;
     const productTypeRefPath = `products/${productType}`;
     const productTypeRef = firebase.database().ref().child(productTypeRefPath);
     const newProductData = {
@@ -49,9 +49,14 @@ class AddProduct extends Component {
           type: 'success',
         });
       }
-      this.setState({
-          ...this.defaultState
-      });
+
+      if(this.props.mode === 'edit') {
+        this.props.onClose();
+      } else {
+        this.setState({
+            ...this.defaultState
+        });
+      }
     });
   }
 
@@ -71,11 +76,13 @@ class AddProduct extends Component {
   }
 
   render() {
-    const theme = {
-        disabledStyle: { background: '#e6f5ff'},
-        pressedStyle: {background: 'dark-blue', fontWeight: 'bold'},
-        overPressedStyle: {background: 'dark-blue', fontWeight: 'bold'}
-    };
+
+    let buttonText =  'ADD PRODUCT';
+    let opts = {};
+    if(this.props.mode === 'edit'){
+      buttonText = 'SAVE PRODUCT';
+      opts['disabled'] = 'disabled';
+    }
 
     return (
       <div className="add-product">
@@ -86,10 +93,11 @@ class AddProduct extends Component {
             <label>Product Type</label>
             <span>
               <select value={ this.state.productType }
-                onChange={this.updateInputValue.bind(this,'productType')}>
-                <option value="rice">Rice</option>
-                <option value="ravva">Ravva</option>
-                <option value="broken">Broken</option>
+                onChange={this.updateInputValue.bind(this,'productType')}
+                { ...opts }>
+                <option value="rice">RICE</option>
+                <option value="ravva">RAVVA</option>
+                <option value="broken">BROKEN RICE</option>
               </select>
             </span>
           </li>
@@ -101,7 +109,7 @@ class AddProduct extends Component {
                 placeholder="unique key to identify product"
                 value={ this.state.productKey }
                 onChange={ this.updateInputValue.bind(this,'productKey')}
-                required >
+                required { ...opts }>
               </input>
             </span>
           </li>
@@ -151,7 +159,7 @@ class AddProduct extends Component {
             </span>
           </li>
           <li>
-            <Button className="save-button" onClick={ this.saveProduct.bind(this) } theme={ theme } disabled={ !(this.state.productKey && this.state.name && this.state.master_weight) }>ADD PRODUCT</Button>
+            <Button className="save-button" bsStyle="primary" onClick={ this.saveProduct.bind(this) } disabled={ !(this.state.productKey && this.state.name && this.state.master_weight) }>ADD PRODUCT</Button>
           </li>
         </ul>
 

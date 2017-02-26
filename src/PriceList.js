@@ -195,7 +195,7 @@ class PriceList extends Component {
   }
 
   rowToDbObject(row) {
-    console.log("ROW: "+ JSON.stringify(row, null, 2));
+    // console.log("ROW: "+ JSON.stringify(row, null, 2));
     let dbObject = {};
     if(row) {
       Object.keys(row).forEach( key => {
@@ -214,7 +214,7 @@ class PriceList extends Component {
   }
 
   dbObjectToRow() {
-    console.log("DB OBJECT: "+ JSON.stringify(row, null, 2));
+    //console.log("DB OBJECT: "+ JSON.stringify(row, null, 2));
     let row = {};
     return row;
   }

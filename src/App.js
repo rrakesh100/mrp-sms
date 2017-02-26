@@ -186,7 +186,7 @@ class App extends Component {
 
     priceListRef.on('value', snap => {
       const priceList = snap.val();
-      console.log("PRICE LIST: " + JSON.stringify(priceList, null, 2));
+      //console.log("PRICE LIST: " + JSON.stringify(priceList, null, 2));
 
       Object.keys(priceList).forEach( areaId => {
         const areaData = priceList[areaId];
@@ -202,7 +202,7 @@ class App extends Component {
         });
         this.data.priceList.rows[areaId] = areaObj;
       });
-      console.log("FORMED ROW DATA: " + JSON.stringify(this.data.priceList.rows, null,2));
+      //console.log("FORMED ROW DATA: " + JSON.stringify(this.data.priceList.rows, null,2));
     });
 
     ordersRef.once('value').then( snapshot => {

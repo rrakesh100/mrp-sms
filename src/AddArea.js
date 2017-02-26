@@ -8,10 +8,11 @@ class AddArea extends Component {
   constructor(props) {
     super(props);
     this.defaultState = {
-      areaId: '',
-      state: '',
-      district: '',
-      displayName: ''
+      areaId: this.props.areaId || '',
+      state: this.props.state || '',
+      district: this.props.district || '',
+      displayName: this.props.displayName || '',
+      mode: this.props.mode || 'new'
     };
 
     this.alertOptions = {
@@ -27,17 +28,31 @@ class AddArea extends Component {
     };
   }
 
-  saveArea() {
-    console.log("SAVING AREA!");
 
-    const areasRefPath = `areas`;
-    const areaRef = firebase.database().ref().child(areasRefPath).push();
+  saveArea() {
+
+
     const newAreaData = {
       'areaId': this.state.areaId,
       'displayName': this.state.displayName,
       'state': this.state.state,
       'district': this.state.district
     };
+
+    let areaRef;
+
+
+
+    if(this.state.mode === 'edit') {
+      console.log("UPDATING area " + this.state.areaId );
+      const areasRefPath = `areas/${this.props.areaKey}`;
+      areaRef = firebase.database().ref().child(areasRefPath);
+
+    } else {
+      console.log("SAVING area " + this.state.areaId);
+      const areasRefPath = `areas`;
+      areaRef = firebase.database().ref().child(areasRefPath).push();
+    }
 
     areaRef.set(newAreaData, error => {
       if(error) {
@@ -50,12 +65,17 @@ class AddArea extends Component {
           time: 2000,
           type: 'success',
         });
-        this.setState({
-          ...this.defaultState
-        });
+
+
+        if(this.state.mode === 'edit') {
+          this.props.onClose();
+        } else {
+          this.setState({
+            ...this.defaultState
+          });
+        }
       }
     });
-
   }
 
   updateInputValue(field, event) {
@@ -66,11 +86,12 @@ class AddArea extends Component {
   }
 
   render() {
-    const theme = {
-        disabledStyle: { background: '#e6f5ff'},
-        pressedStyle: {background: 'dark-blue', fontWeight: 'bold'},
-        overPressedStyle: {background: 'dark-blue', fontWeight: 'bold'}
-    };
+    let buttonText =  'ADD AREA';
+    let opts = {};
+    if(this.state.mode === 'edit'){
+      buttonText = 'UPDATE AREA';
+      opts['disabled'] = 'disabled';
+    }
 
     return (
       <div className="area">
@@ -85,7 +106,7 @@ class AddArea extends Component {
                 placeholder="unique key to identify area"
                 value={ this.state.areaId }
                 onChange={ this.updateInputValue.bind(this,'areaId')}
-                required >
+                required { ...opts }>
               </input>
             </span>
           </li>
@@ -97,7 +118,7 @@ class AddArea extends Component {
                 placeholder="Display Name for this Area"
                 value={ this.state.displayName }
                 onChange={ this.updateInputValue.bind(this, 'displayName') }
-                required>
+                required >
               </input>
             </span>
           </li>
@@ -126,7 +147,7 @@ class AddArea extends Component {
             </span>
           </li>
           <li>
-            <Button className="save-button" bsStyle="primary" onClick={ this.saveArea.bind(this) } theme={ theme } disabled={ !(this.state.areaId && this.state.displayName ) }> <FaSave />ADD AREA</Button>
+            <Button className="save-button" bsStyle="primary" onClick={ this.saveArea.bind(this) } disabled={ !(this.state.areaId && this.state.displayName ) }> <FaSave />{ buttonText}</Button>
           </li>
         </ul>
       </div>
