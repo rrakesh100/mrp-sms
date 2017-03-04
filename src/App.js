@@ -92,59 +92,6 @@ class App extends Component {
       }
     ];
 
-    this.sampleData = {
-      "1601150001" : {
-        "agent" : "nanaji",
-        "dispatched_timestamp" : "abcd",
-        "district" : "vizag",
-        "log" : {
-          "1" : {
-            "timestamp" : "1486290802",
-            "msg_type" : "INTERNAL",
-            "msg" : "Assigned Pradeep to expidite the delivery"
-          },
-          "2" : {
-            "timestamp" : "1486290846",
-            "msg_type" : "UPDATE",
-            "msg" : "Packed required contents in Unit II"
-          },
-          "3" : {
-            "timestamp" : "1486290898",
-            "msg_type" : "UPDATE",
-            "msg" : "Dispatched in AP37KN3456, driver contact number 9886317850"
-          },
-        },
-        "recieved_timestamp" : "abc",
-        "status" : "DISPATCHED",
-        "weight_in_quintals" : 10
-      },
-      "1601150002" : {
-        "agent" : "nanaji",
-        "dispatched_timestamp" : "abcd",
-        "district" : "vizag",
-        "log" : {
-          "1" : {
-            "timestamp" : "1486290802",
-            "msg_type" : "INTERNAL",
-            "msg" : "Assigned Pradeep to expidite the delivery"
-          },
-          "2" : {
-            "timestamp" : "1486290846",
-            "msg_type" : "UPDATE",
-            "msg" : "Packed required contents in Unit II"
-          },
-          "3" : {
-            "timestamp" : "1486290898",
-            "msg_type" : "UPDATE",
-            "msg" : "Dispatched in AP37KN3456, driver contact number 9886317850"
-          },
-        },
-        "recieved_timestamp" : "abc",
-        "status" : "DISPATCHED",
-        "weight_in_quintals" : 10
-      }
-    };
-
     this.defaultState = {
       name: '',
       lastUpdated: '',

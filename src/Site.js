@@ -2,6 +2,9 @@ import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
 import {connectProfile, logout} from './auth';
 import './Site.css';
+import FaOrderList from 'react-icons/lib/fa/list';
+import FaLogout from 'react-icons/lib/fa/user-times';
+import FaLogin from 'react-icons/lib/fa/user-plus';
 
 class Site extends Component {
   static propTypes = {
@@ -32,13 +35,18 @@ class Site extends Component {
     if (profile) {
       return (
         <div className="Site-profileControls">
-          <a onClick={() => logout()}><h4>Log Out</h4></a>
+          <div className="menu-item">
+            <a onClick={() => logout()}><h4><FaLogout />Log Out</h4></a>
+          </div>
+          <div className="menu-item">
+            <Link to="/admin/orders"><h4><FaOrderList />Orders</h4></Link>
+          </div>
         </div>
       );
     } else {
       return (
         <div className="Site-profileControls">
-          <Link to="/login"><h4>Log In</h4></Link>
+          <Link to="/login"><h4><FaLogin />Log In</h4></Link>
         </div>
       );
     }

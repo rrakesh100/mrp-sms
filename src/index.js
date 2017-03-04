@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import Main from './Main';
 import './index.css';
 import * as firebase from 'firebase';
-
+//TODO
+// move to .env
 var config = {
     apiKey: "AIzaSyD3C0GHIqn8g-CMATS60LDcoQotkqM3ex8",
     authDomain: "stage-db-b035c.firebaseapp.com",

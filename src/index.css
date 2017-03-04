@@ -28,7 +28,7 @@ pre {
   width: 100%;
 }
 
-.price-list,.order-list,.control-panel {
+.price-list,.control-panel {
   min-width: 1200px;
 }
 
@@ -310,19 +310,15 @@ footer {
 
 .react-grid-HeaderCell {
   background: #fffff0;
-  height: 80px;
-  display: inline-block;
   font-size: 10px;
+  font-size: 20px;
+  color:  #003366;
 }
 
 .react-grid-HeaderRow>div {
   height: 80px !important;
 }
 
-.react-grid-HeaderCell {
-  height: 80px !important;
-  margin-bottom: 20px !important;
-}
 
 .update-button {
   margin-right: 40px !important;

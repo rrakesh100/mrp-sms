@@ -5,6 +5,7 @@ import Site from './Site';
 import Home from './Home';
 import Login from './Login';
 import App from './App';
+import Orders from './Orders';
 
 class Main extends Component {
   render() {
@@ -16,6 +17,7 @@ class Main extends Component {
           <Route onEnter={requireAuth}>
             {/* Place all authenticated routes here */}
             <Route path="/admin/console" component={App} />
+            <Route path="/admin/orders" component={Orders} />
 
           </Route>
         </Route>

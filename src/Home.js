@@ -13,10 +13,26 @@ class Home extends Component {
     return (
       <div className="Home">
         <div className="Home-intro">
-          <p>Please login to manage your sales. Contact support@mrpsolutions.in for any issues! </p>
+          { this.renderHomeContents() }
         </div>
       </div>
     );
+  }
+
+  renderHomeContents() {
+    const {profile} = this.props;
+
+    if (profile) {
+      return (
+        <div className="Site-profileControls">
+          <p>Dashboards show up here </p>
+        </div>
+      );
+    } else {
+      return (
+        <p>Please <Link to="/login"><h4><FaLogin />Log In</h4></Link> to manage your sales. Contact support@mrpsolutions.in for any issues! </p>
+      );
+    }
   }
 }
 
