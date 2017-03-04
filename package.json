@@ -3,11 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "react-scripts": "0.6.1"
+    "react-scripts": "0.6.1",
+    "auth0-react-scripts": "0.6.20"
   },
   "dependencies": {
+    "auth0-lock": "^10.12.1",
+    "dotenv": "^4.0.0",
+    "events": "^1.1.1",
     "firebase": "^3.5.0",
     "install": "^0.8.7",
+    "express": "^4.15.0",
+    "express-jwt": "^5.1.0",
+    "jwt-decode": "^2.1.0",
     "npm": "^4.2.0",
     "object-assign": "^4.1.1",
     "rc-collapse": "^1.6.12",
@@ -24,6 +31,7 @@
     "react-dom": "^15.4.2",
     "react-icons": "^2.2.3",
     "react-panels": "^2.5.1",
+    "react-router": "^3.0.2",
     "react-tab-panel": "^2.2.7",
     "react-tabs": "^0.8.2",
     "reactable": "^0.14.0"

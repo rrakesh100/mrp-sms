@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import Main from './Main';
 import './index.css';
 import * as firebase from 'firebase';
 
@@ -23,6 +23,6 @@ var config = {
 firebase.initializeApp(config);
 
 ReactDOM.render(
-  <App />,
+  <Main />,
   document.getElementById('root')
 );

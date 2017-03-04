@@ -1,0 +1,23 @@
+.Site {
+  text-align: center;
+  height: 40px;
+  display: block;
+  background: #f9ecf2;
+
+}
+
+.Site-header {
+  float: left;
+  margin-left: 20px;
+}
+
+.Site-profileControls {
+  float: right;
+  font-size: 14px;
+  margin-right: 20px;
+  color: black;
+}
+
+.Site-page {
+  display: inline-block;
+}

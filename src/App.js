@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import * as firebase from 'firebase';
 import Reactable from 'reactable';
 import 'react-tab-panel/index.css';
-import Obj from 'object-assign';
 import Button from 'react-button';
 import ReactDataGrid from 'react-data-grid';
-import ReactTabPanel, { ReactTabStrip } from 'react-tab-panel'
+import ReactTabPanel from 'react-tab-panel'
 import 'react-tab-panel/index.css';
 import Products from './Products';
 import Agents from './Agents';
@@ -15,21 +13,6 @@ import Areas from './Areas';
 import PriceList from './PriceList';
 
 
-const PercentCompleteFormatter = React.createClass({
-  propTypes: {
-    value: React.PropTypes.number.isRequired
-  },
-
-  render() {
-    const percentComplete = this.props.value;
-    return (
-      <div className="progress" style={{marginTop: '20px'}}>
-        <div className="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{width: percentComplete}}>
-          {percentComplete}
-        </div>
-      </div>);
-  }
-});
 const { Toolbar, Filters: { NumericFilter, AutoCompleteFilter }, Data: { Selectors } } = require('react-data-grid-addons');
 
 
