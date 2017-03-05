@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connectProfile} from './auth';
 import {Link} from 'react-router';
 import './Home.css';
+import FaLogin from 'react-icons/lib/fa/user-plus';
 
 class Home extends Component {
   static propTypes = {

@@ -13,7 +13,32 @@ pre {
 }
 
 .price-list,.order-list,.control-panel {
-  min-height: 600px;
+  min-height: 800px;
+}
+
+.react-grid-Canvas {
+  min-height: 800px !important;
+}
+
+.price-list {
+  min-width: 100% !important;
+}
+
+.control-panel {
+  min-width: 100% !important;
+}
+
+
+.react-tab-panel__body {
+  min-width: 100%;
+}
+
+.react-grid-Main {
+  min-height: 800px;
+}
+
+.react-grid-HeaderCell {
+  font-size: 10px !important;
 }
 
 .react-tab-panel__tab-strip-between--before-active {

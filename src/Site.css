@@ -20,4 +20,5 @@
 
 .Site-page {
   display: inline-block;
+  min-width: 100% !important;
 }

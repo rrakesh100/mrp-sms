@@ -6,6 +6,9 @@ import Home from './Home';
 import Login from './Login';
 import App from './App';
 import Orders from './Orders';
+import Order from './Order';
+import NoMatch from './NoMatch';
+import PriceList from './PriceList';
 
 class Main extends Component {
   render() {
@@ -16,11 +19,12 @@ class Main extends Component {
           <Route path="/login" component={Login} />
           <Route onEnter={requireAuth}>
             {/* Place all authenticated routes here */}
-            <Route path="/admin/console" component={App} />
-            <Route path="/admin/orders" component={Orders} />
-
+            <Route path="/console" component={ App } />
+            <Route path="/orders" component={ Orders }/>
+            <Route path="/order/:orderId" component={ Order }/>
           </Route>
         </Route>
+        <Route path="*" component={ NoMatch }/>
       </Router>
     );
   }

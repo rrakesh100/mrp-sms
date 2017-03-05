@@ -1,0 +1,51 @@
+.order {
+  min-height: 800px;
+  justify-content: center;
+  display: flex;
+  min-width: 100%;
+  min-height: 1000px;
+}
+
+footer {
+  display: inline-block;
+}
+
+
+.detail {
+  width: 75%;
+  min-width: 600px;
+  border-color: blue;
+}
+
+.update {
+  width: 25%;
+  min-width: 200px;
+  background-color: #e6e6ff;
+}
+
+.shop .react-grid-Main {
+  min-height: 100px !important;
+}
+
+.shop .widget-HeaderCell__value {
+  font-size: 14px;
+  text-transform: uppercase;;
+}
+
+
+.orderUpdate select {
+  width: 100%;
+}
+
+.orderUpdate textarea {
+  height: 120px;
+}
+
+.orderUpdate .save-button {
+  width: 100%;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin: 4px 4px;
+}

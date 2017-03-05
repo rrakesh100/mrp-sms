@@ -9,7 +9,7 @@ const ID_TOKEN_KEY = 'id_token';
 const ACCESS_TOKEN_KEY = 'access_token';
 const PROFILE_KEY = 'profile';
 const LOGIN_ROUTE = '/login';
-const ROOT_ROUTE = '/admin/console';
+const ROOT_ROUTE = '/orders';
 
 if (!process.env.REACT_APP_AUTH0_CLIENT_ID || !process.env.REACT_APP_AUTH0_DOMAIN) {
   throw new Error('Please define `REACT_APP_AUTH0_CLIENT_ID` and `REACT_APP_AUTH0_DOMAIN` in your .env file');

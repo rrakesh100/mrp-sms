@@ -1,10 +1,59 @@
 import React, { Component } from 'react';
-import { login}  from './auth';
 import ReactDataGrid from 'react-data-grid';
 import * as firebase from 'firebase';
+import {Link} from 'react-router';
 import './Orders.css';
 
 const { Toolbar, Filters: { NumericFilter, AutoCompleteFilter }, Data: { Selectors } } = require('react-data-grid-addons');
+
+//TODO
+// (1)
+// Enable grouping
+// http://adazzle.github.io/react-data-grid/examples.html#/grouping
+// (2)
+// Show time since the order
+//
+
+class StatusColorFormatter extends Component {
+  constructor(props) {
+    super(props);
+    this.colorMap = {
+      'received': '#ccccff',
+      'onhold': '#ffebcc',
+      'completed': '#9fdf9f',
+      'cancelled': '#ffb399'
+    }
+  }
+  render() {
+    return (
+      <div style={this.getStatusColor()}>
+        { this.props.value }
+      </div>
+    );
+  }
+
+  getStatusColor() {
+    return {
+      backgroundColor: this.colorMap[this.props.value],
+      textAlign: 'center'
+    };
+  }
+}
+
+
+class OrderLinkFormatter extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div>
+        <Link to={`/order/${this.props.value}`}>{ this.props.value }</Link>
+      </div>
+    );
+  }
+}
 
 
 class Orders extends Component {
@@ -28,7 +77,7 @@ class Orders extends Component {
         width: 200,
         filterable:true,
         locked: true,
-        filterRenderer: NumericFilter
+        formatter: OrderLinkFormatter
       },
       {
         key: 'time',
@@ -68,7 +117,8 @@ class Orders extends Component {
         resizable: true,
         sortable: true,
         minWidth: 200,
-        filterable:true
+        filterable:true,
+        formatter: StatusColorFormatter
       },
 
     ];
@@ -105,7 +155,7 @@ class Orders extends Component {
           dateTime.getSeconds();
 
         tablerows.push( {
-          orderId: Number(order.orderId),
+          orderId: order.orderId,
           userName: order.userName,
           state:order.state,
           district:order.district,
@@ -168,18 +218,18 @@ class Orders extends Component {
   render() {
     return (
       <div tabTitle="Orders" className="order-list">
-          <ReactDataGrid
-            columns={this._columns}
-            rowGetter={this.rowGetter.bind(this)}
-            rowsCount={this.rowsCount()}
-            onGridSort={this.handleGridSort.bind(this)}
-            minHeight={500}
-            toolbar={<Toolbar enableFilter={true}/>}
-            onAddFilter={this.handleFilterChange.bind(this)}
-            getValidFilterValues={this.getValidFilterValues}
-            onClearFilters={this.handleOnClearFilters}
-            />
-
+        <ReactDataGrid
+          columns={this._columns}
+          rowGetter={this.rowGetter.bind(this)}
+          rowsCount={this.rowsCount()}
+          onGridSort={this.handleGridSort.bind(this)}
+          minHeight={500}
+          toolbar={<Toolbar enableFilter={true}/>}
+          onAddFilter={this.handleFilterChange.bind(this)}
+          getValidFilterValues={this.getValidFilterValues}
+          onClearFilters={this.handleOnClearFilters}
+        />
+        <footer>© MRP Solutions 2017</footer>
       </div>
     );
   }
