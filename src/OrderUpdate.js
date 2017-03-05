@@ -20,7 +20,7 @@ class OrderUpdate extends Component {
     super(props);
     this.defaultState = {
       updateMsg: '',
-      msgType: ''
+      msgType: 'internal'
     };
     this.state = {
       ...this.defaultState
