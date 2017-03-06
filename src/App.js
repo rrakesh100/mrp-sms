@@ -61,8 +61,9 @@ class App extends Component {
         let areaObj = {
           key: areaId
         };
-        Object.keys(areaData).forEach( productId => {
-          const { Agent, Outlet } = areaData[productId];
+        const areaRiceData = areaData['rice'];
+        Object.keys(areaRiceData).forEach( productId => {
+          const { Agent, Outlet } = areaRiceData[productId];
           const agentPriceKey = [ productId, 'Agent'].join('$');
           const outletPriceKey = [ productId, 'Outlet'].join('$');
           areaObj[agentPriceKey] = Agent;
@@ -86,9 +87,7 @@ class App extends Component {
         <h1>Admin Console</h1>
         <p>Welcome Pradeep</p>
         <ReactTabPanel tabPosition="top" tabAlign="center" tabStyle={ tabStyle } className="ram-panel">
-          <div tabTitle="Price List" className="price-list">
-            <PriceList rows={ this.data.priceList.rows }/>
-          </div>
+
           <div tabTitle="Control Panel" className="control-panel">
             <ReactTabPanel tabPosition="left">
               <div tabTitle="Products" className="products">
@@ -112,6 +111,9 @@ class App extends Component {
               </div>
 
             </ReactTabPanel>
+          </div>
+          <div tabTitle="Price List" className="price-list">
+            <PriceList rows={ this.data.priceList.rows }/>
           </div>
         </ReactTabPanel>
         <footer>© MRP Solutions 2017</footer>
