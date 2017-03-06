@@ -1,0 +1,26 @@
+.Site-page {
+  min-width: 100% !important;
+}
+
+.react-grid-Canvas {
+  min-width: 100% !important;
+}
+
+.react-grid-HeaderRow {
+  min-width: 100% !important;
+}
+
+.order-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.order-list h4 {
+  justify-content: center;
+}
+
+
+.orderUpdate textarea {
+    max-width: 100%;
+    max-height: 100%;
+}

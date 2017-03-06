@@ -8,7 +8,11 @@ import FaMail from 'react-icons/lib/fa/envelope-o';
 import AlertContainer from 'react-alert';
 
 
-const columnWidth = 100;
+const columnWidth = 140;
+
+//TODO
+// Show previous price
+//http://adazzle.github.io/react-data-grid/examples.html#/customRowRenderer
 
 class PriceList extends Component {
   constructor(props) {
@@ -23,6 +27,7 @@ class PriceList extends Component {
     };
 
     this.state = {
+      productType: 'rice',
       cols: [
         {
           key: 'area',
@@ -119,6 +124,8 @@ class PriceList extends Component {
   }
 
   updatePrices() {
+    //TODO
+    // incorporate productType
     const archiveLocRef = firebase.database().ref().child('priceListArchive');
     const priceListRef = firebase.database().ref().child('priceList');
     //CHECK IF THERE ARE ANY CHANGES
@@ -137,7 +144,9 @@ class PriceList extends Component {
     rows.forEach(row => {
       let areaData = {};
       const { key, area } = row;
-      updatePriceList[key] = this.rowToDbObject(row);
+      updatePriceList[key] = {
+        rice: this.rowToDbObject(row)
+      };
     });
 
     //NOT THE RIGHT COMPARISION, REVISIT LATER
@@ -195,7 +204,7 @@ class PriceList extends Component {
   }
 
   rowToDbObject(row) {
-    console.log("ROW: "+ JSON.stringify(row, null, 2));
+    // console.log("ROW: "+ JSON.stringify(row, null, 2));
     let dbObject = {};
     if(row) {
       Object.keys(row).forEach( key => {
@@ -214,7 +223,7 @@ class PriceList extends Component {
   }
 
   dbObjectToRow() {
-    console.log("DB OBJECT: "+ JSON.stringify(row, null, 2));
+    //console.log("DB OBJECT: "+ JSON.stringify(row, null, 2));
     let row = {};
     return row;
   }

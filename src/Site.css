@@ -1,0 +1,24 @@
+.Site {
+  text-align: center;
+  height: 40px;
+  display: block;
+  background: #f9ecf2;
+  padding-top: 10px;
+}
+
+.Site-header {
+  float: left;
+  margin-left: 20px;
+}
+
+.menu-item {
+  float: right;
+  font-size: 14px;
+  margin-right: 20px;
+  color: black;
+}
+
+.Site-page {
+  display: inline-block;
+  min-width: 100% !important;
+}
