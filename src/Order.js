@@ -4,6 +4,10 @@ import Spinner from 'react-spinkit';
 import './Order.css';
 import OrderUpdate from './OrderUpdate';
 import { Table } from 'reactstrap';
+import classNames from 'classnames';
+import FaEyeClose from 'react-icons/lib/fa/eye-slash';
+import FaEyeOpen from 'react-icons/lib/fa/eye';
+
 
 const LOADING = 'loading';
 const ERROR = 'error';
@@ -14,20 +18,6 @@ const statusColorMap = {
   'completed': '#9fdf9f',
   'cancelled': '#ffb399'
 }
-
-class PriceFormatter extends Component {
-  render() {
-    const priceFloatString = this.props.value + '.00';
-    return <div className="price" style={{ textAlign: 'right'}}>{ priceFloatString }</div>
-  }
-}
-
-class RightAlignFormatter extends Component {
-  render() {
-    return <div style={{ textAlign: 'right'}}>{ this.props.value }</div>
-  }
-}
-
 
 class Items extends Component {
 
@@ -46,8 +36,8 @@ class Items extends Component {
               <tr>
                 <th scope="row">{counter}</th>
                 <td className="name">{item.name}</td>
-                <td>{item.weight}</td>
-                <td>{item.bags}</td>
+                <td className="number">{item.weight}</td>
+                <td className="number">{item.bags}</td>
                 <td className="price">{item.price.toFixed(2)}</td>
                 <td className="price">{item.discount_price.toFixed(2)}</td>
             </tr>
@@ -157,8 +147,10 @@ class Order extends Component {
 
   }
 
-  renderUpdates() {
-
+  toggleSidePanel() {
+    this.setState({
+      showUpdatePanel: !this.state.showUpdatePanel
+    });
   }
 
   render() {
@@ -172,7 +164,14 @@ class Order extends Component {
       return <h4>Order does not exist</h4>
     }
     const date = new Date(time);
-    const orderStatusColor = statusColorMap[status]
+    const orderStatusColor = statusColorMap[status];
+
+    const updateClasses = classNames({
+      hide: this.state.showUpdatePanel !== true,
+      update: true
+    });
+
+    const updateText  = this.state.showUpdatePanel ? <FaEyeClose onClick={ this.toggleSidePanel.bind(this) } /> :  <FaEyeOpen onClick={this.toggleSidePanel.bind(this)} />;
 
 
     return (
@@ -184,12 +183,12 @@ class Order extends Component {
               <li><h2>{orderId}</h2></li>
               <li><strong>{userName}</strong> ordered on <strong>{date.toString()}</strong></li>
               <li>Order is <strong>{status}</strong></li>
+              <li>{updateText}updates</li>
             </ul>
             { this.renderCart(this.state.orderData.cart) }
           </div>
-          <div className="update">
+          <div className={updateClasses}>
             <OrderUpdate orderId={orderId}/>
-            { this.renderUpdates() }
           </div>
         </div>
         <footer>© MRP Solutions 2017</footer>

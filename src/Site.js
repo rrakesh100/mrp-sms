@@ -18,7 +18,7 @@ class Site extends Component {
       <div>
         <div className="Site">
           <div className="Site-header">
-            <h4>Lalitha Industries</h4>
+            <h2>Lalitha Industries</h2>
           </div>
           {this.renderUserControls()}
         </div>

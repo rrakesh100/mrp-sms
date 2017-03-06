@@ -8,19 +8,19 @@
 
 footer {
   display: inline-block;
+  text-align: center;
 }
 
 
 .detail {
-  width: 75%;
+  width: 80%;
   min-width: 600px;
   border-color: blue;
 }
 
 .update {
   width: 25%;
-  min-width: 200px;
-  background-color: #e6e6ff;
+  min-width: 400px;
 }
 
 .shop .react-grid-Main {
@@ -48,6 +48,7 @@ footer {
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin: 4px 4px;
+  padding: -4px -4px;
 }
 
 .name {
@@ -55,6 +56,10 @@ footer {
 }
 
 .price {
+  text-align: right;
+}
+
+.number {
   text-align: right;
 }
 
@@ -79,6 +84,10 @@ footer {
   margin-right: 20px;
 }
 
+.header h2 {
+  text-decoration: underline;
+}
+
 .summary h3 {
   text-align: right;
   margin-right: 40px;
@@ -88,4 +97,37 @@ footer {
   list-style: 'none';
   padding-top: 12px;
   padding-bottom: 12px;
+}
+
+.cards {
+  overflow: auto;
+  max-height: 60%;
+}
+
+.updatesPanel {
+  position: fixed;
+  float: right;
+  margin: auto;
+  width: 400px;
+
+  background: #f0f0fd;
+  background: rgba(240,240,253,0.90);
+  padding: 10px 10px;
+
+  -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
+  -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
+  -box-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
+}
+
+.card-title {
+  text-transform: uppercase;
+}
+
+
+
+.viewUpdateIcon {
+  font-size: 32px;
+  position: fixed;
+  top: 2%;
+  right: 2%;
 }

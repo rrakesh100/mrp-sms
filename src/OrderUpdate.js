@@ -5,9 +5,9 @@ import AlertContainer from 'react-alert';
 import { Card, CardTitle, CardText, CardHeader } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 
-
 const statusColorMap = {
-  'internal': 'primary',
+  'public': 'primary',
+  'internal': 'info',
   'onhold': 'warning',
   'cancelled': 'danger',
   'dispatched': 'success'
@@ -20,7 +20,7 @@ class OrderUpdate extends Component {
     super(props);
     this.defaultState = {
       updateMsg: '',
-      msgType: 'internal'
+      msgType: 'internal',
     };
     this.state = {
       ...this.defaultState
@@ -37,14 +37,14 @@ class OrderUpdate extends Component {
   componentDidMount() {
     const updatesPath = `orderUpdates/${this.props.orderId}`;
     const updatesRef = firebase.database().ref().child(updatesPath);
-    const updateArray = [];
-    updatesRef.orderByChild('timestamp').on('value', snap => {
+    updatesRef.on('value', snap => {
+      let updateArray = [];
       const updates = snap.val();
       Object.keys(updates).forEach (updateKey =>{
         updateArray.push(updates[updateKey]);
       });
       this.setState({
-        updates:updateArray
+        updates: updateArray
       });
     });
 
@@ -57,7 +57,7 @@ class OrderUpdate extends Component {
     const newUpdateData = {
       'updateMsg': this.state.updateMsg,
       'msgType': this.state.msgType,
-      'timestamp': new Date().getTime(),
+      'timestamp': new Date().getTime()
     };
     orderUpdateRef.set(newUpdateData, error => {
       if(error) {
@@ -70,12 +70,10 @@ class OrderUpdate extends Component {
           time: 2000,
           type: 'success',
         });
+        this.setState({
+            ...this.defaultState
+        });
       }
-      this.setState({
-          ...this.defaultState,
-
-      });
-
     });
   }
 
@@ -86,11 +84,11 @@ class OrderUpdate extends Component {
     });
   }
 
-  renderUpdateCards() {
+  renderUpdateCards(updates) {
     let updateCards = [];
 
-    if(this.state.updates && this.state.updates.length) {
-      this.state.updates.forEach(update => {
+    if(updates && updates.length) {
+      updates.forEach(update => {
         const time = new Date(update.timestamp).toString();
         const color = statusColorMap[update.msgType];
         console.log(update.msgType);
@@ -110,29 +108,33 @@ class OrderUpdate extends Component {
 
   render() {
 
-    return (
-      <div>
-        <AlertContainer ref={ a => this.msg = a} {...this.alertOptions} />
+    const updates = this.state.updates;
 
-        <div className="orderUpdate">
-          <span>
-            <select value={ this.state.msgType } name="msgTypeSelector"
-              onChange={this.updateInputValue.bind(this,'msgType')}>
-              <option value="internal">MSG TYPE: INTERNAL</option>
-              <option value="onhold">STATUS: ON HOLD</option>
-              <option value="cancelled">STATUS: CANCELLED</option>
-              <option value="dispatched">STATUS: DISPATCHED</option>
-            </select>
-          </span>
-          <textarea name="update"
-            placeholder="update message"
-            value={ this.state.updateMsg }
-            onChange={ this.updateInputValue.bind(this,'updateMsg') }>
-          </textarea>
-          <Button className="save-button" bsStyle="primary" onClick={ this.saveUpdate.bind(this) } disabled={ !(this.state.updateMsg) }>UPDATE</Button>
-        </div>
+    return (
+      <div className="updatesPanel">
+        <AlertContainer ref={ a => this.msg = a} {...this.alertOptions} />
         <div className="updates">
-          { this.renderUpdateCards() }
+          <div className="cards">
+            { this.renderUpdateCards(updates) }
+          </div>
+          <div className="orderUpdate">
+            <span>
+              <select value={ this.state.msgType } name="msgTypeSelector"
+                onChange={this.updateInputValue.bind(this,'msgType')}>
+                <option value="internal">INTERNAL UPDATE</option>
+                <option value="public">PUBLIC UPDATE</option>
+                <option value="onhold">STATUS: ON HOLD</option>
+                <option value="cancelled">STATUS: CANCELLED</option>
+                <option value="dispatched">STATUS: DISPATCHED</option>
+              </select>
+            </span>
+            <textarea name="update"
+              placeholder="update message"
+              value={ this.state.updateMsg }
+              onChange={ this.updateInputValue.bind(this,'updateMsg') }>
+            </textarea>
+            <Button className="save-button" bsStyle="primary" onClick={ this.saveUpdate.bind(this) } disabled={ !(this.state.updateMsg) }>UPDATE</Button>
+          </div>
         </div>
       </div>
 
