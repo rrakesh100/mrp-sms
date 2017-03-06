@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import Spinner from 'react-spinkit';
-import ReactDataGrid from 'react-data-grid';
 import './Order.css';
 import OrderUpdate from './OrderUpdate';
+import { Table } from 'reactstrap';
 
 const LOADING = 'loading';
 const ERROR = 'error';
@@ -31,46 +31,51 @@ class RightAlignFormatter extends Component {
 
 class Items extends Component {
 
-  constructor(props) {
-    super(props);
-    this.createRows();
-    this._columns = [
-      {key: 'name', name: 'name', resizable: true, width: 400},
-      {key: 'price', name: 'price', formatter: PriceFormatter},
-      {key: 'bags', name: 'bags', formatter: RightAlignFormatter},
-      {key: 'weight', name: 'weight', formatter: RightAlignFormatter},
-      {key: 'discount_price', name:' Discount Price',formatter: PriceFormatter}
-    ];
-  }
-
   createRows() {
     let rows = [];
     const items = this.props.items;
     if(items){
+      let counter = 0;
       Object.keys(items).forEach( productType => {
         const itemsObject = items[productType];
         if(itemsObject) {
           Object.keys(itemsObject).forEach( itemId => {
             const item = itemsObject[itemId];
-            rows.push(item);
+            counter++;
+            rows.push(
+              <tr>
+                <th scope="row">{counter}</th>
+                <td className="name">{item.name}</td>
+                <td>{item.weight}</td>
+                <td>{item.bags}</td>
+                <td className="price">{item.price.toFixed(2)}</td>
+                <td className="price">{item.discount_price.toFixed(2)}</td>
+            </tr>
+            );
           })
         }
       })
     }
-    this._rows = rows;
-  }
-
-  rowGetter(i) {
-    return this._rows[i];
+    return rows;
   }
 
   render() {
     return  (
-      <ReactDataGrid
-        columns={this._columns}
-        rowGetter={this.rowGetter.bind(this)}
-        rowsCount={this._rows.length}
-      />
+      <Table size="bordered sm">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Weight</th>
+            <th>Bags</th>
+            <th>Price</th>
+            <th>Discount Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          { this.createRows() }
+        </tbody>
+        </Table>
     );
   }
 }
@@ -115,13 +120,15 @@ class Order extends Component {
   }
 
   renderShop(detail) {
-    const { name, area, city, totalShopPrice, totalShopWeight, items} = detail
+    const { name, area, city, totalShopPrice, totalShopWeight, items} = detail;
+    const totalShopPriceNumber = +totalShopPrice
+    const totalShopPriceFixed = totalShopPriceNumber.toFixed(2);
     return (
       <div className="shop">
         <div className="details" key={area}>
-          <h3>{name},{city} <span style={{float: 'right', marginRight: 20}}>
-            <strong>{totalShopWeight}</strong> quintals for <strong>₹{totalShopPrice}.00</strong></span></h3>
+          <h3>{name}, {city}</h3>
           { this.renderItems(items) }
+          <h4><strong>{totalShopWeight}</strong> quintals for <strong>₹{totalShopPriceFixed}</strong></h4>
         </div>
       </div>
     );
@@ -135,11 +142,16 @@ class Order extends Component {
       shops.push(this.renderShop(shop));
     })
 
+    const totalPrice = (+grossPrice).toFixed(2);
+    const totalDiscount = (+discountAmount).toFixed(2);
+
     return (
       <div className="cart" style={{textAlign: 'center'}}>
         { shops }
-        <h3>Total Discount: <strong>₹{discountAmount}.00</strong></h3>
-        <h3>Total Price: <strong>₹{grossPrice}.00</strong></h3>
+        <div className="summary">
+          <h3>Total Discount: <strong>₹{totalPrice}</strong></h3>
+          <h3>Total Price: <strong>₹{totalDiscount}</strong></h3>
+        </div>
       </div>
     );
 
@@ -168,7 +180,7 @@ class Order extends Component {
       <div>
         <div className="order">
           <div className="detail">
-            <ul style={{backgroundColor: orderStatusColor, textAlign: 'center', listStyle: 'none' }}>
+            <ul className="header" style={{backgroundColor: orderStatusColor, textAlign: 'center', listStyle: 'none' }}>
               <li><h2>{orderId}</h2></li>
               <li><strong>{userName}</strong> ordered on <strong>{date.toString()}</strong></li>
               <li>Order is <strong>{status}</strong></li>
