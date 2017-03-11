@@ -1,0 +1,35 @@
+.userPage {
+  min-height: 600px;
+}
+.user,.outlets {
+  margin-top: 12px;
+  margin-bottom: 12px;
+  margin-left: 10%;
+  margin-right: 10%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.user ul {
+  -webkit-padding-start: 0px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.outlets h3 {
+  padding: 12px 12px;
+}
+
+.outlets {
+  padding-bottom: 12px;
+}
+
+.sectionHeader h3 {
+  background: #adc2eb;
+  margin-bottom: 0px;
+}
+
+
+.user h1 {
+  text-transform: uppercase;
+  font-weight: bolder;
+}
