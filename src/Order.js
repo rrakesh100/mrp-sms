@@ -16,6 +16,7 @@ const statusColorMap = {
   'received': '#ccccff',
   'onhold': '#ffebcc',
   'completed': '#9fdf9f',
+  'dispatched': '#9fdf9f',
   'cancelled': '#ffb399'
 }
 
@@ -39,7 +40,8 @@ class Items extends Component {
                 <td className="number">{item.weight}</td>
                 <td className="number">{item.bags}</td>
                 <td className="price">{item.price.toFixed(2)}</td>
-                <td className="price">{item.discount_price.toFixed(2)}</td>
+                <td className="price">0.00</td>
+                <td className="price">{item.price.toFixed(2)}</td>
             </tr>
             );
           })
@@ -58,8 +60,9 @@ class Items extends Component {
             <th>Name</th>
             <th>Weight</th>
             <th>Bags</th>
-            <th>Price</th>
-            <th>Discount Price</th>
+            <th>Gross Price</th>
+            <th>Discount</th>
+            <th>Net Price</th>
           </tr>
         </thead>
         <tbody>
@@ -83,14 +86,11 @@ class Order extends Component {
   }
 
   componentDidMount() {
-    const orderRef = firebase.database().ref().child('orders');
-    orderRef.orderByChild('orderId').equalTo(this.props.params.orderId).on('value', snap => {
-      const orderHash = snap.val();
-      if(orderHash) {
-        let orderData = {};
-        Object.keys(orderHash).forEach(orderKey => {
-          orderData = orderHash[orderKey];
-        });
+    const orderPath = `orders/${this.props.params.orderId}`;
+    const orderRef = firebase.database().ref().child(orderPath);
+    orderRef.on('value', snap => {
+      const orderData = snap.val();
+      if(orderData) {
         this.setState({
           orderData
         });
@@ -110,7 +110,7 @@ class Order extends Component {
   }
 
   renderShop(detail) {
-    const { name, area, city, totalShopPrice, totalShopWeight, items} = detail;
+    const { name, area, city, totalShopPrice, totalWeight, items} = detail;
     const totalShopPriceNumber = +totalShopPrice
     const totalShopPriceFixed = totalShopPriceNumber.toFixed(2);
     return (
@@ -118,7 +118,7 @@ class Order extends Component {
         <div className="details" key={area}>
           <h3>{name}, {city}</h3>
           { this.renderItems(items) }
-          <h4><strong>{totalShopWeight}</strong> quintals for <strong>₹{totalShopPriceFixed}</strong></h4>
+          <h4><strong>{totalWeight}</strong> quintals for <strong>₹{totalShopPriceFixed}</strong></h4>
         </div>
       </div>
     );
@@ -139,8 +139,8 @@ class Order extends Component {
       <div className="cart" style={{textAlign: 'center'}}>
         { shops }
         <div className="summary">
-          <h3>Total Discount: <strong>₹{totalPrice}</strong></h3>
-          <h3>Total Price: <strong>₹{totalDiscount}</strong></h3>
+          <h3>Total Price: <strong>₹{totalPrice}</strong></h3>
+          {/* <h3>Total Discount: <strong>₹{totalDiscount}</strong></h3> */}
         </div>
       </div>
     );
@@ -159,12 +159,27 @@ class Order extends Component {
       return <Spinner spinnerName="double-bounce" />
     }
 
-    const {orderId, status, time, userName} = this.state.orderData;
-    if(orderId !== this.props.params.orderId) {
-      return <h4>Order does not exist</h4>
+    const { status, time, userName} = this.state.orderData;
+    if(this.state.orderData.loading === ERROR) {
+      return (
+        <div>
+          <div className="order">
+            <div className="detail">
+              <ul className="header" style={{backgroundColor: ' #ff6666', textAlign: 'center', listStyle: 'none' }}>
+                <li><h1>{orderId}</h1></li>
+                <li>Order <strong>{orderId}</strong> does not exist. Check URL again...</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      );
+
+      <h4>Order does not exist</h4>
     }
     const date = new Date(time);
     const orderStatusColor = statusColorMap[status];
+    const orderId = this.props.params.orderId;
 
     const updateClasses = classNames({
       hide: this.state.showUpdatePanel !== true,
@@ -172,7 +187,7 @@ class Order extends Component {
     });
 
     const updateText  = this.state.showUpdatePanel ? <FaEyeClose onClick={ this.toggleSidePanel.bind(this) } /> :  <FaEyeOpen onClick={this.toggleSidePanel.bind(this)} />;
-
+    const timeString  =  date.toDateString() + ' - ' + date.toLocaleTimeString();
 
     return (
 
@@ -181,7 +196,7 @@ class Order extends Component {
           <div className="detail">
             <ul className="header" style={{backgroundColor: orderStatusColor, textAlign: 'center', listStyle: 'none' }}>
               <li><h2>{orderId}</h2></li>
-              <li><strong>{userName}</strong> ordered on <strong>{date.toString()}</strong></li>
+              <li><strong>{userName}</strong> ordered on <strong>{ timeString}</strong></li>
               <li>Order is <strong>{status}</strong></li>
               <li>{updateText}updates</li>
             </ul>

@@ -35,7 +35,7 @@ class OrderUpdate extends Component {
   }
 
   componentDidMount() {
-    const updatesPath = `orderUpdates/${this.props.orderId}`;
+    const updatesPath = `orders/${this.props.orderId}/updates`;
     const updatesRef = firebase.database().ref().child(updatesPath);
     updatesRef.on('value', snap => {
       let updateArray = [];
@@ -52,14 +52,28 @@ class OrderUpdate extends Component {
 
 
   saveUpdate() {
-    const orderUpdatePath = `orderUpdates/${this.props.orderId}`;
-    const orderUpdateRef = firebase.database().ref().child(orderUpdatePath).push();
-    const newUpdateData = {
+    const msgType = this.state.msgType;
+    const orderPath = `orders/${this.props.orderId}`;
+    const orderUpdatesPath = `${orderPath}/updates`;
+    const orderStatusPath = `${orderPath}/status`;
+    const orderRef = firebase.database().ref().child(orderPath);
+    const orderUpdatesRef = firebase.database().ref().child(orderUpdatesPath).push();
+    const orderUpdateKey = orderUpdatesRef.getKey();
+    const update = {
       'updateMsg': this.state.updateMsg,
-      'msgType': this.state.msgType,
+      'msgType': msgType,
       'timestamp': new Date().getTime()
     };
-    orderUpdateRef.set(newUpdateData, error => {
+
+    const newStatusUpdate = {};
+    newStatusUpdate['updates/' + orderUpdateKey] = update;
+
+    if(msgType !== 'internal' && msgType !== 'public') {
+      newStatusUpdate['status'] = msgType;
+    }
+
+
+    orderRef.update(newStatusUpdate, error => {
       if(error) {
         this.msg.error(<div className="error">Error while updating order <h4>{ this.props.orderId }</h4>: { error.message }</div>, {
           time: 2000,
@@ -89,15 +103,16 @@ class OrderUpdate extends Component {
 
     if(updates && updates.length) {
       updates.forEach(update => {
-        const time = new Date(update.timestamp).toString();
+        const date = new Date(update.timestamp);
+        const timeString  =  date.toDateString() + ' - ' + date.toLocaleTimeString();
         const color = statusColorMap[update.msgType];
         console.log(update.msgType);
         updateCards.push(
           <div className="card">
-            <CardHeader>{time}</CardHeader>
+            <CardHeader>{timeString}</CardHeader>
             <Card block inverse color={color}>
-              <CardTitle>{update.msgType}</CardTitle>
-              <CardText>{update.updateMsg}</CardText>
+              <CardTitle>{update.updateMsg}</CardTitle>
+              <CardText>{update.msgType}</CardText>
             </Card>
           </div>
         );
