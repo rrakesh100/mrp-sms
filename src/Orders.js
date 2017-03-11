@@ -142,8 +142,9 @@ class Orders extends Component {
   componentDidMount() {
     const that = this;
     const ordersRef = this.data.dbRef.child('orders');
-    ordersRef.once('value').then( snapshot => {
-      let tablerows = [];let orders = snapshot.val();
+    ordersRef.orderByChild('timestamp').on('value', snapshot => {
+      let tablerows = [];
+      let orders = snapshot.val();
       for(let key in orders){
         let order = orders[key];
         let dateTime = new Date(Number(order.time));
@@ -155,7 +156,7 @@ class Orders extends Component {
           dateTime.getMinutes() + ":" +
           dateTime.getSeconds();
 
-        tablerows.push( {
+        tablerows.unshift( {
           orderId: key,
           userName: order.userName,
           state:order.state,
