@@ -37,12 +37,12 @@ class Items extends Component {
               <tr>
                 <th scope="row">{counter}</th>
                 <td>{item.name}</td>
+                <td>{item.city}</td>
                 <td>{item.proprietor_name}</td>
                 <td>{item.mobile}</td>
                 <td>{item.areaId}</td>
                 <td>{item.tin}</td>
                 <td>{item.pan}</td>
-                <td>{item.pincode}</td>
               </tr>
             );
         }
@@ -58,12 +58,12 @@ class Items extends Component {
           <tr>
             <th>#</th>
             <th>Name</th>
+            <th>City</th>
             <th>Owner</th>
             <th>Mobile</th>
             <th>Area</th>
             <th>TIN</th>
             <th>PAN</th>
-            <th>PIN</th>
           </tr>
         </thead>
         <tbody>
