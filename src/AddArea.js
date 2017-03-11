@@ -43,15 +43,14 @@ class AddArea extends Component {
 
 
 
+    const areasRefPath = `areas/${this.state.areaId}`;
     if(this.state.mode === 'edit') {
       console.log("UPDATING area " + this.state.areaId );
-      const areasRefPath = `areas/${this.props.areaKey}`;
       areaRef = firebase.database().ref().child(areasRefPath);
 
     } else {
       console.log("SAVING area " + this.state.areaId);
-      const areasRefPath = `areas`;
-      areaRef = firebase.database().ref().child(areasRefPath).push();
+      areaRef = firebase.database().ref().child(areasRefPath);
     }
 
     areaRef.set(newAreaData, error => {

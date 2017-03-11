@@ -114,7 +114,7 @@ class Areas extends Component {
 
     Object.keys(this.state.areas).forEach( areaKey => {
       const { areaId, displayName, district, state } = areasArray[areaKey];
-      const areaPanelHeader = `${displayName} | ${district} | ${state} | ${areaId}`;
+      const areaPanelHeader = `${displayName},  ${district},  ${state} - [${areaId}]`;
 
       areas.push(
         <Panel header={ areaPanelHeader } key={ areaId }>
