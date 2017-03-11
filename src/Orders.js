@@ -21,6 +21,7 @@ class StatusColorFormatter extends Component {
       'received': '#ccccff',
       'onhold': '#ffebcc',
       'completed': '#9fdf9f',
+      'dispatched': '#9fdf9f',
       'cancelled': '#ffb399'
     }
   }
@@ -155,7 +156,7 @@ class Orders extends Component {
           dateTime.getSeconds();
 
         tablerows.push( {
-          orderId: order.orderId,
+          orderId: key,
           userName: order.userName,
           state:order.state,
           district:order.district,
