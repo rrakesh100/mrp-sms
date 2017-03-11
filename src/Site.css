@@ -16,6 +16,8 @@
   font-size: 14px;
   margin-right: 20px;
   color: black;
+  cursor: pointer;
+  cursor: hand;
 }
 
 .Site-page {

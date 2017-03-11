@@ -6,6 +6,8 @@ import FaOrderList from 'react-icons/lib/fa/list';
 import FaLogout from 'react-icons/lib/fa/user-times';
 import FaLogin from 'react-icons/lib/fa/user-plus';
 import FaSettings from 'react-icons/lib/fa/cogs';
+import FaUsers from 'react-icons/lib/fa/group';
+
 
 class Site extends Component {
   static propTypes = {
@@ -38,6 +40,9 @@ class Site extends Component {
         <div className="Site-profileControls">
           <div className="menu-item">
             <a onClick={() => logout()}><h4><FaLogout />Log Out</h4></a>
+          </div>
+          <div className="menu-item">
+            <Link to="/users"><h4><FaUsers />Users</h4></Link>
           </div>
           <div className="menu-item">
             <Link to="/orders"><h4><FaOrderList />Orders</h4></Link>
