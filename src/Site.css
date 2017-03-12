@@ -2,8 +2,13 @@
   text-align: center;
   height: 40px;
   display: block;
-  background: #f9ecf2;
+  background: #ff99cc;
   padding-top: 10px;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  position: fixed;
+  z-index: 9999;
 }
 
 .Site-header {
@@ -23,4 +28,15 @@
 .Site-page {
   display: inline-block;
   min-width: 100% !important;
+  margin-top: 10px;
+}
+
+.Site-header img {
+  margin: -12px 4px;
+}
+
+.one-edge-shadow {
+  -webkit-box-shadow: 0 5px 5px -6px black;
+     -moz-box-shadow: 0 5px 5px -6px black;
+          box-shadow: 0 5px 5px -6px black;
 }

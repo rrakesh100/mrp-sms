@@ -18,7 +18,7 @@ class Site extends Component {
   render() {
     return (
       <div>
-        <div className="Site">
+        <div className="Site one-edge-shadow">
           <div className="Site-header">
             <img src="./LalithaBrand.png" alt="Lalitha Industries" height="32"/>
           </div>
