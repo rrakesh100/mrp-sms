@@ -9,8 +9,9 @@
 }
 
 pre {
-  width: 1200px;
+  width: 800px;
 }
+/*
 
 .price-list,.order-list,.control-panel {
   min-height: 800px;
@@ -20,8 +21,30 @@ pre {
   min-height: 800px !important;
 }
 
+.react-grid-Main {
+  min-height: 800px;
+}
+*/
+
+.react-tab-panel__body {
+  min-width: 100% !important;
+
+}
+
 .price-list {
   min-width: 100% !important;
+}
+
+.price-list .react-grid-Container {
+  min-width: 100% !important;
+}
+
+.price-list .react-grid-Canvas {
+  min-height: 600px !important;
+}
+
+.price-list .react-grid-Grid {
+  min-height: 600px !important;
 }
 
 .control-panel {
@@ -31,11 +54,11 @@ pre {
 
 .react-tab-panel__body {
   min-width: 100%;
+  min-height: 600px;
+  min-width: 600px;
 }
 
-.react-grid-Main {
-  min-height: 800px;
-}
+
 
 .react-grid-HeaderCell {
   font-size: 10px !important;
@@ -54,7 +77,7 @@ pre {
 }
 
 .price-list,.control-panel {
-  min-width: 1200px;
+  min-width: 800px;
 }
 
 .react-tab-panel__tab-title {
@@ -66,8 +89,8 @@ pre {
 footer {
   height: 20px;
   color: gray;
-  margin-top: 4px;
-  margin-bottom: 4px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 .react-tab-panel__tab-title--active {
@@ -83,7 +106,7 @@ footer {
 
 .rc-collapse {
   border: 0px !important;
-  min-width: 1000px;
+  min-width: 800px;
 }
 .rc-collapse .rc-collapse-item {
   margin-top: 4px;
@@ -196,7 +219,7 @@ footer {
 
 .add-product > ul {
   list-style-type: none;
-  min-width: 1000px;
+  min-width: 800px;
   justify-content: center;
 }
 

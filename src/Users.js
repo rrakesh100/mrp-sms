@@ -158,7 +158,7 @@ class Users extends Component {
       let users = snapshot.val();
       for(let key in users){
         let user = users[key];
-        tablerows.push( {
+        tablerows.unshift( {
           userId: key,
           userName: user.name,
           isActive: user.active ? 'ACTIVATED' : 'DISABLED',
