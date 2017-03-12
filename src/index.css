@@ -423,3 +423,13 @@ div.widget-HeaderCell__value {
 .modal-container .modal, .modal-container .modal-backdrop {
   position: absolute;
 }
+
+
+.Home-intro {
+  text-align: center;
+  margin: 20px 20px;
+}
+
+.Site-header img {
+  margin: -12px 4px;
+}

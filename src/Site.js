@@ -20,7 +20,7 @@ class Site extends Component {
       <div>
         <div className="Site">
           <div className="Site-header">
-            <h2>Lalitha Industries</h2>
+            <img src="./LalithaBrand.png" alt="Lalitha Industries" height="32"/>
           </div>
           {this.renderUserControls()}
         </div>

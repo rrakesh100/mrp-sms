@@ -31,7 +31,7 @@ class Home extends Component {
       );
     } else {
       return (
-        <p>Please <Link to="/login"><h4><FaLogin />Log In</h4></Link> to manage your sales. Contact support@mrpsolutions.in for any issues! </p>
+        <h4>Please <Link to="/login">Log In</Link> to manage your sales. Contact support@mrpsolutions.in for any issues! </h4>
       );
     }
   }
