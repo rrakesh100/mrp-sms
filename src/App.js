@@ -51,6 +51,8 @@ class App extends Component {
   componentDidMount() {
     var that = this;
     const priceListRef = this.data.dbRef.child('priceList');
+    //TODO
+    // CHANGE THIS TO GET VALUES FOR RICE/RAVVA/BROKEN
 
     priceListRef.on('value', snap => {
       const priceList = snap.val();
@@ -85,7 +87,6 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Admin Console</h1>
-        <p>Welcome Pradeep</p>
         <ReactTabPanel tabPosition="top" tabAlign="center" tabStyle={ tabStyle } className="ram-panel">
 
           <div tabTitle="Control Panel" className="control-panel">

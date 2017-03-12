@@ -5,8 +5,11 @@ import ObjectAssign from 'object-assign';
 import Button from 'react-button';
 import FaSave from 'react-icons/lib/fa/floppy-o';
 import FaMail from 'react-icons/lib/fa/envelope-o';
-import FaSquare from 'react-icons/lib/fa/square';
 import AlertContainer from 'react-alert';
+import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
+import classnames from 'classnames';
+
+
 
 
 const columnWidth = 140;
@@ -27,6 +30,7 @@ class PriceList extends Component {
       transition: 'fade'
     };
 
+    this.changeProductType = this.changeProductType.bind(this);
     this.state = {
       productType: 'rice',
       cols: [
@@ -40,6 +44,14 @@ class PriceList extends Component {
       ],
       rows: []
     };
+  }
+
+  changeProductType(productType) {
+    if (this.state.productType !== productType) {
+      this.setState({
+        productType: productType
+      });
+    }
   }
 
   componentDidMount() {
@@ -240,8 +252,32 @@ class PriceList extends Component {
 
     return <div>
       <AlertContainer ref={ a => this.msg = a} {...this.alertOptions} />
+      <Nav tabs>
+        <NavItem>
+          <NavLink
+            className={classnames({ active: this.state.productType === 'rice' })}
+            onClick={() => { this.changeProductType('rice'); }}>
+            RICE
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink
+            className={classnames({ active: this.state.productType === 'ravva' })}
+            onClick={() => { this.changeProductType('ravva'); }}>
+            RAVVA
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink
+            className={classnames({ active: this.state.productType === 'broken' })}
+            onClick={() => { this.changeProductType('broken'); }}>
+            BROKEN
+          </NavLink>
+        </NavItem>
+      </Nav>
+      <p><span style={ {color: '#ecf2f9' } }>██ </span> is agent price. <span style={ {color: '#fff7e6' } }>██ </span> is outlet price </p>
       <p>Double click on the price to change</p>
-        <p><span style={ {color: '#c2d1f0' } }>█ </span> is agent price. <span style={ {color: '#b3e6cc' } }>█ </span> is outlet price </p>
+
       <ReactDataGrid
         enableCellSelect={true}
         columns={this.state.cols}
