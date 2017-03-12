@@ -5,6 +5,7 @@ import ObjectAssign from 'object-assign';
 import Button from 'react-button';
 import FaSave from 'react-icons/lib/fa/floppy-o';
 import FaMail from 'react-icons/lib/fa/envelope-o';
+import FaSquare from 'react-icons/lib/fa/square';
 import AlertContainer from 'react-alert';
 
 
@@ -61,7 +62,8 @@ class PriceList extends Component {
           name: product.name + ' Agent',
           editable: true,
           width: columnWidth,
-          resizable: true
+          resizable: true,
+          className: 'agent'
         });
 
         cols.push({
@@ -69,7 +71,8 @@ class PriceList extends Component {
           name: product.name + ' Outlet',
           editable: true,
           width: columnWidth,
-          resizable: true
+          resizable: true,
+          className: 'outlet'
         });
       });
 
@@ -238,6 +241,7 @@ class PriceList extends Component {
     return <div>
       <AlertContainer ref={ a => this.msg = a} {...this.alertOptions} />
       <p>Double click on the price to change</p>
+        <p><span style={ {color: '#c2d1f0' } }>█ </span> is agent price. <span style={ {color: '#b3e6cc' } }>█ </span> is outlet price </p>
       <ReactDataGrid
         enableCellSelect={true}
         columns={this.state.cols}
