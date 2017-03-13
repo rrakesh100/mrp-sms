@@ -24,7 +24,7 @@ class PriceList extends Component {
 
     this.alertOptions = {
       offset: 20,
-      position: 'top center',
+      position: 'top left',
       theme: 'light',
       time: 5000,
       transition: 'fade'
@@ -33,16 +33,40 @@ class PriceList extends Component {
     this.changeProductType = this.changeProductType.bind(this);
     this.state = {
       productType: 'rice',
-      cols: [
-        {
-          key: 'area',
-          name: '↓Area/Product→',
-          resizable: true,
-          width: 400,
-          locked: true,
-        }
-      ],
-      rows: []
+      cols: {
+        rice: [
+          {
+            key: 'area',
+            name: '↓Area/Product→',
+            resizable: true,
+            width: 400,
+            locked: true,
+          }
+        ],
+        ravva: [
+          {
+            key: 'area',
+            name: '↓Area/Product→',
+            resizable: true,
+            width: 400,
+            locked: true,
+          }
+        ],
+        broken: [
+          {
+            key: 'area',
+            name: '↓Area/Product→',
+            resizable: true,
+            width: 400,
+            locked: true,
+          }
+        ]
+      },
+      rows: {
+        rice: [],
+        ravva: [],
+        broken: []
+      }
     };
   }
 
@@ -56,36 +80,42 @@ class PriceList extends Component {
 
   componentDidMount() {
     const areasRef = firebase.database().ref().child('areas');
-    const productsRef = firebase.database().ref().child('products/rice');
+    const productsRef = firebase.database().ref().child('products');
 
     //COLUMNS
     // Whats the source of truth for areas and products? PriceList Node or
     // individual products and areas
     productsRef.on('value', snap => {
-      const productArray = snap.val();
+      const products = snap.val();
       let cols = ObjectAssign([],this.state.cols);
-      Object.keys(productArray).forEach( productKey => {
-        const product = productArray[productKey];
-        const productAgentKey = [productKey,'Agent'].join('$');
-        const productOutletKey = [productKey,'Outlet'].join('$');
 
-        cols.push({
-          key: productAgentKey,
-          name: product.name + ' Agent',
-          editable: true,
-          width: columnWidth,
-          resizable: true,
-          className: 'agent'
-        });
+      Object.keys(products).forEach( productType => {
+        let productTypeCols = cols[productType];
+        const productArray = products[productType];
+        Object.keys(productArray).forEach( productKey => {
+          const product = productArray[productKey];
+          const productAgentKey = [productKey,'Agent'].join('$');
+          const productOutletKey = [productKey,'Outlet'].join('$');
 
-        cols.push({
-          key: productOutletKey,
-          name: product.name + ' Outlet',
-          editable: true,
-          width: columnWidth,
-          resizable: true,
-          className: 'outlet'
+          productTypeCols.push({
+            key: productAgentKey,
+            name: product.name + ' Agent',
+            editable: true,
+            width: columnWidth,
+            resizable: true,
+            className: 'agent'
+          });
+
+          productTypeCols.push({
+            key: productOutletKey,
+            name: product.name + ' Outlet',
+            editable: true,
+            width: columnWidth,
+            resizable: true,
+            className: 'outlet'
+          });
         });
+        cols[productType] = productTypeCols;
       });
 
       this.setState({
@@ -95,16 +125,21 @@ class PriceList extends Component {
 
     areasRef.on('value', snap => {
       const areasArray = snap.val();
-      let rows = [];
-      Object.keys(areasArray).forEach( areaKey => {
-        const area = areasArray[areaKey];
-        const rowData = ObjectAssign({},this.props.rows[area.areaId]);
-        const newRow = {
-          area: area.displayName,
-          key: area.areaId,
-          ...rowData
-        };
-        rows.push(newRow);
+      let rows = ObjectAssign({},this.state.rows);
+
+      ['rice','ravva','broken'].forEach( productType => {
+        let productTypeRows = rows[productType];
+        Object.keys(areasArray).forEach( areaKey => {
+          const area = areasArray[areaKey];
+          const rowData = ObjectAssign({},this.props.priceList[productType].rows[area.areaId]);
+          const newRow = {
+            area: area.displayName,
+            key: area.areaId,
+            ...rowData
+          };
+          productTypeRows.push(newRow);
+        });
+        rows[productType] = productTypeRows;
       });
 
       this.setState({
@@ -116,23 +151,27 @@ class PriceList extends Component {
   }
 
   rowGetter(i) {
-    return this.state.rows[i];
+    return this.state.rows[this.state.productType][i];
   }
 
   handleGridRowsUpdated({ fromRow, toRow, updated, cellKey }) {
-    let rows = this.state.rows.slice();
+    const productType = this.state.productType;
+    let rows = ObjectAssign({},this.state.rows);
+    let productTypeRows = rows[productType].slice();
 
     for (let i = fromRow; i <= toRow; i++) {
-      let rowToUpdate = rows[i];
+      let rowToUpdate = productTypeRows[i];
       let updatedRow = ObjectAssign({}, rowToUpdate, { ...updated });
-      rows[i] = updatedRow;
+      productTypeRows[i] = updatedRow;
     }
+    rows[productType] = productTypeRows;
     this.setState({ rows });
   }
 
   getSize() {
+    const productType = this.state.productType;
     if(this.state && this.state.rows) {
-      return this.state.rows.size;
+      return this.state.rows[productType].length;
     } else {
       return 0;
     }
@@ -155,14 +194,31 @@ class PriceList extends Component {
 
 
     const rows = this.state.rows;
-    const updatePriceList = {};
-    rows.forEach(row => {
-      let areaData = {};
-      const { key, area } = row;
-      updatePriceList[key] = {
-        rice: this.rowToDbObject(row)
-      };
+    const updatePriceList =  {};
+
+    Object.keys(rows).forEach(productType => {
+      const productRows = rows[productType];
+      productRows.forEach(row => {
+        let areaData = {};
+        const { key, area } = row;
+        if(!( key in updatePriceList )) {
+          updatePriceList[key] = {
+            rice: {
+              dummy: 'dummy'
+            },
+            ravva: {
+              dummy: 'dummy'
+            },
+            broken: {
+              dummy: 'dummy'
+            }
+          };
+        }
+        updatePriceList[key][productType] = this.rowToDbObject(row);
+      });
+
     });
+    console.log("UPDTED PRICE LIST: "+ JSON.stringify(updatePriceList, null, 2));
 
     //NOT THE RIGHT COMPARISION, REVISIT LATER
     if(JSON.stringify(currentPriceList) === JSON.stringify(updatePriceList)) {
@@ -250,6 +306,8 @@ class PriceList extends Component {
         overPressedStyle: {background: 'dark-blue', fontWeight: 'bold', fontSize: 32}
     };
 
+    const productType = this.state.productType;
+
     return <div>
       <AlertContainer ref={ a => this.msg = a} {...this.alertOptions} />
       <Nav tabs>
@@ -280,9 +338,9 @@ class PriceList extends Component {
 
       <ReactDataGrid
         enableCellSelect={true}
-        columns={this.state.cols}
+        columns={this.state.cols[productType]}
         rowGetter={this.rowGetter.bind(this)}
-        rowsCount={this.state.rows.length}
+        rowsCount={this.state.rows[productType].length}
         onGridRowsUpdated={this.handleGridRowsUpdated.bind(this)} />
       <Button className="update-button" onClick={ this.updatePrices.bind(this) } theme={ theme } disabled={ false }><FaSave />SAVE</Button>
       <Button className="sms-button" onClick={ this.sendSMS.bind(this) } theme={ theme } disabled={ false }><FaMail />SEND SMS</Button>

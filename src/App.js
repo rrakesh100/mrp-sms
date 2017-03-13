@@ -25,7 +25,15 @@ class App extends Component {
     this.data = {
       dbRef: db.ref(),
       priceList: {
-        rows: {}
+        rice: {
+          rows: {}
+        },
+        ravva: {
+          rows: {}
+        },
+        broken: {
+          rows: {}
+        }
       }
     }
 
@@ -60,20 +68,24 @@ class App extends Component {
 
       Object.keys(priceList).forEach( areaId => {
         const areaData = priceList[areaId];
-        let areaObj = {
-          key: areaId
-        };
-        const areaRiceData = areaData['rice'];
-        Object.keys(areaRiceData).forEach( productId => {
-          const { Agent, Outlet } = areaRiceData[productId];
-          const agentPriceKey = [ productId, 'Agent'].join('$');
-          const outletPriceKey = [ productId, 'Outlet'].join('$');
-          areaObj[agentPriceKey] = Agent;
-          areaObj[outletPriceKey] = Outlet;
+
+        Object.keys(areaData).forEach( productType => {
+          const areaProductTypeData = areaData[productType];
+          let areaObj = {
+            key: areaId
+          };
+          Object.keys(areaProductTypeData).forEach( productId => {
+            const { Agent, Outlet } = areaProductTypeData[productId];
+            const agentPriceKey = [ productId, 'Agent'].join('$');
+            const outletPriceKey = [ productId, 'Outlet'].join('$');
+            areaObj[agentPriceKey] = Agent;
+            areaObj[outletPriceKey] = Outlet;
+          });
+          this.data.priceList[productType].rows[areaId] = areaObj;
         });
-        this.data.priceList.rows[areaId] = areaObj;
+
       });
-      //console.log("FORMED ROW DATA: " + JSON.stringify(this.data.priceList.rows, null,2));
+      console.log("FORMED ROW DATA: " + JSON.stringify(this.data.priceList, null,2));
     });
   }
 
@@ -114,7 +126,7 @@ class App extends Component {
             </ReactTabPanel>
           </div>
           <div tabTitle="Price List" className="price-list">
-            <PriceList rows={ this.data.priceList.rows }/>
+            <PriceList priceList={ this.data.priceList }/>
           </div>
         </ReactTabPanel>
         <footer>© MRP Solutions 2017</footer>

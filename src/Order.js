@@ -125,8 +125,16 @@ class Order extends Component {
   }
 
 
+  renderSpecialMsg(msg) {
+    return (
+      <div className="splMsg">
+        <p>{ msg }</p>
+      </div>
+    );
+  }
+
   renderCart(cart) {
-    const { discountAmount, grossPrice, shopDetail } = cart;
+    const { discountAmount, grossPrice, shopDetail, selectedLorrySize, totalWeight } = cart;
     const shops = [];
     shopDetail.forEach( shop => {
       shops.push(this.renderShop(shop));
@@ -134,12 +142,21 @@ class Order extends Component {
 
     const totalPrice = (+grossPrice).toFixed(2);
     const totalDiscount = (+discountAmount).toFixed(2);
+    const totalWeightInTons = (+totalWeight)/10;
+    let weightStatusColor = '#40bf80';
+    if(totalWeightInTons > (+selectedLorrySize)) {
+      weightStatusColor = '#ff3333';
+    }
+
 
     return (
       <div className="cart" style={{textAlign: 'center'}}>
         { shops }
         <div className="summary">
           <h3>Total Price: <strong>₹{totalPrice}</strong></h3>
+          <hr></hr>
+          <h4>Total Order Weight: <strong>{totalWeightInTons}</strong> tons </h4>
+          <h4>Selected Vehicle Capacity: <strong style={{color: weightStatusColor}}>{selectedLorrySize}</strong> tons </h4>
           {/* <h3>Total Discount: <strong>₹{totalDiscount}</strong></h3> */}
         </div>
       </div>
@@ -201,6 +218,7 @@ class Order extends Component {
               <li>{updateText}updates</li>
             </ul>
             { this.renderCart(this.state.orderData.cart) }
+            { this.renderSpecialMsg(this.state.orderData.orderMsg) }
           </div>
           <div className={updateClasses}>
             <OrderUpdate orderId={orderId}/>

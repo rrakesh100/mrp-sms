@@ -123,6 +123,16 @@ footer {
   text-transform: uppercase;
 }
 
+.splMsg {
+  text-align: center !important;
+  margin-left: 30%;
+  margin-right: 30%;
+  background-color: #ffffb3;
+  width: 40%;
+  min-width: 400px;
+  font-size: 16px;
+}
+
 
 
 .viewUpdateIcon {
@@ -130,4 +140,8 @@ footer {
   position: fixed;
   top: 2%;
   right: 2%;
+}
+
+.order .detail .header {
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
