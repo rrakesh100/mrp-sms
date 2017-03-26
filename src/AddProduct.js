@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import * as firebase from 'firebase';
 import AlertContainer from 'react-alert';
 
+
 class AddProduct extends Component {
 
   constructor(props) {
@@ -12,7 +13,9 @@ class AddProduct extends Component {
       productKey: this.props.productKey || '',
       name: this.props.name || '',
       master_weight: this.props.master_weight || '',
-      description: this.props.description || ''
+      description: this.props.description || '',
+      available: this.props.available,
+      priority: this.props.priority || 0
     };
     this.state = {
       ...this.defaultState
@@ -27,7 +30,6 @@ class AddProduct extends Component {
   }
 
   saveProduct() {
-    console.log("CLICKED!");
     const productType = this.state.productType;
     const productTypeRefPath = `products/${productType}`;
     const productTypeRef = firebase.database().ref().child(productTypeRefPath);
@@ -35,7 +37,8 @@ class AddProduct extends Component {
       'name': this.state.name,
       'master_weight': this.state.master_weight,
       'description': this.state.description || '',
-      'available': this.state.available ? "true" : "false"
+      'available': this.state.available,
+      'priority': this.state.priority
     };
     productTypeRef.child(this.state.productKey).set(newProductData, error => {
       if(error) {
@@ -71,7 +74,7 @@ class AddProduct extends Component {
   updateCheckBoxValue(field, event) {
     console.log(field + " checked with " + event.target.checked);
     this.setState({
-      [field]: event.target.checked
+      [field]: event.target.checked ? 'true' : 'false'
     });
   }
 
@@ -143,7 +146,7 @@ class AddProduct extends Component {
             <span>
               <input type="checkbox"
                 name="available"
-                checked={ this.state.available }
+                checked={ this.state.available === 'true' }
                 onChange={ this.updateCheckBoxValue.bind(this, 'available') }>
               </input>
             </span>
@@ -156,6 +159,17 @@ class AddProduct extends Component {
                 value={ this.state.description }
                 onChange={ this.updateInputValue.bind(this,'description') }>
               </textarea>
+            </span>
+          </li>
+          <li>
+            <label>Priority</label>
+            <span>
+              <input type="text"
+                name="priority"
+                placeholder="lower number shows first in app"
+                value={ this.state.priority }
+                onChange={ this.updateInputValue.bind(this, 'priority') }>
+              </input>
             </span>
           </li>
           <li>

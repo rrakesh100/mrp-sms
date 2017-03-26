@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import FaSolidCircle from 'react-icons/lib/fa/circle';
+import FaClose from 'react-icons/lib/fa/close';
 import FaEdit from 'react-icons/lib/fa/edit';
 import FaDelete from 'react-icons/lib/fa/trash-o';
 import { Modal, Button } from 'react-bootstrap';
@@ -115,7 +116,7 @@ class Product extends Component {
           <ul>
             <li><label>Name: </label> <span>{ this.state.data.name }</span> </li>
             <li><label>Master Weight: </label> <span>{ this.state.data.master_weight }</span></li>
-            <li><label>Availability: </label> <span>{ this.state.data.available !== false ? <FaSolidCircle className="green"/> : <FaSolidCircle className="red"/> }</span></li>
+            <li><label>Availability: </label> <span>{ this.state.data.available !== 'false' ? <FaSolidCircle className="green"/> : <FaClose className="red"/> }</span></li>
             <li><label>Description: </label> <span>{ this.state.data.description }</span> </li>
           </ul>
         </div>

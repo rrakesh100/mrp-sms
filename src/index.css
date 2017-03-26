@@ -521,3 +521,38 @@ div.widget-HeaderCell__value {
     margin-top: 4px;
     margin-bottom: 2px;
 }
+
+.modal-content {
+  top: 200px;
+}
+
+.modal-container {
+  position: relative;
+}
+.modal-container .modal, .modal-container .modal-backdrop {
+  position: absolute;
+}
+
+label.checkGroup {
+    width: 60px;
+}
+
+.item-discount {
+  text-align: left;
+  color: blue;
+  font-size: 12px;
+  margin-left: 20px;
+}
+
+.discounts th {
+  font-size: 12px;
+  color: blue;
+}
+
+.discounts input[type="text"] {
+    width: 100px;
+}
+
+.all-discounts button {
+  width: 200px;
+}

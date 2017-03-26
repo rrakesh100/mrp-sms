@@ -142,7 +142,7 @@ class Orders extends Component {
   componentDidMount() {
     const that = this;
     const ordersRef = this.data.dbRef.child('orders');
-    ordersRef.orderByChild('timestamp').on('value', snapshot => {
+    ordersRef.orderByChild('time').limitToLast(250).on('value', snapshot => {
       let tablerows = [];
       let orders = snapshot.val();
       for(let key in orders){

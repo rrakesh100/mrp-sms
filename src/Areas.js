@@ -5,8 +5,12 @@ import 'rc-collapse/assets/index.css';
 import FaEdit from 'react-icons/lib/fa/edit';
 import FaDelete from 'react-icons/lib/fa/trash-o';
 import FaSave from 'react-icons/lib/fa/floppy-o';
+import FaEmptyCircle from 'react-icons/lib/fa/circle-thin';
+import FaSolidCircle from 'react-icons/lib/fa/circle';
 import AddArea from './AddArea';
 import { Modal, Button } from 'react-bootstrap';
+import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
+
 
 
 class Areas extends Component {
@@ -113,8 +117,26 @@ class Areas extends Component {
     const self = this;
 
     Object.keys(this.state.areas).forEach( areaKey => {
-      const { areaId, displayName, district, state } = areasArray[areaKey];
+      const { areaId, displayName, district, state, lorries, discounts={} } = areasArray[areaKey];
       const areaPanelHeader = `${displayName},  ${district},  ${state} - [${areaId}]`;
+
+      const discountsArray = [];
+      Object.keys(discounts).forEach(productKey => {
+        const productDiscount = discounts[productKey];
+        const productDiscountsArray = [];
+        productDiscount.forEach(item => {
+          productDiscountsArray.push(
+            <div className="item-discount">
+              <strong>{item.quintals}</strong> quintals or more: <strong>₹{item.discount}</strong> discount
+            </div>
+          );
+        });
+        discountsArray.push(
+          <div>
+            <h4>{productKey}:</h4> {productDiscountsArray}
+          </div>);
+      });
+
 
       areas.push(
         <Panel header={ areaPanelHeader } key={ areaId }>
@@ -128,8 +150,26 @@ class Areas extends Component {
                 <li><label>Display Name: </label> <span>{ displayName }</span></li>
                 <li><label>District: </label> <span>{ district }</span></li>
                 <li><label>State: </label> <span>{ state }</span></li>
+                <li><label>Transport Options: </label>
+                  <CheckboxGroup
+                    name="lorries"
+                    value={ lorries } >
+
+                    <label className="checkGroup"><Checkbox value="3"  disabled/> 3 Ton</label>
+                    <label className="checkGroup"><Checkbox value="5"  disabled/> 5 Ton</label>
+                    <label className="checkGroup"><Checkbox value="7"  disabled/> 7 Ton</label>
+                    <label className="checkGroup"><Checkbox value="10" disabled/>10 Ton</label>
+                    <label className="checkGroup"><Checkbox value="17" disabled/>17 Ton</label>
+                    <label className="checkGroup"><Checkbox value="21" disabled/>21 Ton</label>
+                  </CheckboxGroup>
+                </li>
+                <li>
+                  <label>Discounts: </label>
+                    { discountsArray }
+                </li>
               </ul>
           </div>
+
         </Panel>
       );
     });

@@ -3,6 +3,9 @@ import * as firebase from 'firebase';
 import AlertContainer from 'react-alert';
 import { Button } from 'react-bootstrap';
 import FaSave from 'react-icons/lib/fa/floppy-o';
+import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
+import AddDiscount from './AddDiscount';
+
 
 class AddArea extends Component {
   constructor(props) {
@@ -12,7 +15,9 @@ class AddArea extends Component {
       state: this.props.state || '',
       district: this.props.district || '',
       displayName: this.props.displayName || '',
-      mode: this.props.mode || 'new'
+      mode: this.props.mode || 'new',
+      lorries: this.props.lorries || [],
+      discounts: this.props.discounts || {}
     };
 
     this.alertOptions = {
@@ -36,13 +41,12 @@ class AddArea extends Component {
       'areaId': this.state.areaId,
       'displayName': this.state.displayName,
       'state': this.state.state,
-      'district': this.state.district
+      'district': this.state.district,
+      'lorries' : this.state.lorries,
+      'discounts': this.state.discounts
     };
 
     let areaRef;
-
-
-
     const areasRefPath = `areas/${this.state.areaId}`;
     if(this.state.mode === 'edit') {
       console.log("UPDATING area " + this.state.areaId );
@@ -81,6 +85,23 @@ class AddArea extends Component {
     console.log(field + " changed to " + event.target.value);
     this.setState({
       [field]: event.target.value
+    });
+  }
+
+  updateLorryValues(lorries) {
+    if(lorries && lorries.length) {
+      lorries = lorries.sort((a, b) => a - b);
+    }
+    const sortedLorries =
+    console.log(lorries + " changed to " + lorries);
+    this.setState({
+      ['lorries']: lorries
+    });
+  }
+
+  onDiscountsChange(discountsData) {
+    this.setState({
+      discounts: discountsData
     });
   }
 
@@ -143,6 +164,29 @@ class AddArea extends Component {
                 onChange={ this.updateInputValue.bind(this,'state') }
                 required>
               </input>
+            </span>
+          </li>
+          <li>
+            <label>Transport Choices</label>
+            <span>
+              <CheckboxGroup
+                name="lorries"
+                value={this.state.lorries}
+                onChange={this.updateLorryValues.bind(this)}>
+
+                <label className="checkGroup"><Checkbox value="3"/>3 Ton</label>
+                <label className="checkGroup"><Checkbox value="5"/>5 Ton</label>
+                <label className="checkGroup"><Checkbox value="7"/>7 Ton</label>
+                <label className="checkGroup"><Checkbox value="10"/>10 Ton</label>
+                <label className="checkGroup"><Checkbox value="17"/>17 Ton</label>
+                <label className="checkGroup"><Checkbox value="21"/>21 Ton</label>
+              </CheckboxGroup>
+            </span>
+          </li>
+          <li>
+            <label>Discount</label>
+            <span>
+              <AddDiscount discounts={this.state.discounts} onChange={this.onDiscountsChange.bind(this)}/>
             </span>
           </li>
           <li>
