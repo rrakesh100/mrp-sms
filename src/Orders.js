@@ -142,7 +142,7 @@ class Orders extends Component {
   componentDidMount() {
     const that = this;
     const ordersRef = this.data.dbRef.child('orders');
-    ordersRef.orderByChild('time').limitToLast(250).on('value', snapshot => {
+    ordersRef.orderByChild('time').limitToLast(100).on('value', snapshot => {
       let tablerows = [];
       let orders = snapshot.val();
       for(let key in orders){
@@ -164,11 +164,12 @@ class Orders extends Component {
           area:order.area,
           city: order.city,
           status:order.status,
-          time : formattedDate
+          time : formattedDate,
+          timestamp: order.time
         })
       }
       that.setState({
-         rows: tablerows
+         rows: tablerows.sort((a,b) => {return (a.timestamp < b.timestamp) ? 1 : ((b.timestamp < a.timestamp) ? -1 : 0);} )
       })
     });
   }
