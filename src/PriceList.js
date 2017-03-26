@@ -41,6 +41,7 @@ class PriceList extends Component {
             resizable: true,
             width: 400,
             locked: true,
+            priority: -9999
           }
         ],
         ravva: [
@@ -50,6 +51,7 @@ class PriceList extends Component {
             resizable: true,
             width: 400,
             locked: true,
+            priority: -9999
           }
         ],
         broken: [
@@ -59,6 +61,7 @@ class PriceList extends Component {
             resizable: true,
             width: 400,
             locked: true,
+            priority: -9999
           }
         ]
       },
@@ -103,7 +106,8 @@ class PriceList extends Component {
             editable: true,
             width: columnWidth,
             resizable: true,
-            className: 'agent'
+            className: 'agent',
+            priority: product.priority
           });
 
           productTypeCols.push({
@@ -112,7 +116,8 @@ class PriceList extends Component {
             editable: true,
             width: columnWidth,
             resizable: true,
-            className: 'outlet'
+            className: 'outlet',
+            priority: product.priority
           });
         });
         cols[productType] = productTypeCols;
@@ -264,10 +269,7 @@ class PriceList extends Component {
           });
         }
       });
-
     }
-
-
   }
 
   sendSMS() {
@@ -338,7 +340,7 @@ class PriceList extends Component {
 
       <ReactDataGrid
         enableCellSelect={true}
-        columns={this.state.cols[productType]}
+        columns={this.state.cols[productType].sort((a,b) => {return (a.priority > b.priority) ? 1 : ((b.priority > a.priority) ? -1 : 0);})}
         rowGetter={this.rowGetter.bind(this)}
         rowsCount={this.state.rows[productType].length}
         onGridRowsUpdated={this.handleGridRowsUpdated.bind(this)} />
