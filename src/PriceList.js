@@ -208,15 +208,9 @@ class PriceList extends Component {
         const { key, area } = row;
         if(!( key in updatePriceList )) {
           updatePriceList[key] = {
-            rice: {
-              dummy: 'dummy'
-            },
-            ravva: {
-              dummy: 'dummy'
-            },
-            broken: {
-              dummy: 'dummy'
-            }
+            rice: {},
+            ravva: {},
+            broken: {}
           };
         }
         updatePriceList[key][productType] = this.rowToDbObject(row);
@@ -280,14 +274,17 @@ class PriceList extends Component {
     // console.log("ROW: "+ JSON.stringify(row, null, 2));
     let dbObject = {};
     if(row) {
-      Object.keys(row).forEach( key => {
+      Object.keys(row).forEach(key => {
         const value = row[key];
         const [ product, priceType ] = key.split('$');
         if(priceType) {
           if(!dbObject[product]) {
-            dbObject[product] = {};
+            dbObject[product] = {
+              Agent: '',
+              Outlet: ''
+            };
           }
-          dbObject[product][priceType] = value;
+          dbObject[product][priceType] = value || '';
         }
 
       });
