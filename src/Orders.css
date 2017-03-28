@@ -19,8 +19,26 @@
   justify-content: center;
 }
 
+.orderUpdate {
+  bottom: 0;
+  height: 220px;
+  right: 0;
+  left: 0;
+  position: absolute;
+}
 
 .orderUpdate textarea {
     max-width: 100%;
     max-height: 100%;
+}
+.cards {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 222px;
+}
+.updates {
+  height: 100%;
+  position: relative;
 }
