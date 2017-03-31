@@ -1,3 +1,8 @@
+
+
+
+
+
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import Spinner from 'react-spinkit';
@@ -32,6 +37,11 @@ class Items extends Component {
         if(itemsObject) {
           Object.keys(itemsObject).forEach( itemId => {
             const item = itemsObject[itemId];
+            let discount = item.quintalWeightPrice - item.discountedQuintalPrice;
+            if(discount) {
+              discount.toFixed(2);
+            }
+            let grossPrice = item.quintalWeightPrice*item.weight;
             counter++;
             rows.push(
               <tr>
@@ -39,8 +49,8 @@ class Items extends Component {
                 <td className="name">{item.name}</td>
                 <td className="number">{item.weight}</td>
                 <td className="number">{item.bags}</td>
-                <td className="price">{item.price.toFixed(2)}</td>
-                <td className="price">0.00</td>
+                <td className="price">{grossPrice.toFixed(2)}</td>
+                <td className="price">{discount}</td>
                 <td className="price">{item.price.toFixed(2)}</td>
             </tr>
             );
@@ -60,10 +70,10 @@ class Items extends Component {
           <tr>
             <th>#</th>
             <th>Name</th>
-            <th>Weight</th>
+            <th>Quintals</th>
             <th>Bags</th>
             <th>Gross Price</th>
-            <th>Discount</th>
+            <th>Discount/Qtl</th>
             <th>Net Price</th>
           </tr>
         </thead>
@@ -111,8 +121,8 @@ class Order extends Component {
   }
 
   renderShop(detail) {
-    const { name, area, city, totalShopPrice, totalWeight, items} = detail;
-    const totalShopPriceNumber = +totalShopPrice
+    const { name, area, city, shopGrossAmount, totalWeight, items} = detail;
+    const totalShopPriceNumber = +shopGrossAmount
     const totalShopPriceFixed = totalShopPriceNumber.toFixed(2);
     return (
       <div className="shop">
@@ -135,14 +145,14 @@ class Order extends Component {
   }
 
   renderCart(cart) {
-    const { discountAmount, grossPrice, shopDetail, selectedLorrySize, totalWeight } = cart;
+    const { discount_amount, totalPrice, grossPrice, shopDetail, selectedLorrySize, totalWeight } = cart;
     const shops = [];
     shopDetail.forEach( shop => {
       shops.push(this.renderShop(shop));
     })
 
-    const totalPrice = (+grossPrice).toFixed(2);
-    const totalDiscount = (+discountAmount).toFixed(2);
+    const totalPriceFixed = (+totalPrice).toFixed(2);
+    const totalDiscount = (+discount_amount).toFixed(2);
     const totalWeightInTons = (+totalWeight)/10;
     let weightStatusColor = '#40bf80';
     if(totalWeightInTons > (+selectedLorrySize)) {
@@ -154,11 +164,11 @@ class Order extends Component {
       <div className="cart" style={{textAlign: 'center'}}>
         { shops }
         <div className="summary">
-          <h3>Total Price: <strong>₹{totalPrice}</strong></h3>
+          <h3>Total Price: <strong>₹{totalPriceFixed}</strong></h3>
+          <h3>Total Discount: <strong>₹{totalDiscount}</strong></h3>
           <hr></hr>
           <h4>Total Order Weight: <strong>{totalWeightInTons}</strong> tons </h4>
           <h4>Selected Vehicle Capacity: <strong style={{color: weightStatusColor}}>{selectedLorrySize}</strong> tons </h4>
-          {/* <h3>Total Discount: <strong>₹{totalDiscount}</strong></h3> */}
         </div>
       </div>
     );
