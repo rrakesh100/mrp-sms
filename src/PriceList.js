@@ -99,10 +99,12 @@ class PriceList extends Component {
           const product = productArray[productKey];
           const productAgentKey = [productKey,'Agent'].join('$');
           const productOutletKey = [productKey,'Outlet'].join('$');
+          const agentName = this.renderCustomProduct(product.name, 'Agent', productType, productKey);
+          const outletName = this.renderCustomProduct(product.name, 'Outlet', productType, productKey);
 
           productTypeCols.push({
             key: productAgentKey,
-            name: product.name + ' Agent',
+            name: agentName,
             editable: true,
             width: columnWidth,
             resizable: true,
@@ -112,7 +114,7 @@ class PriceList extends Component {
 
           productTypeCols.push({
             key: productOutletKey,
-            name: product.name + ' Outlet',
+            name: outletName,
             editable: true,
             width: columnWidth,
             resizable: true,
@@ -296,6 +298,18 @@ class PriceList extends Component {
     //console.log("DB OBJECT: "+ JSON.stringify(row, null, 2));
     let row = {};
     return row;
+  }
+
+  renderCustomProduct(productName, priceType, productType, productKey) {
+    const imgBaseUrl = `https://mrps-orderform.firebaseapp.com/${productType}_200/`;
+    const imgUrl = `${imgBaseUrl}${productKey}.png`;
+    return (
+      <div className="productHeader">
+        <div className="productType">{ `${productName}` }</div>
+        <img  src={imgUrl} alt={productKey} width="100"/>
+        <div className="priceType">{ `${priceType}` }</div>
+      </div>
+    );
   }
 
 

@@ -11,8 +11,8 @@
 pre {
   width: 800px;
 }
-/*
 
+/*
 .price-list,.order-list,.control-panel {
   min-height: 800px;
 }
@@ -28,7 +28,6 @@ pre {
 
 .react-tab-panel__body {
   min-width: 100% !important;
-
 }
 
 .price-list {
@@ -363,8 +362,13 @@ footer {
   min-height: 60px !important;
 }
 
-.react-grid-HeaderRow>div {
-  height: 80px !important;
+.price-list .react-grid-HeaderRow>div {
+  height: 200px !important;
+}
+
+
+.price-list .react-grid-Viewport {
+  top: 200px !important;
 }
 
 
@@ -449,20 +453,16 @@ div.widget-HeaderCell__value {
   margin: 20px 20px;
 }
 
-.pirce-list .react-grid-Header {
+.price-list .react-grid-Header {
     height: 60px !important;
 }
 
-.react-grid-HeaderRow {
-  height: 80px !important;
-
+.price-list .react-grid-HeaderRow {
+  height: 200px !important;
 }
 
 .pirce-list div.react-grid-HeaderCell {
   height: 60px !important;
-}
-.price-list .react-grid-Viewport {
-  margin-top: 24px !important
 }
 
 .widget-HeaderCell__value {
@@ -475,15 +475,44 @@ div.widget-HeaderCell__value {
   border-style: solid;
   border-right: 1px black;
   border-collapse: collapse;
-
+  height: 200px !important;
 }
+
+.productHeader {
+  display: relative;
+}
+
+.productHeader img {
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  transform: translate(-50%, -50%);
+}
+
+.productHeader .priceType {
+  position: absolute;
+  bottom: 5%;
+  left: 30%;
+  overflow: hidden;
+  text-align: center;
+  text-shadow: 1px 1px 2px white, 1px -1px 2px white, -1px 1px 2px white, -1px -1px 2px white;
+  font-size: 16px;
+}
+
+.productHeader .productType {
+  position: absolute;
+  top: 0%;
+  overflow: hidden;
+  text-shadow: 1px 1px 2px white, 1px -1px 2px white, -1px 1px 2px white, -1px -1px 2px white;
+}
+
 
 .price-list .react-grid-HeaderRow .react-grid-HeaderCell:nth-child(even) {
   background-color: #fff7e6;
   border-style: solid;
   border-left: 1px black;
   border-collapse: collapse;
-
+  height: 200px !important;
 }
 
 .price-list .react-grid-Row .react-grid-Cell:nth-child(odd) {
