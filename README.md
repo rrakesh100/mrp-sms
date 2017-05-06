@@ -9,6 +9,7 @@ Simple Sales Management App that doesn't deserve documentation yet. We'd love to
 1. Install tools
 
 npm install -g firebase-import
+
 npm i -g csvtojson
 
 2. Convert csv to json
