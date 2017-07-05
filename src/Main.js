@@ -11,6 +11,7 @@ import NoMatch from './NoMatch';
 import PriceList from './PriceList';
 import Users from './Users';
 import User from './User';
+import Input from './Input';
 
 class Main extends Component {
   render() {
@@ -26,6 +27,7 @@ class Main extends Component {
             <Route path="/order/:orderId" component={ Order }/>
             <Route path="/users" component={ Users }/>
             <Route path="/user/:userId" component={ User }/>
+            <Route path="/input" component={ Input }/>
           </Route>
         </Route>
         <Route path="*" component={ NoMatch }/>

@@ -61,15 +61,15 @@ class AddDiscount extends Component {
           return;
         }
         if(isNaN(discount.quintals)) {
-          alert('Invalid quintals number for ' + productType + ' in row #' + `${index + 1}`);
+          alert(`Invalid quintals number for ${productType} in row # ${index + 1}`);
         }
 
         if(isNaN(discount.discount)) {
-          alert('Invalid discount for ' + productType + ' in row #' + `${index + 1}`);
+          alert(`Invalid discount for ${productType} in row # ${index + 1}`);
         }
 
         if(parseFloat(discount.quintals) < priviousDiscountLimit ) {
-          alert('Quintal limits should be in ascending order.' + parseFloat(discount.quintals) + ' should be more than ' + priviousDiscountLimit );
+          alert(`Quintal limits should be in ascending order. ${parseFloat(discount.quintals)} should be more than ${priviousDiscountLimit}` );
         } else {
           priviousDiscountLimit = parseFloat(discount.quintals);
         }
@@ -83,7 +83,7 @@ class AddDiscount extends Component {
             ...discount
           });
         } else if (discount.discount || discount.quintals) {
-          alert('In ' + productType + ' discounts, row #' + `${index+1}` + ' is invalid. Please correct it');
+          alert(`In ${productType} discounts, row #${index+1} is invalid. Please correct it`);
         }
       });
     });

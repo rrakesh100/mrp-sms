@@ -36,14 +36,20 @@ pre {
 
 .price-list .react-grid-Container {
   min-width: 100% !important;
+  min-height: 1400px;
 }
 
+.price-list .react-grid-Main {
+  min-height: 1400px;
+}
+
+
 .price-list .react-grid-Canvas {
-  min-height: 600px !important;
+  min-height: 1400px !important;
 }
 
 .price-list .react-grid-Grid {
-  min-height: 600px !important;
+  min-height: 1400px !important;
 }
 
 .control-panel {

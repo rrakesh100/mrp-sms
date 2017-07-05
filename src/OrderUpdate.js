@@ -92,7 +92,6 @@ class OrderUpdate extends Component {
   }
 
   updateInputValue(field, event) {
-    console.log(field + " changed to " + event.target.value);
     this.setState({
       [field]: event.target.value
     });
@@ -106,7 +105,6 @@ class OrderUpdate extends Component {
         const date = new Date(update.timestamp);
         const timeString  =  date.toDateString() + ' - ' + date.toLocaleTimeString();
         const color = statusColorMap[update.msgType];
-        console.log(update.msgType);
         updateCards.push(
           <div className="card">
             <CardHeader>{timeString}</CardHeader>

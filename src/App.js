@@ -52,19 +52,13 @@ class App extends Component {
 
   }
 
-  handleTabSelect(index, last) {
-    console.log('Selected tab: ' + index + ', Last tab: ' + last);
-  }
 
   componentDidMount() {
     var that = this;
     const priceListRef = this.data.dbRef.child('priceList');
-    //TODO
-    // CHANGE THIS TO GET VALUES FOR RICE/RAVVA/BROKEN
 
     priceListRef.on('value', snap => {
       const priceList = snap.val();
-      //console.log("PRICE LIST: " + JSON.stringify(priceList, null, 2));
 
       Object.keys(priceList).forEach( areaId => {
         const areaData = priceList[areaId];
@@ -85,7 +79,6 @@ class App extends Component {
         });
 
       });
-      console.log("FORMED ROW DATA: " + JSON.stringify(this.data.priceList, null,2));
     });
   }
 

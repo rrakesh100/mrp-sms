@@ -147,6 +147,9 @@ class Orders extends Component {
       let orders = snapshot.val();
       for(let key in orders){
         let order = orders[key];
+        if(!order.isSubAgentOrder) {
+          continue;
+        }
         let dateTime = new Date(Number(order.time));
         let formattedDate =
           dateTime.getDate() + "/" +

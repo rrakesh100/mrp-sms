@@ -6,7 +6,7 @@ import Button from 'react-button';
 import FaSave from 'react-icons/lib/fa/floppy-o';
 import FaMail from 'react-icons/lib/fa/envelope-o';
 import AlertContainer from 'react-alert';
-import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
+import { Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
 
 
@@ -92,6 +92,9 @@ class PriceList extends Component {
       const products = snap.val();
       let cols = ObjectAssign([],this.state.cols);
 
+      console.log("DBG cols before=" + JSON.stringify(cols, null, 2));
+
+
       Object.keys(products).forEach( productType => {
         let productTypeCols = cols[productType];
         const productArray = products[productType];
@@ -101,6 +104,7 @@ class PriceList extends Component {
           const productOutletKey = [productKey,'Outlet'].join('$');
           const agentName = this.renderCustomProduct(product.name, 'Agent', productType, productKey);
           const outletName = this.renderCustomProduct(product.name, 'Outlet', productType, productKey);
+          console.log("DBG: productKey=" + productKey );
 
           productTypeCols.push({
             key: productAgentKey,
@@ -121,9 +125,14 @@ class PriceList extends Component {
             className: 'outlet',
             priority: product.priority
           });
+
+          //console.log("DBG productTypeCols=" + JSON.stringify(productTypeCols, null, 2));
+
         });
         cols[productType] = productTypeCols;
       });
+
+      console.log("DBG cols=" + JSON.stringify(cols, null, 2));
 
       this.setState({
         cols: cols
@@ -206,8 +215,7 @@ class PriceList extends Component {
     Object.keys(rows).forEach(productType => {
       const productRows = rows[productType];
       productRows.forEach(row => {
-        let areaData = {};
-        const { key, area } = row;
+        const { key } = row;
         if(!( key in updatePriceList )) {
           updatePriceList[key] = {
             rice: {},
