@@ -66,7 +66,7 @@ pre {
 
 
 .react-grid-HeaderCell {
-  font-size: 10px !important;
+  font-size: 20px !important;
 }
 
 .react-tab-panel__tab-strip-between--before-active {
@@ -362,7 +362,6 @@ footer {
 }
 
 .react-grid-HeaderCell {
-  background: #fffff0;
   font-size: 20px;
   color:  #003366;
   min-height: 60px !important;
