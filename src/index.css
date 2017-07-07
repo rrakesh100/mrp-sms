@@ -26,6 +26,10 @@ pre {
 }
 */
 
+.priceList .table {
+    text-align: center;
+}
+
 .react-tab-panel__body {
   min-width: 100% !important;
 }

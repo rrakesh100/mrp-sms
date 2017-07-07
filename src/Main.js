@@ -8,7 +8,9 @@ import App from './App';
 import Orders from './Orders';
 import Order from './Order';
 import NoMatch from './NoMatch';
-import PriceList from './PriceList'; 
+import PriceList from './PriceList';
+import NewPriceList from './NewPriceList';
+
 import Users from './Users';
 import User from './User';
 import Input from './Input';
@@ -23,6 +25,7 @@ class Main extends Component {
           <Route onEnter={requireAuth}>
             {/* Place all authenticated routes here */}
             <Route path="/console" component={ App }/>
+            <Route path="/prices" component={ NewPriceList }/>
             <Route path="/orders" component={ Orders }/>
             <Route path="/order/:orderId" component={ Order }/>
             <Route path="/users" component={ Users }/>
