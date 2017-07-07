@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import Main from './Main';
 import './index.css';
 import * as firebase from 'firebase';
+import 'semantic-ui-css/semantic.min.css';
+
 //TODO
 // move to .env
 var config = {

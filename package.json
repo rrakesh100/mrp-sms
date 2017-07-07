@@ -4,7 +4,7 @@
   "private": true,
   "devDependencies": {
     "auth0-react-scripts": "0.6.20",
-    "babel-preset-env": "^1.2.2",
+    "babel-preset-env": "^1.6.0",
     "react-scripts": "0.6.1"
   },
   "dependencies": {
@@ -42,7 +42,9 @@
     "react-tab-panel": "^2.2.7",
     "react-tabs": "^0.8.2",
     "reactable": "^0.14.0",
-    "reactstrap": "^4.2.0"
+    "reactstrap": "^4.2.0",
+    "semantic-ui-css": "^2.2.10",
+    "semantic-ui-react": "^0.71.0"
   },
   "scripts": {
     "start": "react-scripts start",

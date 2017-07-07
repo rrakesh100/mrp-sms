@@ -146,3 +146,9 @@ footer {
 .order .detail .header {
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+.actionIcons {
+    text-align: center;
+    margin-top: 12px;
+    margin-bottom: 24px;
+}

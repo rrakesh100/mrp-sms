@@ -8,7 +8,7 @@ import App from './App';
 import Orders from './Orders';
 import Order from './Order';
 import NoMatch from './NoMatch';
-import PriceList from './PriceList';
+import PriceList from './PriceList'; 
 import Users from './Users';
 import User from './User';
 import Input from './Input';

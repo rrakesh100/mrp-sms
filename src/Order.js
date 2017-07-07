@@ -1,8 +1,3 @@
-
-
-
-
-
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import Spinner from 'react-spinkit';
@@ -12,6 +7,8 @@ import { Table } from 'reactstrap';
 import classNames from 'classnames';
 import FaEyeClose from 'react-icons/lib/fa/eye-slash';
 import FaEyeOpen from 'react-icons/lib/fa/eye';
+import { Button } from 'semantic-ui-react'
+
 
 
 const LOADING = 'loading';
@@ -222,6 +219,14 @@ class Order extends Component {
       <div>
         <div className="order">
           <div className="detail">
+            <div className="actionIcons">
+              <Button.Group>
+                <Button labelPosition='left' icon='left chevron' content='Previous Order' />
+                <Button icon='edit' content='Updates' />
+                <Button icon='print' content='Print' />
+                <Button labelPosition='right' icon='right chevron' content='Next Order' />
+              </Button.Group>
+            </div>
             <ul className="header" style={{backgroundColor: orderStatusColor, textAlign: 'center', listStyle: 'none' }}>
               <li><h2>{orderId}</h2></li>
               <li><strong>{userName}</strong> ordered on <strong>{ timeString}</strong></li>
