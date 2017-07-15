@@ -60,6 +60,14 @@ export function login(options) {
   }
 }
 
+export function userInfo() {
+  const { nickname, name } = getProfile();
+  return {
+    nickname,
+    name
+  };
+}
+
 export function logout() {
   clearNextPath();
   clearIdToken();

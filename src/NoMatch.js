@@ -7,7 +7,7 @@ class NoMatch extends Component {
 
     return (
       <div>
-        <h4>404</h4>
+        <h4>404 - INVALID URL</h4>
       </div>
     );
   }

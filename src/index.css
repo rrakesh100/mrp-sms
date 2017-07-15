@@ -594,3 +594,14 @@ label.checkGroup {
 .all-discounts button {
   width: 200px;
 }
+
+
+.priceList a.active.item {
+    border-bottom: 2px;
+    border-bottom-style: solid;
+    border-color: #ff99cc;
+}
+
+.ui .comments {
+  overflow-y: auto;
+}

@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {Router, Route, browserHistory} from 'react-router';
-import {requireAuth} from './auth';
+import React, { Component } from 'react';
+import { Router, Route, browserHistory } from 'react-router';
+import { requireAuth } from './auth';
 import Site from './Site';
 import Home from './Home';
 import Login from './Login';
@@ -14,12 +14,14 @@ import NewPriceList from './NewPriceList';
 import Users from './Users';
 import User from './User';
 import Input from './Input';
+import Print from './Print';
+import OrderSheet from './OrderSheet';
 
 class Main extends Component {
   render() {
     return (
-      <Router history={browserHistory}>
-        <Route component={Site}>
+      <Router history={ browserHistory }>
+        <Route component={ Site }>
           <Route path="/" component={ Home }/>
           <Route path="/login" component={ Login }/>
           <Route onEnter={requireAuth}>
@@ -31,6 +33,11 @@ class Main extends Component {
             <Route path="/users" component={ Users }/>
             <Route path="/user/:userId" component={ User }/>
             <Route path="/input" component={ Input }/>
+          </Route>
+        </Route>
+        <Route component={ Print }>
+          <Route onEnter={requireAuth}>
+            <Route path="/print/:orderId" component={ OrderSheet }/>
           </Route>
         </Route>
         <Route path="*" component={ NoMatch }/>

@@ -8,14 +8,7 @@ import AlertContainer from 'react-alert';
 import classnames from 'classnames';
 import { Button, Menu } from 'semantic-ui-react'
 
-
-
-
 const columnWidth = 140;
-
-//TODO
-// Show previous price
-//http://adazzle.github.io/react-data-grid/examples.html#/customRowRenderer
 
 class NewPriceList extends Component {
   constructor(props) {
@@ -26,13 +19,7 @@ class NewPriceList extends Component {
   }
 
   render() {
-    const theme = {
-        pressedStyle: {background: 'dark-blue', fontWeight: 'bold', fontSize: 32},
-        overPressedStyle: {background: 'dark-blue', fontWeight: 'bold', fontSize: 32}
-    };
-
   const { activeItem } = this.state
-
 
     return <div className="priceList">
       <AlertContainer ref={ a => this.msg = a} {...this.alertOptions} />
@@ -44,17 +31,23 @@ class NewPriceList extends Component {
       <div className="table">
         <p><span style={ {color: '#ecf2f9' } }>██ </span> is agent price. <span style={ {color: '#fff7e6' } }>██ </span> is outlet price </p>
         <p>Double click on the price to change</p>
-        <Button className="update-button" onClick={ this.updatePrices.bind(this) } theme={ theme } disabled={ false }><FaSave />SAVE</Button>
-        <Button className="sms-button" onClick={ this.sendSMS.bind(this) } theme={ theme } disabled={ false }><FaMail />SEND SMS</Button>
-
-        <h1>PRICE LIST TABLE COMES HERE</h1>
-        <Button className="update-button" onClick={ this.updatePrices.bind(this) } theme={ theme } disabled={ false }><FaSave />SAVE</Button>
-        <Button className="sms-button" onClick={ this.sendSMS.bind(this) } theme={ theme } disabled={ false }><FaMail />SEND SMS</Button>
-
+        { this.renderPriceListButtons() }
+        { this.renderPriceListTable() }
+        { this.renderPriceListButtons() }
       </div>
 
     </div>
 
+  }
+
+  renderPriceListButtons = () => <div>
+    <Button className="update-button" onClick={ this.updatePrices.bind(this) } disabled={ false }><FaSave />SAVE</Button>
+    <Button className="sms-button" onClick={ this.sendSMS.bind(this) } disabled={ false }><FaMail />SEND SMS</Button>
+  </div>;
+
+
+  renderPriceListTable() {
+    return (<h1>PRICE LIST TABLE HERE</h1>);
   }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
@@ -149,26 +142,3 @@ class NewPriceList extends Component {
 }
 
 export default NewPriceList;
-
-// COLUMN DATA SAMPLE
-// {
-//   key: 'WG_Town',
-//   name: 'WG Town',
-//   width: columnWidth,
-//   editable: true,
-//   resizable: true
-// }
-
-
-// ROW DATA SAMPLE
-// {
-//   product: '25KgLalithaYellow',
-//   vizag_city: '343.00',
-//   vizag_rural: '453.00',
-//   vizag_gajuwaka: '563.00',
-//   vizag_anakapalli: '783.00',
-//   EG_city: '123.00',
-//   EG_Peddapuram: '223.00',
-//   EG_Agency: '633.00',
-//   WG_Town: '843.00'
-// }

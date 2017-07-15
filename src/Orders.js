@@ -136,9 +136,6 @@ class Orders extends Component {
     };
   }
 
-  componentWillMount() {
-  }
-
   componentDidMount() {
     const that = this;
     const ordersRef = this.data.dbRef.child('orders');
@@ -148,7 +145,7 @@ class Orders extends Component {
       for(let key in orders){
         let order = orders[key];
         if(order.isSubAgentOrder === true) {
-          console.log("THIS IS SUBAGENT ORDER:" + JSON.stringify(order, null, 2));
+          console.log('THIS IS SUBAGENT ORDER:' + JSON.stringify(order, null, 2));
           continue;
         }
         let dateTime = new Date(Number(order.time));

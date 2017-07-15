@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import Spinner from 'react-spinkit';
+import Items from './Items';
 import './Order.css';
 import OrderUpdate from './OrderUpdate';
 import { Table } from 'reactstrap';
 import classNames from 'classnames';
 import FaEyeClose from 'react-icons/lib/fa/eye-slash';
 import FaEyeOpen from 'react-icons/lib/fa/eye';
-import { Button } from 'semantic-ui-react'
-
-
+import { Button, Modal, Header, Image } from 'semantic-ui-react'
 
 const LOADING = 'loading';
 const ERROR = 'error';
@@ -22,66 +21,6 @@ const statusColorMap = {
   'cancelled': '#ffb399'
 }
 
-class Items extends Component {
-
-  createRows() {
-    let rows = [];
-    const items = this.props.items;
-    if(items){
-      let counter = 0;
-      Object.keys(items).forEach( productType => {
-        const itemsObject = items[productType];
-        if(itemsObject) {
-          Object.keys(itemsObject).forEach( itemId => {
-            const item = itemsObject[itemId];
-            let discount = item.quintalWeightPrice - item.discountedQuintalPrice;
-            if(discount) {
-              discount.toFixed(2);
-            }
-            let grossPrice = item.quintalWeightPrice*item.weight;
-            counter++;
-            rows.push(
-              <tr>
-                <th scope="row">{counter}</th>
-                <td className="name">{item.name}</td>
-                <td className="number">{item.weight}</td>
-                <td className="number">{item.bags}</td>
-                <td className="price">{grossPrice.toFixed(2)}</td>
-                <td className="price">{discount}</td>
-                <td className="price">{item.price.toFixed(2)}</td>
-            </tr>
-            );
-          })
-        }
-      })
-    }
-    return rows;
-  }
-
-
-
-  render() {
-    return  (
-      <Table size="bordered sm">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Quintals</th>
-            <th>Bags</th>
-            <th>Gross Price</th>
-            <th>Discount/Qtl</th>
-            <th>Net Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          { this.createRows() }
-        </tbody>
-        </Table>
-    );
-  }
-}
-
 class Order extends Component {
 
   constructor(props) {
@@ -89,9 +28,13 @@ class Order extends Component {
     this.state = {
       orderData: {
         loading: LOADING
-      }
+      },
+      open: false
     };
   }
+
+  show = (dimmer) => () => this.setState({ dimmer, open: true })
+  close = () => this.setState({ open: false })
 
   componentDidMount() {
     const orderPath = `orders/${this.props.params.orderId}`;
@@ -122,7 +65,7 @@ class Order extends Component {
     const totalShopPriceNumber = +shopGrossAmount
     const totalShopPriceFixed = totalShopPriceNumber.toFixed(2);
     return (
-      <div className="shop">
+      <div className="shop" key={ name }>
         <div className="details" key={area}>
           <h3>{name}, {city}</h3>
           { this.renderItems(items) }
@@ -163,10 +106,10 @@ class Order extends Component {
         <div className="summary">
           <h3>Total Price: <strong>₹{totalPriceFixed}</strong></h3>
           <h3>Total Discount: <strong>₹{totalDiscount}</strong></h3>
-          <hr></hr>
-          <h4>Total Order Weight: <strong>{totalWeightInTons}</strong> tons </h4>
-          <h4>Selected Vehicle Capacity: <strong style={{color: weightStatusColor}}>{selectedLorrySize}</strong> tons </h4>
-        </div>
+          <h3>Total Order Weight: <strong>{totalWeightInTons}</strong> tons </h3>
+          <h3>Selected Vehicle Capacity: <strong style={{color: weightStatusColor}}>{selectedLorrySize}</strong> tons </h3>
+          <hr />
+      </div>
       </div>
     );
 
@@ -211,7 +154,6 @@ class Order extends Component {
       update: true
     });
 
-    const updateText  = this.state.showUpdatePanel ? <FaEyeClose onClick={ this.toggleSidePanel.bind(this) } /> :  <FaEyeOpen onClick={this.toggleSidePanel.bind(this)} />;
     const timeString  =  date.toDateString() + ' - ' + date.toLocaleTimeString();
 
     return (
@@ -222,8 +164,10 @@ class Order extends Component {
             <div className="actionIcons">
               <Button.Group>
                 <Button labelPosition='left' icon='left chevron' content='Previous Order' />
-                <Button icon='edit' content='Updates' />
-                <Button icon='print' content='Print' />
+                <Button icon='edit' content='Updates' onClick={ this.show(true) }/>
+                <a href={ `/print/${orderId}` } target="_blank">
+                  <Button icon='print' content='Print' />
+                </a>
                 <Button labelPosition='right' icon='right chevron' content='Next Order' />
               </Button.Group>
             </div>
@@ -231,17 +175,36 @@ class Order extends Component {
               <li><h2>{orderId}</h2></li>
               <li><strong>{userName}</strong> ordered on <strong>{ timeString}</strong></li>
               <li>Order is <strong>{status}</strong></li>
-              <li>{updateText}updates</li>
             </ul>
             { this.renderCart(this.state.orderData.cart) }
             { this.renderSpecialMsg(this.state.orderData.orderMsg) }
           </div>
-          <div className={updateClasses}>
-            <OrderUpdate orderId={orderId}/>
-          </div>
         </div>
+        { this.showUpdatesModal() }
         <footer>© MRP Solutions 2017</footer>
       </div>
+    );
+  }
+
+  showPrintPage() {
+
+
+    return true;
+  }
+
+  showUpdatesModal() {
+    const { open, dimmer } = this.state
+
+    return (
+        <Modal open={ open } dimmer='blurring' size='small' onClose={ this.close }>
+          <Modal.Header>Updates for order { this.props.params.orderId }</Modal.Header>
+          <Modal.Content>
+            <OrderUpdate orderId={ this.props.params.orderId }/>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button color='black' onClick={this.close}>Close</Button>
+          </Modal.Actions>
+        </Modal>
     );
   }
 }

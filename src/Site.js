@@ -1,6 +1,6 @@
-import React, {Component, PropTypes} from 'react';
-import {Link} from 'react-router';
-import {connectProfile, logout} from './auth';
+import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
+import { connectProfile, logout } from './auth';
 import './Site.css';
 import FaOrderList from 'react-icons/lib/fa/list';
 import FaLogout from 'react-icons/lib/fa/user-times';
@@ -23,10 +23,10 @@ class Site extends Component {
           <div className="Site-header">
             <img src="./LalithaBrand.png" alt="Lalitha Industries" height="32"/>
           </div>
-          {this.renderUserControls()}
+          { this.renderUserControls() }
         </div>
         <div className="Site-page">
-          {this.props.children}
+          { this.props.children }
         </div>
       </div>
 
@@ -34,7 +34,7 @@ class Site extends Component {
   }
 
   renderUserControls() {
-    const {profile} = this.props;
+    const { profile } = this.props;
 
     if (profile) {
       return (

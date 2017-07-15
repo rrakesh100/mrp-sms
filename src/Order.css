@@ -12,36 +12,36 @@ footer {
 }
 
 
-.detail {
+.order .detail {
   width: 80%;
   min-width: 600px;
   border-color: blue;
 }
 
-.update {
+.order .update {
   width: 25%;
   min-width: 400px;
 }
 
-.shop .react-grid-Main {
+.order .shop .react-grid-Main {
   min-height: 100px !important;
 }
 
-.shop .widget-HeaderCell__value {
+.order .shop .widget-HeaderCell__value {
   font-size: 14px;
   text-transform: uppercase;;
 }
 
 
-.orderUpdate select {
+.order .orderUpdate select {
   width: 100%;
 }
 
-.orderUpdate textarea {
+.order .orderUpdate textarea {
   height: 120px;
 }
 
-.orderUpdate .save-button {
+.order .orderUpdate .save-button {
   width: 100%;
 }
 
@@ -63,7 +63,7 @@ footer {
   text-align: right;
 }
 
-.shop {
+.order .shop {
   padding-top: 20px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding-bottom: 20px;
@@ -72,7 +72,7 @@ footer {
   margin-right: 10px;
 }
 
-.detail h3 {
+.order .detail h3 {
   text-align: left;
   text-transform: uppercase;
   padding-bottom: 8px;
@@ -88,10 +88,19 @@ footer {
   text-decoration: underline;
 }
 
-.summary h3 {
+.order .summary h3 {
+  text-align: right;
+  margin-right: 40px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+
+}
+
+.order .summary h4 {
   text-align: right;
   margin-right: 40px;
 }
+
 .detail ul {
   text-align: 'center';
   list-style: 'none';
@@ -104,27 +113,11 @@ footer {
   max-height: 60%;
 }
 
-.updatesPanel {
-  position: fixed;
-  float: right;
-  margin: auto;
-  width: 400px;
-  height: 100%;
-
-  background: #f0f0fd;
-  background: rgba(240,240,253,0.90);
-  padding: 10px 10px;
-
-  -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
-  -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
-  -box-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
-}
-
 .card-title {
   text-transform: uppercase;
 }
 
-.splMsg {
+.order .splMsg {
   text-align: center !important;
   margin-left: 30%;
   margin-right: 30%;

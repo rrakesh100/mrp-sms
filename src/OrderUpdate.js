@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
-import { Button } from 'react-bootstrap';
 import AlertContainer from 'react-alert';
-import { Card, CardTitle, CardText, CardHeader } from 'reactstrap';
-import 'bootstrap/dist/css/bootstrap.css';
+import { Button, Comment, Form, Header, Dropdown } from 'semantic-ui-react';
 
 const statusColorMap = {
   'public': 'primary',
@@ -106,13 +104,16 @@ class OrderUpdate extends Component {
         const timeString  =  date.toDateString() + ' - ' + date.toLocaleTimeString();
         const color = statusColorMap[update.msgType];
         updateCards.push(
-          <div className="card">
-            <CardHeader>{timeString}</CardHeader>
-            <Card block inverse color={color}>
-              <CardTitle>{update.updateMsg}</CardTitle>
-              <CardText>{update.msgType}</CardText>
-            </Card>
-          </div>
+          <Comment key={ timeString }>
+            <Comment.Content>
+              <Comment.Author as='a'>Matt</Comment.Author>
+              <Comment.Metadata>
+                <div>{ timeString }</div>
+              </Comment.Metadata>
+              <Comment.Text>{update.updateMsg}</Comment.Text>
+              <Comment.Text>{update.msgType}</Comment.Text>
+            </Comment.Content>
+          </Comment>
         );
       });
     }
@@ -122,33 +123,46 @@ class OrderUpdate extends Component {
   render() {
 
     const updates = this.state.updates;
+    const updateTypes = [
+      {
+        key: 'internal',
+        value: 'internal',
+        text: 'INTERNAL UPDATE'
+      },
+      {
+        key: 'public',
+        value: 'public',
+        text: 'PUBLIC UPDATE'
+      },
+      {
+        key: 'onhold',
+        value: 'onhold',
+        text: 'STATUS: ON HOLD'
+      },
+      {
+        key: 'cancelled',
+        value: 'cancelled',
+        text: 'STATUS: CANCELLED'
+      },
+      {
+        key: 'dispatched',
+        value: 'dispatched',
+        text: 'STATUS: DISPATCHED'
+      },
+    ];
 
     return (
       <div className="updatesPanel">
         <AlertContainer ref={ a => this.msg = a} {...this.alertOptions} />
-        <div className="updates">
-          <div className="cards">
+          <Comment.Group>
             { this.renderUpdateCards(updates) }
-          </div>
-          <div className="orderUpdate">
-            <span>
-              <select value={ this.state.msgType } name="msgTypeSelector"
-                onChange={this.updateInputValue.bind(this,'msgType')}>
-                <option value="internal">INTERNAL UPDATE</option>
-                <option value="public">PUBLIC UPDATE</option>
-                <option value="onhold">STATUS: ON HOLD</option>
-                <option value="cancelled">STATUS: CANCELLED</option>
-                <option value="dispatched">STATUS: DISPATCHED</option>
-              </select>
-            </span>
-            <textarea name="update"
-              placeholder="update message"
-              value={ this.state.updateMsg }
-              onChange={ this.updateInputValue.bind(this,'updateMsg') }>
-            </textarea>
-            <Button className="save-button" bsStyle="primary" onClick={ this.saveUpdate.bind(this) } disabled={ !(this.state.updateMsg) }>UPDATE</Button>
-          </div>
-        </div>
+
+            <Form reply>
+              <Form.TextArea />
+              <Dropdown placeholder='Update Type' search selection options={ updateTypes } />
+              <Button className="save-button" content='Update' labelPosition='left' icon='edit' primary onClick={ this.saveUpdate.bind(this) } />
+            </Form>
+        </Comment.Group>
       </div>
 
     );

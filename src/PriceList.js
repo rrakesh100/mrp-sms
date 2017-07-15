@@ -10,8 +10,6 @@ import { Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
 
 
-
-
 const columnWidth = 140;
 
 //TODO
@@ -371,26 +369,3 @@ class PriceList extends Component {
 }
 
 export default PriceList;
-
-// COLUMN DATA SAMPLE
-// {
-//   key: 'WG_Town',
-//   name: 'WG Town',
-//   width: columnWidth,
-//   editable: true,
-//   resizable: true
-// }
-
-
-// ROW DATA SAMPLE
-// {
-//   product: '25KgLalithaYellow',
-//   vizag_city: '343.00',
-//   vizag_rural: '453.00',
-//   vizag_gajuwaka: '563.00',
-//   vizag_anakapalli: '783.00',
-//   EG_city: '123.00',
-//   EG_Peddapuram: '223.00',
-//   EG_Agency: '633.00',
-//   WG_Town: '843.00'
-// }
