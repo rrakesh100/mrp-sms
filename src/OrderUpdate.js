@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import AlertContainer from 'react-alert';
 import { Button, Comment, Form, Header, Dropdown } from 'semantic-ui-react';
+import Auth, { connectProfile, userInfo } from './auth';
+import { Card } from 'semantic-ui-react';
+import './OrderUpdate.css';
+
 
 const statusColorMap = {
-  'public': 'primary',
-  'internal': 'info',
-  'onhold': 'warning',
-  'cancelled': 'danger',
-  'dispatched': 'success'
+  'public': 'blue',
+  'internal': 'black',
+  'onhold': 'orange',
+  'cancelled': 'red',
+  'dispatched': 'green'
 }
 
 
@@ -57,10 +61,14 @@ class OrderUpdate extends Component {
     const orderRef = firebase.database().ref().child(orderPath);
     const orderUpdatesRef = firebase.database().ref().child(orderUpdatesPath).push();
     const orderUpdateKey = orderUpdatesRef.getKey();
+    const { nickname, name } = userInfo();
+
     const update = {
       'updateMsg': this.state.updateMsg,
       'msgType': msgType,
-      'timestamp': new Date().getTime()
+      'timestamp': new Date().getTime(),
+      'name': name,
+      'nickname': nickname
     };
 
     const newStatusUpdate = {};
@@ -97,27 +105,50 @@ class OrderUpdate extends Component {
 
   renderUpdateCards(updates) {
     let updateCards = [];
+    const { nickname, name } = userInfo();
+
 
     if(updates && updates.length) {
       updates.forEach(update => {
         const date = new Date(update.timestamp);
         const timeString  =  date.toDateString() + ' - ' + date.toLocaleTimeString();
         const color = statusColorMap[update.msgType];
+        const textStyle = {
+          color: color
+        };
         updateCards.push(
-          <Comment key={ timeString }>
-            <Comment.Content>
-              <Comment.Author as='a'>Matt</Comment.Author>
-              <Comment.Metadata>
-                <div>{ timeString }</div>
-              </Comment.Metadata>
-              <Comment.Text>{update.updateMsg}</Comment.Text>
-              <Comment.Text>{update.msgType}</Comment.Text>
-            </Comment.Content>
-          </Comment>
+          <Card color={ color }>
+            <Card.Content>
+              <Card.Header>
+                { `${update.nickname}(${update.name})` }
+              </Card.Header>
+              <Card.Meta>
+                { update.msgType }
+              </Card.Meta>
+              <Card.Description style={ textStyle }>
+                { update.updateMsg }
+              </Card.Description>
+            </Card.Content>
+            <Card.Content extra>
+              { timeString }
+            </Card.Content>
+          </Card>
         );
       });
     }
     return updateCards;
+  }
+
+  saveMsgType(event, data) {
+    this.setState({
+      msgType: data.value
+    });
+  }
+
+  saveMsg(event, data) {
+    this.setState({
+      updateMsg: data.value
+    });
   }
 
   render() {
@@ -158,8 +189,8 @@ class OrderUpdate extends Component {
             { this.renderUpdateCards(updates) }
 
             <Form reply>
-              <Form.TextArea />
-              <Dropdown placeholder='Update Type' search selection options={ updateTypes } />
+              <Form.TextArea onChange={ this.saveMsg.bind(this) }/>
+              <Dropdown selection options={ updateTypes } defaultValue='internal' onChange={ this.saveMsgType.bind(this) } />
               <Button className="save-button" content='Update' labelPosition='left' icon='edit' primary onClick={ this.saveUpdate.bind(this) } />
             </Form>
         </Comment.Group>
