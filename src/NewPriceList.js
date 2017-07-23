@@ -14,19 +14,19 @@ class NewPriceList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeItem: 'rice'
+      activeProductType: 'rice'
     };
   }
 
   render() {
-  const { activeItem } = this.state
+  const { activeProductType } = this.state
 
     return <div className="priceList">
       <AlertContainer ref={ a => this.msg = a} {...this.alertOptions} />
       <Menu fluid widths={5}>
-        <Menu.Item name='rice' active={activeItem === 'rice'} onClick={this.handleItemClick} />
-        <Menu.Item name='ravva' active={activeItem === 'ravva'} onClick={this.handleItemClick} />
-        <Menu.Item name='broken' active={activeItem === 'broken'} onClick={this.handleItemClick} />
+        <Menu.Item name='rice' active={ activeProductType === 'rice' } onClick={this.handleItemClick} />
+        <Menu.Item name='ravva' active={ activeProductType === 'ravva' } onClick={this.handleItemClick} />
+        <Menu.Item name='broken' active={ activeProductType === 'broken' } onClick={this.handleItemClick} />
       </Menu>
       <div className="table">
         <p><span style={ {color: '#ecf2f9' } }>██ </span> is agent price. <span style={ {color: '#fff7e6' } }>██ </span> is outlet price </p>
@@ -50,7 +50,7 @@ class NewPriceList extends Component {
     return (<h1>PRICE LIST TABLE HERE</h1>);
   }
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  handleItemClick = (e, { name }) => this.setState({ activeProductType: name });
 
 
   updatePrices() {

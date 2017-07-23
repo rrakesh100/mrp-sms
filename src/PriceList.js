@@ -8,6 +8,7 @@ import FaMail from 'react-icons/lib/fa/envelope-o';
 import AlertContainer from 'react-alert';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
+import './PriceList.css';
 
 
 const columnWidth = 140;
@@ -90,9 +91,6 @@ class PriceList extends Component {
       const products = snap.val();
       let cols = ObjectAssign([],this.state.cols);
 
-      console.log("DBG cols before=" + JSON.stringify(cols, null, 2));
-
-
       Object.keys(products).forEach( productType => {
         let productTypeCols = cols[productType];
         const productArray = products[productType];
@@ -102,7 +100,6 @@ class PriceList extends Component {
           const productOutletKey = [productKey,'Outlet'].join('$');
           const agentName = this.renderCustomProduct(product.name, 'Agent', productType, productKey);
           const outletName = this.renderCustomProduct(product.name, 'Outlet', productType, productKey);
-          console.log("DBG: productKey=" + productKey );
 
           productTypeCols.push({
             key: productAgentKey,
@@ -123,8 +120,6 @@ class PriceList extends Component {
             className: 'outlet',
             priority: product.priority
           });
-
-          //console.log("DBG productTypeCols=" + JSON.stringify(productTypeCols, null, 2));
 
         });
         cols[productType] = productTypeCols;
@@ -357,7 +352,7 @@ class PriceList extends Component {
 
       <ReactDataGrid
         enableCellSelect={true}
-        columns={this.state.cols[productType].sort((a,b) => {return (a.priority > b.priority) ? 1 : ((b.priority > a.priority) ? -1 : 0);})}
+        columns={this.state.cols[productType].sort((a,b) => {return (a.priority > b.priority) ? 1 : ((b.priority > a.priority) ? -1 : (a.className === 'outlet' ? 1 : -1));})}
         rowGetter={this.rowGetter.bind(this)}
         rowsCount={this.state.rows[productType].length}
         onGridRowsUpdated={this.handleGridRowsUpdated.bind(this)} />
