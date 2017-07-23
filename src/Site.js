@@ -51,9 +51,6 @@ class Site extends Component {
           <div className="menu-item">
             <Link to="/console"><h4><FaSettings />Settings</h4></Link>
           </div>
-          <div className="menu-item">
-            <Link to="/prices"><h4><FaMoney />Price List</h4></Link>
-          </div>
         </div>
       );
     } else {

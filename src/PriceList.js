@@ -9,6 +9,8 @@ import AlertContainer from 'react-alert';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
 import './PriceList.css';
+import Spinner from 'react-spinkit';
+
 
 
 const columnWidth = 140;
@@ -31,6 +33,9 @@ class PriceList extends Component {
 
     this.changeProductType = this.changeProductType.bind(this);
     this.state = {
+      loading: true,
+      rowsLoading: true,
+      colsLoading: true,
       productType: 'rice',
       cols: {
         rice: [
@@ -87,7 +92,33 @@ class PriceList extends Component {
     //COLUMNS
     // Whats the source of truth for areas and products? PriceList Node or
     // individual products and areas
-    productsRef.on('value', snap => {
+
+    areasRef.once('value', snap => {
+      const areasArray = snap.val();
+      let rows = ObjectAssign({},this.state.rows);
+
+      ['rice','ravva','broken'].forEach( productType => {
+        let productTypeRows = rows[productType];
+        Object.keys(areasArray).forEach( areaKey => {
+          const area = areasArray[areaKey];
+          const rowData = ObjectAssign({},this.props.priceList[productType].rows[area.areaId]);
+          const newRow = {
+            area: area.displayName,
+            key: area.areaId,
+            ...rowData
+          };
+          productTypeRows.push(newRow);
+        });
+        rows[productType] = productTypeRows;
+      });
+
+      this.setState({
+        rows: rows,
+        rowsLoading: false
+      });
+    });
+
+    productsRef.once('value', snap => {
       const products = snap.val();
       let cols = ObjectAssign([],this.state.cols);
 
@@ -125,37 +156,12 @@ class PriceList extends Component {
         cols[productType] = productTypeCols;
       });
 
-      console.log("DBG cols=" + JSON.stringify(cols, null, 2));
-
       this.setState({
-        cols: cols
+        cols: cols,
+        colsLoading: false
       });
+
     });
-
-    areasRef.on('value', snap => {
-      const areasArray = snap.val();
-      let rows = ObjectAssign({},this.state.rows);
-
-      ['rice','ravva','broken'].forEach( productType => {
-        let productTypeRows = rows[productType];
-        Object.keys(areasArray).forEach( areaKey => {
-          const area = areasArray[areaKey];
-          const rowData = ObjectAssign({},this.props.priceList[productType].rows[area.areaId]);
-          const newRow = {
-            area: area.displayName,
-            key: area.areaId,
-            ...rowData
-          };
-          productTypeRows.push(newRow);
-        });
-        rows[productType] = productTypeRows;
-      });
-
-      this.setState({
-        rows: rows
-      });
-    });
-
 
   }
 
@@ -319,6 +325,11 @@ class PriceList extends Component {
         pressedStyle: {background: 'dark-blue', fontWeight: 'bold', fontSize: 32},
         overPressedStyle: {background: 'dark-blue', fontWeight: 'bold', fontSize: 32}
     };
+
+    const { rowsLoading, colsLoading } = this.state;
+    if(rowsLoading || colsLoading) {
+      return <Spinner name='double-bounce' />
+    }
 
     const productType = this.state.productType;
 
