@@ -41,6 +41,10 @@ class OrderSheet extends Component {
 
 
   renderSpecialMsg(msg) {
+    if(!msg) {
+      return;
+    }
+
     return (
       <div className="splMsg">
         <hr />

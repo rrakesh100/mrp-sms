@@ -4,6 +4,7 @@
 
 .react-grid-Canvas {
   min-width: 100% !important;
+  height: 100% !important;
 }
 
 .react-grid-HeaderRow {
