@@ -190,7 +190,7 @@ class OrderUpdate extends Component {
 
             <Form reply>
               <Form.TextArea onChange={ this.saveMsg.bind(this) }/>
-              <Dropdown selection options={ updateTypes } defaultValue='internal' onChange={ this.saveMsgType.bind(this) } />
+              <Dropdown upward selection options={ updateTypes } defaultValue='internal' onChange={ this.saveMsgType.bind(this) } />
               <Button className="save-button" content='Update' labelPosition='left' icon='edit' primary onClick={ this.saveUpdate.bind(this) } />
             </Form>
         </Comment.Group>

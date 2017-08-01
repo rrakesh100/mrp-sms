@@ -33,7 +33,7 @@ class Order extends Component {
     };
   }
 
-  show = (dimmer) => () => this.setState({ dimmer, open: true })
+  show = (dimmer) => () => this.setState({ dimmer, open: true }) 
   close = () => this.setState({ open: false })
 
   componentDidMount() {
@@ -115,12 +115,6 @@ class Order extends Component {
 
   }
 
-  toggleSidePanel() {
-    this.setState({
-      showUpdatePanel: !this.state.showUpdatePanel
-    });
-  }
-
   render() {
 
     if(this.state.orderData.loading === LOADING) {
@@ -148,11 +142,6 @@ class Order extends Component {
     const date = new Date(time);
     const orderStatusColor = statusColorMap[status];
     const orderId = this.props.params.orderId;
-
-    const updateClasses = classNames({
-      hide: this.state.showUpdatePanel !== true,
-      update: true
-    });
 
     const timeString  =  date.toDateString() + ' - ' + date.toLocaleTimeString();
 
@@ -193,16 +182,16 @@ class Order extends Component {
   }
 
   showUpdatesModal() {
-    const { open, dimmer } = this.state
+    const { open } = this.state
 
     return (
-        <Modal open={ open } dimmer='blurring' size='small' onClose={ this.close }>
+        <Modal open={ open } onClose={ this.close }>
           <Modal.Header>Updates for order { this.props.params.orderId }</Modal.Header>
-          <Modal.Content>
+          <Modal.Content scrolling>
             <OrderUpdate orderId={ this.props.params.orderId }/>
           </Modal.Content>
           <Modal.Actions>
-            <Button color='black' onClick={this.close}>Close</Button>
+            <Button color='red' onClick={this.close}>Close</Button>
           </Modal.Actions>
         </Modal>
     );
