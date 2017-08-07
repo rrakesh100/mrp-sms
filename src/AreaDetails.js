@@ -58,7 +58,7 @@ export default class AreaDetails extends Component {
         }
 
       });
-      if(shopsInArea.length > 0 ) {
+      if(shopsInArea && shopsInArea.length > 0 ) {
         this.setState({
           shopsInArea
         });
@@ -92,6 +92,7 @@ export default class AreaDetails extends Component {
         <Table bordered>
           <thead>
             <tr>
+              <th>#</th>
               <th>Name</th>
               <th>Agent Mobile</th>
               <th>areaName</th>
@@ -111,10 +112,11 @@ export default class AreaDetails extends Component {
 
   renderShop() {
     const { shopsInArea } = this.state;
-    if(shopsInArea.length > 0) {
-      return shopsInArea.map( shop => {
+    if(shopsInArea && shopsInArea.length > 0) {
+      return shopsInArea.map( (shop, idx) => {
         return (
           <tr>
+            <td>{ idx }</td>
             <td className="name">{ shop.name }</td>
             <td className="mobile">{ shop.agentId }</td>
             <td>{ shop.areaName }</td>
@@ -125,6 +127,8 @@ export default class AreaDetails extends Component {
           </tr>
         );
       })
+    } else {
+      return <h5> ---- There are no shops in this area --- </h5>
     }
   }
   renderAreaItemPrices() {
