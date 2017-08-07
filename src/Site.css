@@ -48,3 +48,77 @@
      -moz-box-shadow: 0 5px 5px -6px black;
           box-shadow: 0 5px 5px -6px black;
 }
+
+.areaDetails {
+  text-align: center;
+  margin: auto 0;
+}
+
+.areaDetails .productType {
+    width: 40%;
+    margin: auto;
+}
+
+.areaDetails .productType h1{
+  color: #c0392b;
+  text-transform: uppercase;
+}
+
+.areaDetails .productType .agent {
+  text-align: right;
+  font-size: 24px;
+}
+
+.areaDetails .productType .outlet {
+  text-align: right;
+  font-size: 24px;
+}
+
+.areaDetails .productItem .text {
+  font-size: 14px;
+}
+
+.productType table th .image {
+  width: 100px;
+  transition: all .2s ease-in-out;
+}
+
+.areaDetails table {
+  background: #ecf0f1;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  transition: all .2s ease-in-out;
+  margin: 4px 4px;
+  padding: -4px -4px;
+
+}
+
+.productType table :hover {
+  -webkit-transform: scale(1.02);
+  -moz-transform: scale(1.02);
+  -ms-transform: scale(1.02);
+  -o-transform: scale(1.02);
+  transform: scale(1.02);
+}
+
+.productType table th .image:hover {
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  transform: scale(1.2);
+}
+
+.areaShops {
+  width: 90%;
+  margin: auto;
+}
+
+.areaShops .name {
+  text-decoration: bold;
+  color: #2980b9;
+}
+
+.areaShops .mobile {
+  text-decoration: bold;
+  color: #7f8c8d;
+}

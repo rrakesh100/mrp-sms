@@ -5,6 +5,8 @@ import 'rc-collapse/assets/index.css';
 import FaEdit from 'react-icons/lib/fa/edit';
 import FaDelete from 'react-icons/lib/fa/trash-o';
 import FaSave from 'react-icons/lib/fa/floppy-o';
+import FaList from 'react-icons/lib/fa/list';
+
 import FaEmptyCircle from 'react-icons/lib/fa/circle-thin';
 import FaSolidCircle from 'react-icons/lib/fa/circle';
 import AddArea from './AddArea';
@@ -107,6 +109,11 @@ class Areas extends Component {
     </Modal>;
   }
 
+  redirectToAreaDetails(areaId, areaKey) {
+    const win = window.open(`areas/${areaId}`, '_blank');
+    win.focus();
+  }
+
   getAreas() {
 
     if(!this.state || !this.state.areas) {
@@ -143,6 +150,7 @@ class Areas extends Component {
           <div className="actions">
             <div className="action" onClick={ this.openEditModal.bind(this, areaKey, areaId) }><FaEdit /></div>
             <div className="action" onClick={ this.openConfirmModal.bind(this, areaKey, areaId) }><FaDelete /></div>
+            <div className="action" onClick={ this.redirectToAreaDetails.bind(this,areaKey, areaId) }><FaList /></div>
           </div>
           <div className="area">
               <ul>

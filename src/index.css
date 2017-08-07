@@ -453,6 +453,10 @@ div.widget-HeaderCell__value {
   cursor: pointer;
 }
 
+.areas .actions .action {
+  margin: 0 8px;
+}
+
 
 .modal-container {
   position: relative;

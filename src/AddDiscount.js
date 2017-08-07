@@ -103,7 +103,7 @@ class AddDiscount extends Component {
         const qntValue = this.state[productType][i].quintals;
         const discountValue = this.state[productType][i].discount;
         discountRows.push(
-          <tr>
+          <tr key={i}>
             <td>
             <input type="text"
               name={qntName}
