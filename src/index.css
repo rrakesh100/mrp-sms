@@ -40,20 +40,20 @@ pre {
 
 .price-list .react-grid-Container {
   min-width: 100% !important;
-  min-height: 1400px;
+  min-height: 800px;
 }
 
 .price-list .react-grid-Main {
-  min-height: 1400px;
+  min-height: 800px;
 }
 
 
 .price-list .react-grid-Canvas {
-  min-height: 1400px !important;
+  min-height: 800px !important;
 }
 
 .price-list .react-grid-Grid {
-  min-height: 1400px !important;
+  min-height: 800px !important;
 }
 
 .control-panel {
@@ -74,7 +74,7 @@ pre {
 }
 
 .react-tab-panel__tab-strip-between--before-active {
-  color: blue;
+  color: #e74c3c;
 }
 
 .ram-panel {
@@ -104,7 +104,7 @@ footer {
 
 .react-tab-panel__tab-title--active {
   font-weight: bold;
-  color: blue;
+  color: #e74c3c;
   font-size: 18px;
   font-weight: bold;
   background: #fffff0;
@@ -193,8 +193,8 @@ footer {
 }
 
 .area li label {
-  color: #db70b8;
-  font-size: 8px;
+  color: #8e44ad;
+  font-size: 14px;
   display: inline-block;
 }
 
@@ -206,7 +206,6 @@ footer {
 .area li input, textarea, select {
   color: #red;
   font-size: 20px;
-  width: 600px;
 }
 
 .area li textarea {
@@ -401,10 +400,16 @@ footer {
   border-radius: 4px;
 }
 
-svg   {
-  color: blue;
+.menu-item svg   {
+  color: #e74c3c;
   margin-left: 8px;
   margin-right: 8px;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: #fff;
+}
+
+.menu-item :hover {
+  color: #4183C4;
 }
 
 label.required:after {
@@ -444,7 +449,7 @@ div.widget-HeaderCell__value {
 }
 
 .action :hover{
-  color: blue;
+  color: #c0392b;
   cursor: pointer;
 }
 
@@ -577,14 +582,14 @@ label.checkGroup {
 
 .item-discount {
   text-align: left;
-  color: blue;
+  color: #2980b9;
   font-size: 12px;
   margin-left: 20px;
 }
 
 .discounts th {
   font-size: 12px;
-  color: blue;
+  color: #2980b9;
 }
 
 .discounts input[type="text"] {
@@ -599,7 +604,7 @@ label.checkGroup {
 .priceList a.active.item {
     border-bottom: 2px;
     border-bottom-style: solid;
-    border-color: #ff99cc;
+    border-color: #16a085;
 }
 
 .ui .comments {

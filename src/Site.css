@@ -2,7 +2,7 @@
   text-align: center;
   height: 40px;
   display: block;
-  background: #ff99cc;
+  background: #16a085;
   padding-top: 10px;
   width: 92%;
   margin-left: 4%;
@@ -20,9 +20,18 @@
   float: right;
   font-size: 14px;
   margin-right: 20px;
-  color: #1E70BF;
+  color: #e74c3c;
   cursor: pointer;
   cursor: hand;
+}
+
+.menu-item a {
+  color: white;
+}
+
+.menu-item a:hover{
+  color: #4183C4;
+  text-shadow: 0 0 2px white;
 }
 
 .Site-page {

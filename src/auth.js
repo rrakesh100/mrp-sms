@@ -27,7 +27,7 @@ const lock = new Auth0Lock(
     },
     theme: {
       logo: 'https://mrps-orderform.firebaseapp.com/adish.png',
-      primaryColor: 'blue',
+      primaryColor: '#16a085',
       labeledSubmitButton: false
     },
     languageDictionary: {

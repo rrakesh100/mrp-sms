@@ -18,7 +18,7 @@ footer {
 .order .detail {
   width: 80%;
   min-width: 600px;
-  border-color: blue;
+  border-color: #2980b9;
 }
 
 .order .update {

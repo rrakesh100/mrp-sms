@@ -117,7 +117,7 @@ class Areas extends Component {
     const self = this;
 
     Object.keys(this.state.areas).forEach( areaKey => {
-      const { areaId, displayName, district, state, lorries, discounts={} } = areasArray[areaKey];
+      const { areaId, displayName, district, state, lorries, discounts={}, priority } = areasArray[areaKey];
       const areaPanelHeader = `${displayName},  ${district},  ${state} - [${areaId}]`;
 
       const discountsArray = [];
@@ -167,6 +167,7 @@ class Areas extends Component {
                   <label>Discounts: </label>
                     { discountsArray }
                 </li>
+                <li><label>Priority: </label> <span>{ priority }</span></li>
               </ul>
           </div>
 

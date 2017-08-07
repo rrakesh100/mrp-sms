@@ -17,7 +17,8 @@ class AddArea extends Component {
       displayName: this.props.displayName || '',
       mode: this.props.mode || 'new',
       lorries: this.props.lorries || [],
-      discounts: this.props.discounts || {}
+      discounts: this.props.discounts || {},
+      priority: this.props.priority || 0,
     };
 
     this.alertOptions = {
@@ -43,7 +44,8 @@ class AddArea extends Component {
       'state': this.state.state,
       'district': this.state.district,
       'lorries' : this.state.lorries,
-      'discounts': this.state.discounts
+      'discounts': this.state.discounts,
+      priority: this.state.priority
     };
 
     let areaRef;
@@ -187,6 +189,18 @@ class AddArea extends Component {
             <label>Discount</label>
             <span>
               <AddDiscount discounts={this.state.discounts} onChange={this.onDiscountsChange.bind(this)}/>
+            </span>
+          </li>
+          <li>
+            <label>Priority</label>
+            <span>
+              <input type="text"
+                name="priority"
+                placeholder="lower numbers appear first"
+                value={ this.state.priority }
+                onChange={ this.updateInputValue.bind(this,'priority') }
+                required>
+              </input>
             </span>
           </li>
           <li>

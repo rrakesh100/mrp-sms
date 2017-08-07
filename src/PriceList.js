@@ -105,15 +105,16 @@ class PriceList extends Component {
           const newRow = {
             area: area.displayName,
             key: area.areaId,
+            priority: area.priority,
             ...rowData
           };
           productTypeRows.push(newRow);
         });
-        rows[productType] = productTypeRows;
+        rows[productType] = productTypeRows.sort((a,b) => {return (a.priority >= b.priority) ? 1 : -1});
       });
 
       this.setState({
-        rows: rows,
+        rows,
         rowsLoading: false
       });
     });
