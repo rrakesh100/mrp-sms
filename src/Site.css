@@ -122,3 +122,17 @@
   text-decoration: bold;
   color: #7f8c8d;
 }
+
+
+.updatesPanel {
+  text-align: center;
+}
+
+.updatesPanel h1 {
+  color: #d35400;
+}
+
+.updatesPanel textarea {
+  font-size: 36px;
+  font-weight: bolder;
+}

@@ -8,7 +8,7 @@ import { Table } from 'reactstrap';
 import classNames from 'classnames';
 import FaEyeClose from 'react-icons/lib/fa/eye-slash';
 import FaEyeOpen from 'react-icons/lib/fa/eye';
-import { Button, Modal, Header, Image } from 'semantic-ui-react'
+import { Button, Modal, Header, Image } from 'semantic-ui-react';
 
 const LOADING = 'loading';
 const ERROR = 'error';
@@ -33,7 +33,7 @@ class Order extends Component {
     };
   }
 
-  show = (dimmer) => () => this.setState({ dimmer, open: true }) 
+  show = (dimmer) => () => this.setState({ dimmer, open: true })
   close = () => this.setState({ open: false })
 
   componentDidMount() {
@@ -153,7 +153,9 @@ class Order extends Component {
             <div className="actionIcons">
               <Button.Group>
                 <Button labelPosition='left' icon='left chevron' content='Previous Order' />
-                <Button icon='edit' content='Updates' onClick={ this.show(true) }/>
+                <a href={ `/order/updates/${orderId}` } target="_blank">
+                  <Button icon='edit' content='Updates' onClick={ this.show(true) }/>
+                </a>
                 <a href={ `/print/${orderId}` } target="_blank">
                   <Button icon='print' content='Print' />
                 </a>
@@ -169,7 +171,6 @@ class Order extends Component {
             { this.renderSpecialMsg(this.state.orderData.orderMsg) }
           </div>
         </div>
-        { this.showUpdatesModal() }
         <footer>© MRP Solutions 2017</footer>
       </div>
     );
@@ -181,21 +182,6 @@ class Order extends Component {
     return true;
   }
 
-  showUpdatesModal() {
-    const { open } = this.state
-
-    return (
-        <Modal open={ open } onClose={ this.close }>
-          <Modal.Header>Updates for order { this.props.params.orderId }</Modal.Header>
-          <Modal.Content scrolling>
-            <OrderUpdate orderId={ this.props.params.orderId }/>
-          </Modal.Content>
-          <Modal.Actions>
-            <Button color='red' onClick={this.close}>Close</Button>
-          </Modal.Actions>
-        </Modal>
-    );
-  }
 }
 
 export default Order;

@@ -11,6 +11,7 @@ import NoMatch from './NoMatch';
 import PriceList from './PriceList';
 import NewPriceList from './NewPriceList';
 import AreaDetails from './AreaDetails';
+import OrderUpdate from './OrderUpdate';
 
 import Users from './Users';
 import User from './User';
@@ -31,6 +32,7 @@ class Main extends Component {
             <Route path="/prices" component={ NewPriceList }/>
             <Route path="/orders" component={ Orders }/>
             <Route path="/order/:orderId" component={ Order }/>
+            <Route path="/order/updates/:orderId" component={ OrderUpdate }/>
             <Route path="/areas/:areaId" component={ AreaDetails }/>
             <Route path="/users" component={ Users }/>
             <Route path="/user/:userId" component={ User }/>

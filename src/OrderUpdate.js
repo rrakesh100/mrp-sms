@@ -37,25 +37,28 @@ class OrderUpdate extends Component {
   }
 
   componentDidMount() {
-    const updatesPath = `orders/${this.props.orderId}/updates`;
+    const updatesPath = `orders/${this.props.params.orderId}/updates`;
     const updatesRef = firebase.database().ref().child(updatesPath);
     updatesRef.on('value', snap => {
       let updateArray = [];
       const updates = snap.val();
-      Object.keys(updates).forEach (updateKey =>{
-        updateArray.push(updates[updateKey]);
-      });
-      this.setState({
-        updates: updateArray
-      });
+      if(updates) {
+        Object.keys(updates).forEach (updateKey =>{
+          updateArray.push(updates[updateKey]);
+        });
+        this.setState({
+          updates: updateArray
+        });
+      }
     });
 
   }
 
 
   saveUpdate() {
+    const that = this;
     const msgType = this.state.msgType;
-    const orderPath = `orders/${this.props.orderId}`;
+    const orderPath = `orders/${this.props.params.orderId}`;
     const orderUpdatesPath = `${orderPath}/updates`;
     const orderStatusPath = `${orderPath}/status`;
     const orderRef = firebase.database().ref().child(orderPath);
@@ -81,17 +84,17 @@ class OrderUpdate extends Component {
 
     orderRef.update(newStatusUpdate, error => {
       if(error) {
-        this.msg.error(<div className="error">Error while updating order <h4>{ this.props.orderId }</h4>: { error.message }</div>, {
+        this.msg.error(<div className="error">Error while updating order <h4>{ this.props.params.orderId }</h4>: { error.message }</div>, {
           time: 2000,
           type: 'error',
         });
       } else {
-        this.msg.success( <div className="success"><h4>{ this.props.orderId }</h4> is Successfully updated!</div>, {
+        this.msg.success( <div className="success"><h4>{ this.props.params.orderId }</h4> is Successfully updated!</div>, {
           time: 2000,
           type: 'success',
         });
-        this.setState({
-            ...this.defaultState
+        that.setState({
+            ...that.defaultState
         });
       }
     });
@@ -184,6 +187,7 @@ class OrderUpdate extends Component {
 
     return (
       <div className="updatesPanel">
+        <h1>Order { this.props.params.orderId } Updates</h1>
         <AlertContainer ref={ a => this.msg = a} {...this.alertOptions} />
           <Comment.Group>
             { this.renderUpdateCards(updates) }
