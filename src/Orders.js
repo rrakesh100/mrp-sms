@@ -145,17 +145,10 @@ class Orders extends Component {
       for(let key in orders){
         let order = orders[key];
         if(order.isSubAgentOrder === true) {
-          console.log('THIS IS SUBAGENT ORDER:' + JSON.stringify(order, null, 2));
           continue;
         }
         let dateTime = new Date(Number(order.time));
-        let formattedDate =
-          dateTime.getDate() + "/" +
-          dateTime.getMonth() + 1 + "/" +
-          dateTime.getFullYear() + " " +
-          dateTime.getHours() + ":" +
-          dateTime.getMinutes() + ":" +
-          dateTime.getSeconds();
+        let formattedDate = dateTime.toLocaleDateString() + ' ' + dateTime.toLocaleTimeString();
 
         tablerows.unshift( {
           orderId: key,
