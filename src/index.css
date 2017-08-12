@@ -371,12 +371,12 @@ footer {
 }
 
 .price-list .react-grid-HeaderRow>div {
-  height: 200px !important;
+  height: 240px !important;
 }
 
 
 .price-list .react-grid-Viewport {
-  top: 200px !important;
+  top: 240px !important;
 }
 
 
@@ -476,7 +476,7 @@ div.widget-HeaderCell__value {
 }
 
 .price-list .react-grid-HeaderRow {
-  height: 200px !important;
+  height: 240px !important;
 }
 
 .pirce-list div.react-grid-HeaderCell {
@@ -493,7 +493,7 @@ div.widget-HeaderCell__value {
   border-style: solid;
   border-right: 1px black;
   border-collapse: collapse;
-  height: 200px !important;
+  height: 240px !important;
 }
 
 .productHeader {
@@ -503,13 +503,13 @@ div.widget-HeaderCell__value {
 .productHeader img {
   position: absolute;
   left: 50%;
-  top: 60%;
+  top: 50%;
   transform: translate(-50%, -50%);
 }
 
 .productHeader .priceType {
   position: absolute;
-  bottom: 5%;
+  top: 70%;
   left: 30%;
   overflow: hidden;
   text-align: center;
@@ -519,9 +519,32 @@ div.widget-HeaderCell__value {
 
 .productHeader .productType {
   position: absolute;
-  top: 0%;
+  top: 2%;
   overflow: hidden;
   text-shadow: 1px 1px 2px white, 1px -1px 2px white, -1px 1px 2px white, -1px -1px 2px white;
+}
+
+.productHeader .priceChange {
+    bottom: 0%;
+    position: absolute;
+    left: 10%;
+}
+
+.productHeader .priceChange svg {
+  font-size: 32px;
+}
+
+.productHeader .priceChange input {
+  width: 90px;
+  height: 35px;
+  padding-bottom: 0px;
+  margin-right: -4px;
+  font-size: 32px;
+}
+
+.productHeader .priceChange a {
+  width: 32px;
+  height: 32px;
 }
 
 
@@ -530,7 +553,7 @@ div.widget-HeaderCell__value {
   border-style: solid;
   border-left: 1px black;
   border-collapse: collapse;
-  height: 200px !important;
+  height: 240px !important;
 }
 
 .price-list .react-grid-Row .react-grid-Cell:nth-child(odd) {

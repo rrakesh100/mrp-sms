@@ -5,6 +5,8 @@ import ObjectAssign from 'object-assign';
 import Button from 'react-button';
 import FaSave from 'react-icons/lib/fa/floppy-o';
 import FaMail from 'react-icons/lib/fa/envelope-o';
+import FaChange from 'react-icons/lib/md/swap-vert';
+
 import AlertContainer from 'react-alert';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
@@ -37,6 +39,7 @@ class PriceList extends Component {
       rowsLoading: true,
       colsLoading: true,
       productType: 'rice',
+      priceChange: {},
       cols: {
         rice: [
           {
@@ -184,6 +187,36 @@ class PriceList extends Component {
     this.setState({ rows });
   }
 
+  handlePriceChange(cellKey) {
+    const productType = this.state.productType;
+    const changeValue = this.state.priceChange[cellKey];
+    if(!changeValue) {
+      return;
+    }
+    let rows = ObjectAssign({},this.state.rows);
+    let productTypeRows = rows[productType].slice();
+
+    for (let i = 0; i < productTypeRows.length; i++) {
+      let rowToUpdate = productTypeRows[i];
+      let updatedRow = ObjectAssign({}, rowToUpdate);
+      if(updatedRow[cellKey]) {
+        updatedRow[cellKey] = parseInt(updatedRow[cellKey]) + parseInt(changeValue);
+      }
+      productTypeRows[i] = updatedRow;
+    }
+    rows[productType] = productTypeRows;
+    this.setState({ rows });
+  }
+
+  updateChangePriceValue(colKey, e) {
+    const changePrice = e.target.value;
+    this.setState({
+      priceChange: {
+        [colKey]: changePrice
+      }
+    });
+  }
+
   getSize() {
     const productType = this.state.productType;
     if(this.state && this.state.rows) {
@@ -311,11 +344,21 @@ class PriceList extends Component {
   renderCustomProduct(productName, priceType, productType, productKey) {
     const imgBaseUrl = `https://mrps-orderform.firebaseapp.com/${productType}_200/`;
     const imgUrl = `${imgBaseUrl}${productKey}.png`;
+    const colKey = `${productKey}$${priceType}`;
     return (
       <div className="productHeader">
         <div className="productType">{ `${productName}` }</div>
         <img  src={imgUrl} alt={productKey} width="100"/>
         <div className="priceType">{ `${priceType}` }</div>
+        <div className="priceChange" key={ colKey }>
+          <input type="number"
+            name="priceChange"
+            placeholder="+/-"
+            value={ this.state.priceChange[colKey] }
+            onChange={ this.updateChangePriceValue.bind(this,colKey) }>
+          </input>
+          <Button onClick={ this.handlePriceChange.bind(this, colKey) } className="priceChangeButton"><FaChange /></Button>
+        </div>
       </div>
     );
   }
