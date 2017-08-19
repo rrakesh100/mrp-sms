@@ -199,6 +199,20 @@ class OrderSheet extends Component {
         });
       }
     });
+
+    const databaseRef = firebase.database().ref().child(orderPath).child('printsCount');
+    databaseRef.transaction((printsCount) => {
+      if(printsCount) {
+        printsCount = printsCount + 1;
+      } else {
+        printsCount = 1;
+      }
+      this.setState({
+        printsCount
+      });
+      return printsCount;
+    });
+
   }
 
 
@@ -268,6 +282,10 @@ class OrderSheet extends Component {
           <tr>
             <td className="key">print time<span>:</span></td>
             <td className="value">{ currentTimeString } ( { delayInHours } hrs later)</td>
+          </tr>
+          <tr>
+            <td className="key">NO OF PRINTS<span>:</span></td>
+            <td className="value">{this.state.printsCount}</td>
           </tr>
         </table>
       </div>

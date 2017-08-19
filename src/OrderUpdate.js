@@ -10,9 +10,11 @@ import './OrderUpdate.css';
 const statusColorMap = {
   'public': 'blue',
   'internal': 'black',
+  'printed': 'yellow',
   'onhold': 'orange',
   'cancelled': 'red',
-  'dispatched': 'green'
+  'dispatched': 'green',
+
 }
 
 
@@ -167,6 +169,11 @@ class OrderUpdate extends Component {
         key: 'public',
         value: 'public',
         text: 'PUBLIC UPDATE'
+      },
+      {
+        key: 'printed',
+        value: 'printed',
+        text: 'ORDER PRINTED'
       },
       {
         key: 'onhold',
