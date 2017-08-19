@@ -167,3 +167,15 @@ footer {
     margin-top: 12px;
     margin-bottom: 24px;
 }
+
+.shop .details .number.red {
+    font-size: 18px;
+    background-color: #e67e22;
+    font-weight: bolder;
+}
+
+.shop .details .number.green {
+    font-size: 18px;
+    background-color: #2ecc71;
+    font-weight: bolder;
+}

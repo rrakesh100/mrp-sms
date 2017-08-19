@@ -27,9 +27,10 @@ class Items extends Component {
                 <td className="name">{item.name}</td>
                 <td className="number">{item.weight}</td>
                 <td className="number">{item.bags}</td>
-                <td className="price">{grossPrice.toFixed(2)}</td>
-                <td className="price">{discount}</td>
-                <td className="price">{item.price.toFixed(2)}</td>
+                <td className="number green">{item.discountedQuintalPrice.toLocaleString('en-IN')}</td>
+                <td className="number">{grossPrice.toLocaleString('en-IN')}</td>
+                <td className="number red">{discount.toLocaleString('en-IN')}</td>
+                <td className="number">{item.price.toLocaleString('en-IN')}</td>
             </tr>
             );
           })
@@ -50,6 +51,7 @@ class Items extends Component {
             <th>Name</th>
             <th>Quintals</th>
             <th>Bags</th>
+            <th>Quintal Price</th>
             <th>Gross Price</th>
             <th>Discount/Qtl</th>
             <th>Net Price</th>
