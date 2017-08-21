@@ -179,3 +179,7 @@ footer {
     background-color: #2ecc71;
     font-weight: bolder;
 }
+
+.order .detail ul.header strong {
+  font-size: 20px;
+}

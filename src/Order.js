@@ -69,7 +69,7 @@ class Order extends Component {
         <div className="details" key={area}>
           <h3>{name}, {city}</h3>
           { this.renderItems(items) }
-          <h4><strong>{totalWeight}</strong> quintals for <strong>₹{totalShopPriceFixed}</strong></h4>
+          <h4><strong>{totalWeight}</strong> quintals for <strong>₹{parseFloat(totalShopPriceFixed).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong></h4>
         </div>
       </div>
     );
@@ -104,10 +104,10 @@ class Order extends Component {
       <div className="cart" style={{textAlign: 'center'}}>
         { shops }
         <div className="summary">
-          <h3>Total Price: <strong>₹{totalPriceFixed}</strong></h3>
-          <h3>Total Discount: <strong>₹{totalDiscount}</strong></h3>
+          <h3>Total Price: <strong>₹{parseFloat(totalPriceFixed).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong></h3>
+          <h3>Total Discount: <strong>₹{parseFloat(totalDiscount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong></h3>
           <h3>Total Order Weight: <strong>{totalWeightInTons}</strong> tons </h3>
-          <h3>Selected Vehicle Capacity: <strong style={{color: weightStatusColor}}>{selectedLorrySize}</strong> tons </h3>
+          <h3>Selected Vehicle Capacity: <strong style={{color: weightStatusColor}}>{ selectedLorrySize }</strong> tons </h3>
           <hr />
       </div>
       </div>
