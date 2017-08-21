@@ -69,6 +69,12 @@
   font-weight: bolder;
   text-align: center;
   margin-bottom: 0px;
+  margin-top: 0px;
+  text-transform: uppercase;
+}
+
+.orderData .orderHeader h3 span {
+  font-size: 8px;
 }
 
 .printPageHeader h5 {
@@ -143,4 +149,14 @@
 }
 .orderData .abstract hr {
   margin-top: 0px;
+}
+
+
+table th {
+  font-size: 12px;
+}
+
+tr.total td {
+  font-size: 16px;
+  font-weight: bolder;
 }

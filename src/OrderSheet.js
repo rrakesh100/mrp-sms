@@ -25,15 +25,15 @@ class OrderSheet extends Component {
   }
 
   renderShop(detail) {
-    const { name, area, city, shopGrossAmount, totalWeight, items} = detail;
+    const { name, area, city, shopGrossAmount, totalWeight, items, mobile, gst} = detail;
     const totalShopPriceNumber = +shopGrossAmount
     const totalShopPriceFixed = totalShopPriceNumber.toFixed(2);
     return (
       <div className="shop" key={ name }>
         <div className="details" key={area}>
-          <h3>{ name }, { city }</h3>
+          <h3>{ name }, { city } GST: { gst ? gst : '___________' }, 📱: { mobile }</h3>
           { this.renderItems(items) }
-          <h4><strong>{totalWeight}</strong> quintals for <strong>₹{totalShopPriceFixed}</strong></h4>
+          <h4><strong>{totalWeight}</strong> quintals for <strong>₹{parseFloat(totalShopPriceFixed).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong></h4>
         </div>
       </div>
     );
@@ -124,24 +124,39 @@ class OrderSheet extends Component {
     const rows = [];
     let totalWeight = 0;
     let totalPrice = 0;
+    let totalBags = 0;
     Object.keys(abstractOrder).map( itemId => {
       const { name, weight, bags, grossPrice, discount, price } = abstractOrder[itemId];
       totalWeight = (+totalWeight) + (+weight);
       totalPrice = (+totalPrice) + (+grossPrice);
+      totalBags = (+totalBags) + (+bags);
+
       rows.push(
         <tr key={ counter }>
           <td scope="row">{ counter++ }</td>
           <td className="name">{ name }</td>
           <td className="number">{ weight }</td>
           <td className="number">{ bags }</td>
-          <td className="price">{ grossPrice }</td>
+          <td className="price">{ parseFloat(grossPrice).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
           <td className="price">{ discount }</td>
-          <td className="price">{ price }</td>
+          <td className="price">{ parseFloat(price).toLocaleString('en-IN', { minimumFractionDigits: 2 }) }</td>
         </tr>
       );
 
     });
     console.log(`TOTAL WEIGHT= ${totalWeight}, TOTAL PRICE= ${totalPrice}`);
+
+    rows.push(
+      <tr key={ counter } className="total">
+        <td scope="row"></td>
+        <td className="name">TOTAL</td>
+        <td className="number">{ totalWeight }</td>
+        <td className="number">{ totalBags }</td>
+        <td className="price"></td>
+        <td className="price"></td>
+        <td className="price"></td>
+      </tr>
+    );
     return rows;
 
   }
@@ -172,8 +187,8 @@ class OrderSheet extends Component {
         <div className="summary">
           <h3>Summary</h3>
           <hr />
-          <p>Total Price: <strong>₹{totalPriceFixed}</strong></p>
-          <p>Total Discount: <strong>₹{totalDiscount}</strong></p>
+          <p>Total Price: <strong>₹{parseFloat(totalPriceFixed).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong></p>
+          <p>Total Discount: <strong>₹{parseFloat(totalDiscount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong></p>
           <p>Total Order Weight: <strong>{totalWeightInTons}</strong> tons </p>
           <p>Selected Vehicle Capacity: <strong style={{color: weightStatusColor}}>{selectedLorrySize}</strong> tons </p>
         </div>
@@ -269,12 +284,9 @@ class OrderSheet extends Component {
 
     return (
       <div className="orderHeader">
+        <h3>{ userName }<span>{`'s Order`}</span></h3>
         <h3>{ orderId }</h3>
         <table>
-          <tr>
-            <td className="key">ordered by <span>:</span></td>
-            <td className="value">{ userName }</td>
-          </tr>
           <tr>
             <td className="key">order time<span>:</span></td>
             <td className="value">{ orderTimeString }</td>
