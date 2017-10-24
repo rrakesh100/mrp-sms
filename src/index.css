@@ -377,6 +377,7 @@ footer {
 
 .price-list .react-grid-Viewport {
   top: 240px !important;
+  overflow-y: scroll !important;
 }
 
 
