@@ -86,19 +86,39 @@
 .areaDetails table {
   background: #ecf0f1;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  transition: all .2s ease-in-out;
   margin: 4px 4px;
   padding: -4px -4px;
-
 }
 
-.productType table :hover {
+.areaDetails table thead {
+  background: #16a085 !important;
+  color: white !important;
+  margin: 20px 20px;
+}
+
+.areaDetails .ui.icon.message {
+  min-width: 400px;
+  width: 30%;
+  margin: auto;
+  color: #e67e22;
+}
+
+.areaDetails .ui.icon.message p {
+  color: black;
+}
+
+.areaDetails h1 strong {
+  color: #3498db;
+}
+
+
+/*.productType table :hover {
   -webkit-transform: scale(1.02);
   -moz-transform: scale(1.02);
   -ms-transform: scale(1.02);
   -o-transform: scale(1.02);
   transform: scale(1.02);
-}
+}*/
 
 .productType table th .image:hover {
   -webkit-transform: scale(1.2);

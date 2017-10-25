@@ -630,9 +630,9 @@ label.checkGroup {
 
 
 .priceList a.active.item {
-    border-bottom: 2px;
-    border-bottom-style: solid;
-    border-color: #16a085;
+  border-bottom: 2px;
+  border-bottom-style: solid;
+  border-color: #16a085;
 }
 
 .ui .comments {

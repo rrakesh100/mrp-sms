@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
-import Button from 'react-button';
+import { Button } from 'semantic-ui-react';
 import outletData from './test.json';
 
 let count = 0;
@@ -15,21 +15,22 @@ class Input extends Component {
         email = row.email,
         pass = row.pass,
         address = row.city,
-        shopName = row.name,
-        proprietorName = row.name,
+        shopName = row.shopName,
+        proprietorName = row.proprietorName,
         shopTin = row.shopTin,
-        shopNumber = '',
+        shopNumber = row.shopNumber,
         street = '',
         areaId = row.areaId,
         areaName = row.areaId,
         district = row.areaId,
-        city =row.city,
+        city = row.city,
         state = row.state || 'AP',
         pincode = '',
-        taxType = 'VAT';
+        taxType = 'GST';
       console.log("Count=" + count++);
       console.log(JSON.stringify(row, null, 2));
       this.createUsers(name, email,pass,address,shopName,proprietorName,shopTin,shopNumber,street,areaId,areaName,district,city,state,pincode,taxType);
+
       //this.deleteUsers(email);
     });
   }
@@ -37,7 +38,7 @@ class Input extends Component {
   render() {
     return  (
       <div>
-        <Button onClick={ this.onClick.bind(this) }>CLICK TO LOAD DATA</Button>
+        <Button primary onClick={ this.onClick.bind(this) }>CLICK TO LOAD DATA</Button>
       </div>
     );
   }
@@ -60,10 +61,11 @@ class Input extends Component {
   	promise.then(function(e) {
 			//get the authId
       var authId=e.uid;
+      console.log('Creating user - ', email);
 
     	//set the authMobilemapping
   		var authIdMobileMapRef = dbRef.child('authMobileMap/' + authId);
-  		authIdMobileMapRef.set(pass);
+  		authIdMobileMapRef.set(shopNumber);
 
       //create the address
 
@@ -79,7 +81,7 @@ class Input extends Component {
   		var shops = [{
       	name: shopName,
       	proprietor_name : proprietorName,
-      	mobile : pass,
+      	mobile : shopNumber,
       	tin : shopTin,
       	state : state,
       	areaId : areaId,
@@ -95,7 +97,7 @@ class Input extends Component {
   			email : email,
   			active: true,
   			name : name ,
-  			mobile : pass,
+  			mobile : shopNumber,
   			isAgent : false,
   			address : address,
   			authId : authId,
@@ -104,7 +106,7 @@ class Input extends Component {
 			};
 
 			//set the user
-  		var usersRef = dbRef.child('users/'+ pass );
+  		var usersRef = dbRef.child('users/'+ shopNumber );
       var promise = usersRef.set(foo);
     }).catch(function(e){
       console.log(e);

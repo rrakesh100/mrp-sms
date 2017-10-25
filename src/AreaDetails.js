@@ -3,6 +3,7 @@ import * as firebase from 'firebase';
 import Spinner from 'react-spinkit';
 import { Table } from 'reactstrap';
 import  Img from 'react-image';
+import { Header, Divider, Message } from 'semantic-ui-react';
 
 
 
@@ -75,12 +76,10 @@ export default class AreaDetails extends Component {
 
     return (
       <div className="areaDetails">
-        <h1>Area: { this.props.params.areaId }</h1>
-        <h2>Prices</h2>
-        <hr />
+        <Header as='h1' block><strong>{ this.props.params.areaId }</strong> area</Header>
+        <Divider horizontal><h2>Prices</h2></Divider>
         { this.renderAreaItemPrices() }
-        <h2>Shops</h2>
-        <hr />
+        <Divider horizontal><h2>Shops</h2></Divider>
         { this.renderAreaShops() }
       </div>
     );
@@ -93,13 +92,13 @@ export default class AreaDetails extends Component {
           <thead>
             <tr>
               <th>#</th>
-              <th>Name</th>
-              <th>Agent Mobile</th>
-              <th>areaName</th>
-              <th>city</th>
-              <th>address</th>
-              <th>district</th>
-              <th>tin</th>
+              <th>NAME</th>
+              <th>AGENT MOBILE</th>
+              <th>AREA NAME</th>
+              <th>CITY</th>
+              <th>ADDRESS</th>
+              <th>DISTRICT</th>
+              <th>GST</th>
             </tr>
           </thead>
           <tbody>
@@ -115,7 +114,7 @@ export default class AreaDetails extends Component {
     if(shopsInArea && shopsInArea.length > 0) {
       return shopsInArea.map( (shop, idx) => {
         return (
-          <tr>
+          <tr key={idx}>
             <td>{ idx }</td>
             <td className="name">{ shop.name }</td>
             <td className="mobile">{ shop.agentId }</td>
@@ -128,23 +127,23 @@ export default class AreaDetails extends Component {
         );
       })
     } else {
-      return <h5> ---- There are no shops in this area --- </h5>
+      return <tr><td>---- There are no shops in this area ---</td></tr>
     }
   }
   renderAreaItemPrices() {
     const { areaData } = this.state;
     const prices = [];
-    if(areaData) {
+    if(areaData && areaData.loading !== 'error') {
       Object.keys(areaData).forEach( productType => {
         prices.push(
-          <div className="productType">
+          <div className="productType" key={productType}>
             <h3>{ productType }</h3>
             <Table bordered>
               <thead>
                 <tr>
-                  <th className="image">Product</th>
-                  <th>Agent Price</th>
-                  <th>Outlet Price</th>
+                  <th className="image">PRODUCT</th>
+                  <th>AGENT PRICE</th>
+                  <th>OUTLET PRICE</th>
                 </tr>
               </thead>
               <tbody>
@@ -154,6 +153,14 @@ export default class AreaDetails extends Component {
           </div>
         );
       });
+    } else {
+      prices.push(
+        <Message
+          icon='settings'
+          header='Prices are not set for this area!'
+          content='Please set prices for this area in the price list page'
+        />
+      );
     }
 
     return prices;
@@ -163,6 +170,9 @@ export default class AreaDetails extends Component {
     const productItem = [];
     Object.keys(products).forEach( item => {
       const imageUrl = `https://mrps-orderform.firebaseapp.com/${productType}_200/${item}.png`
+      const agentPrice = products[item]['Agent'] || 0;
+      const outletPrice = products[item]['Outlet'] || 0;
+
       productItem.push(
         <tr className="productItem" key={item}>
           <td className="image">
@@ -171,8 +181,8 @@ export default class AreaDetails extends Component {
               <Img alt={ item } src={ imageUrl } height={ 100 }/>
             </div>
           </td>
-          <td className="agent">{ products[item]['Agent'] }</td>
-          <td className="outlet">{ products[item]['Outlet'] }</td>
+          <td className="agent">{ parseFloat(agentPrice).toLocaleString('en-IN') }</td>
+          <td className="outlet">{ parseFloat(outletPrice).toLocaleString('en-IN') }</td>
         </tr>
       );
     });
