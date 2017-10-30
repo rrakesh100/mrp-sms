@@ -148,7 +148,7 @@ class Orders extends Component {
           continue;
         }
         let dateTime = new Date(Number(order.time));
-        let formattedDate = dateTime.toLocaleDateString() + ' ' + dateTime.toLocaleTimeString();
+        let formattedDate = dateTime.toLocaleDateString('en-IN') + ' ' + dateTime.toLocaleTimeString('en-IN');
 
         tablerows.unshift( {
           orderId: key,

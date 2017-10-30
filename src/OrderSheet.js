@@ -239,7 +239,7 @@ class OrderSheet extends Component {
 
     const { nickname, name } = userInfo();
     const date = new Date();
-    const timeString  =  date.toLocaleDateString()+ ' - ' + date.toLocaleTimeString();
+    const timeString  =  date.toLocaleDateString('en-IN')+ ' - ' + date.toLocaleTimeString('en-IN');
 
     return (
       <div className="orderData page">
@@ -274,10 +274,10 @@ class OrderSheet extends Component {
     const { time, userName} = this.state.orderData;
     const orderId = this.props.params.orderId;
     const orderDate = new Date(time);
-    const orderTimeString  =  orderDate.toLocaleDateString()+ ' - ' + orderDate.toLocaleTimeString();
+    const orderTimeString  =  orderDate.toLocaleDateString('en-IN')+ ' - ' + orderDate.toLocaleTimeString('en-IN');
 
     const currentDate = new Date();
-    const currentTimeString  =  currentDate.toLocaleDateString()+ ' - ' + currentDate.toLocaleTimeString();
+    const currentTimeString  =  currentDate.toLocaleDateString('en-IN')+ ' - ' + currentDate.toLocaleTimeString('en-IN');
     const delay = Math.abs(currentDate - orderDate) / 36e5;
     const delayInHours = delay.toFixed(2);
 

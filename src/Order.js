@@ -8,7 +8,7 @@ import { Table } from 'reactstrap';
 import classNames from 'classnames';
 import FaEyeClose from 'react-icons/lib/fa/eye-slash';
 import FaEyeOpen from 'react-icons/lib/fa/eye';
-import { Button, Modal, Header, Image } from 'semantic-ui-react';
+import { Button, Modal, Header, Image, Divider } from 'semantic-ui-react';
 
 const LOADING = 'loading';
 const ERROR = 'error';
@@ -104,12 +104,27 @@ class Order extends Component {
       <div className="cart" style={{textAlign: 'center'}}>
         { shops }
         <div className="summary">
-          <h3>Total Price: <strong>₹{parseFloat(totalPriceFixed).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong></h3>
-          <h3>Total Discount: <strong>₹{parseFloat(totalDiscount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong></h3>
-          <h3>Total Order Weight: <strong>{totalWeightInTons}</strong> tons </h3>
-          <h3>Selected Vehicle Capacity: <strong style={{color: weightStatusColor}}>{ selectedLorrySize }</strong> tons </h3>
-          <hr />
-      </div>
+          <Divider />
+          <table className="summary">
+            <tr>
+              <td className="key"><h3>Total Price<span>:</span></h3></td>
+              <td className="value"><strong>₹{parseFloat(totalPriceFixed).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong></td>
+            </tr>
+            <tr>
+              <td className="key"><h3>Total Discount<span>:</span></h3></td>
+              <td className="value"><strong>₹{parseFloat(totalDiscount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong></td>
+            </tr>
+            <tr>
+              <td className="key"><h3>Total Order Weight<span>:</span></h3></td>
+              <td className="value"><strong>{totalWeightInTons}</strong> tons </td>
+            </tr>
+            <tr>
+              <td className="key"><h3>Vehicle Capacity<span>:</span></h3></td>
+              <td className="value"><strong style={{color: weightStatusColor}}>{selectedLorrySize}</strong> tons</td>
+            </tr>
+          </table>
+          <Divider />
+        </div>
       </div>
     );
 
