@@ -5,6 +5,7 @@ import { Table } from 'reactstrap';
 import Auth, { connectProfile, userInfo } from './auth';
 import Items from './Items';
 import './OrderSheet.css';
+import { Divider } from 'semantic-ui-react';
 
 const LOADING = 'loading';
 const ERROR = 'error';
@@ -186,11 +187,26 @@ class OrderSheet extends Component {
         </div>
         <div className="summary">
           <h3>Summary</h3>
-          <hr />
-          <p>Total Price: <strong>₹{parseFloat(totalPriceFixed).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong></p>
-          <p>Total Discount: <strong>₹{parseFloat(totalDiscount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong></p>
-          <p>Total Order Weight: <strong>{totalWeightInTons}</strong> tons </p>
-          <p>Selected Vehicle Capacity: <strong style={{color: weightStatusColor}}>{selectedLorrySize}</strong> tons </p>
+            <Divider />
+            <table className="summary">
+              <tr>
+                <td className="key">Total Price<span>:</span></td>
+                <td className="value"><strong>₹{parseFloat(totalPriceFixed).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong></td>
+              </tr>
+              <tr>
+                <td className="key">Total Discount<span>:</span></td>
+                <td className="value"><strong>₹{parseFloat(totalDiscount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong></td>
+              </tr>
+              <tr>
+                <td className="key">Total Order Weight<span>:</span></td>
+                <td className="value"><strong>{totalWeightInTons}</strong> tons </td>
+              </tr>
+              <tr>
+                <td className="key">Vehicle Capacity<span>:</span></td>
+                <td className="value"><strong style={{color: weightStatusColor}}>{selectedLorrySize}</strong> tons</td>
+              </tr>
+            </table>
+            <Divider />
         </div>
       </div>
     );
