@@ -26,13 +26,13 @@ class OrderSheet extends Component {
   }
 
   renderShop(detail) {
-    const { name, area, city, shopGrossAmount, totalWeight, items, mobile, gst} = detail;
+    const { name, area, city, shopGrossAmount, totalWeight, items, mobile, tin, areaId} = detail;
     const totalShopPriceNumber = +shopGrossAmount
     const totalShopPriceFixed = totalShopPriceNumber.toFixed(2);
     return (
       <div className="shop" key={ name }>
         <div className="details" key={area}>
-          <h3>{ name }, { city } GST: { gst ? gst : '___________' }, 📱: { mobile }</h3>
+          <h3>{ name }, { areaId }, GST: { tin ? tin : '___________' }, 📞: {` ${mobile}`}</h3>
           { this.renderItems(items) }
           <h4><strong>{totalWeight}</strong> quintals for <strong>₹{parseFloat(totalShopPriceFixed).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong></h4>
         </div>
@@ -181,7 +181,7 @@ class OrderSheet extends Component {
     return (
       <div className="cart">
         <div className="shopsDetails">
-          <h3>Orders for Shops</h3>
+          <h3>Orders</h3>
           <hr />
           { shops }
         </div>

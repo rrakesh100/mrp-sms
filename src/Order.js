@@ -61,13 +61,13 @@ class Order extends Component {
   }
 
   renderShop(detail) {
-    const { name, area, city, shopGrossAmount, totalWeight, items} = detail;
+    const { name, area, city, shopGrossAmount, totalWeight, items, areaId, tin, address} = detail;
     const totalShopPriceNumber = +shopGrossAmount
     const totalShopPriceFixed = totalShopPriceNumber.toFixed(2);
     return (
       <div className="shop" key={ name }>
         <div className="details" key={area}>
-          <h3>{name}, {city}</h3>
+          <h3>{name}, <span className="area">{address}</span> GST:<span className="gst">{`  ${tin}`}</span></h3>
           { this.renderItems(items) }
           <h4><strong>{totalWeight}</strong> quintals for <strong>₹{parseFloat(totalShopPriceFixed).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong></h4>
         </div>

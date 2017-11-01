@@ -78,7 +78,6 @@ footer {
 .order .detail h3 {
   text-align: left;
   text-transform: uppercase;
-  padding-bottom: 8px;
   margin-left: 8px;
 }
 
@@ -190,4 +189,12 @@ footer {
 
 .order .detail ul.header strong {
   font-size: 20px;
+}
+
+.order .detail .details h3 span.area {
+  color: #16a085;
+}
+
+.order .detail .details h3 span.gst {
+  color: #16a085;
 }
