@@ -410,6 +410,7 @@ class PriceList extends Component {
         columns={this.state.cols[productType].sort((a,b) => {return (a.priority > b.priority) ? 1 : ((b.priority > a.priority) ? -1 : (a.className === 'outlet' ? 1 : -1));})}
         rowGetter={this.rowGetter.bind(this)}
         rowsCount={this.state.rows[productType].length}
+        minHeight={2000}
         onGridRowsUpdated={this.handleGridRowsUpdated.bind(this)} />
       <Button className="update-button" onClick={ this.updatePrices.bind(this) } theme={ theme } disabled={ false }><FaSave />SAVE</Button>
       <Button className="sms-button" onClick={ this.sendSMS.bind(this) } theme={ theme } disabled={ false }><FaMail />SEND SMS</Button>
