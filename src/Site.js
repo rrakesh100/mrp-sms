@@ -37,22 +37,35 @@ class Site extends Component {
     const { profile } = this.props;
 
     if (profile) {
-      return (
-        <div className="Site-profileControls">
-          <div className="menu-item">
-            <a onClick={() => logout()}><h4><FaLogout />Log Out</h4></a>
+      if(profile.user_metadata && profile.user_metadata.user_type === 'super_admin') {
+        return (
+          <div className="Site-profileControls">
+            <div className="menu-item">
+              <a onClick={() => logout()}><h4><FaLogout />Log Out</h4></a>
+            </div>
+            <div className="menu-item">
+              <Link to="/users"><h4><FaUsers />Users</h4></Link>
+            </div>
+            <div className="menu-item">
+              <Link to="/orders"><h4><FaOrderList />Orders</h4></Link>
+            </div>
+            <div className="menu-item">
+              <Link to="/console"><h4><FaSettings />Settings</h4></Link>
+            </div>
           </div>
-          <div className="menu-item">
-            <Link to="/users"><h4><FaUsers />Users</h4></Link>
+        );
+      } else {
+        return (
+          <div className="Site-profileControls">
+            <div className="menu-item">
+              <a onClick={() => logout()}><h4><FaLogout />Log Out</h4></a>
+            </div>
+            <div className="menu-item">
+              <Link to="/orders"><h4><FaOrderList />Orders</h4></Link>
+            </div>
           </div>
-          <div className="menu-item">
-            <Link to="/orders"><h4><FaOrderList />Orders</h4></Link>
-          </div>
-          <div className="menu-item">
-            <Link to="/console"><h4><FaSettings />Settings</h4></Link>
-          </div>
-        </div>
-      );
+        );
+      }
     } else {
       return (
         <div className="Site-profileControls">
