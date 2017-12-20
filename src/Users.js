@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDataGrid from 'react-data-grid';
 import * as firebase from 'firebase';
 import {Link} from 'react-router';
+import { Button } from 'semantic-ui-react';
 import FaAgent from 'react-icons/lib/fa/group';
 import FaUserDisabled from 'react-icons/lib/fa/user-times';
 import FaUserActive from 'react-icons/lib/fa/user';
@@ -218,6 +219,7 @@ class Users extends Component {
   render() {
     return (
       <div tabTitle="Users" className="order-list">
+        <Link to="/new-user" className="newUserLink">Create new Party</Link>
         <ReactDataGrid
           columns={this._columns}
           rowGetter={this.rowGetter.bind(this)}

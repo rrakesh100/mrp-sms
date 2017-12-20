@@ -638,3 +638,16 @@ label.checkGroup {
 .ui .comments {
   overflow-y: auto;
 }
+
+.ui.form.createUser {
+  margin: auto;
+  width: 80%;
+}
+
+a.newUserLink {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  text-transform: uppercase;
+  font-weight: bolder;
+}
