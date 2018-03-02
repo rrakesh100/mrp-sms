@@ -172,7 +172,6 @@ class User extends Component {
               <h3>OUTLETS</h3>
             </div>
             <div className="sectionBody">
-              { this.renderItems(this.state.userData.shops) }
             </div>
           </div>
           <div className="outlets">
@@ -180,7 +179,6 @@ class User extends Component {
               <h3>ORDERS</h3>
             </div>
             <div className="sectionBody">
-              TO BE DONE LATER
             </div>
           </div>
         </div>

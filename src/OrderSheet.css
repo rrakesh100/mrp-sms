@@ -50,6 +50,11 @@
   margin-bottom: 0px;
 }
 
+.orderData .shopsDetails h3 span.special {
+  font-size: 16px;
+  color: darkblue;
+}
+
 .orderData .shopsDetails .details h3 {
   font-size: 12px;
   margin-bottom: 2px;
@@ -111,6 +116,7 @@
 .orderData .orderHeader table td.value {
   text-align: left;
   font-weight: bold;
+  font-size: 13px;
 }
 
 .orderData .orderHeader table span {

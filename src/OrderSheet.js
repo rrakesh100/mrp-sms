@@ -6,6 +6,8 @@ import Auth, { connectProfile, userInfo } from './auth';
 import Items from './Items';
 import './OrderSheet.css';
 import { Divider } from 'semantic-ui-react';
+import moment from 'moment';
+
 
 const LOADING = 'loading';
 const ERROR = 'error';
@@ -32,7 +34,7 @@ class OrderSheet extends Component {
     return (
       <div className="shop" key={ name }>
         <div className="details" key={area}>
-          <h3>{ name }, { areaId }, GST: { tin ? tin : '___________' }, 📞: {` ${mobile}`}</h3>
+          <h3>{ name }, { areaId }, GST: { tin ? tin : '___________' },<span className="special"> 📞: {` ${mobile}`}, {city}</span></h3>
           { this.renderItems(items) }
           <h4><strong>{totalWeight}</strong> quintals for <strong>₹{parseFloat(totalShopPriceFixed).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong></h4>
         </div>
@@ -294,9 +296,7 @@ class OrderSheet extends Component {
 
     const currentDate = new Date();
     const currentTimeString  =  currentDate.toLocaleDateString('en-IN')+ ' - ' + currentDate.toLocaleTimeString('en-IN');
-    const delay = Math.abs(currentDate - orderDate) / 36e5;
-    const delayInHours = delay.toFixed(2);
-
+    const delayInHours = moment(orderDate).toNow(true)
 
     return (
       <div className="orderHeader">
@@ -309,7 +309,7 @@ class OrderSheet extends Component {
           </tr>
           <tr>
             <td className="key">print time<span>:</span></td>
-            <td className="value">{ currentTimeString } ( { delayInHours } hrs later)</td>
+            <td className="value">{ currentTimeString } ( after { delayInHours })</td>
           </tr>
           <tr>
             <td className="key">NO OF PRINTS<span>:</span></td>
