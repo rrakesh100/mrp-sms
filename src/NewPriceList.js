@@ -6,9 +6,8 @@ import FaSave from 'react-icons/lib/fa/floppy-o';
 import FaMail from 'react-icons/lib/fa/envelope-o';
 import AlertContainer from 'react-alert';
 import classnames from 'classnames';
-import { Button, Menu } from 'semantic-ui-react';
+import { Button, Menu, Loader } from 'semantic-ui-react';
 import './PriceList.css';
-import Spinner from 'react-spinkit';
 
 const columnWidth = 140;
 
@@ -100,7 +99,7 @@ class NewPriceList extends Component {
   renderPriceListTable() {
     const { rowsLoading, colsLoading } = this.state;
     if(rowsLoading || colsLoading) {
-      return <Spinner name='double-bounce' />
+      return <Loader />
     }
 
     const productType = this.state.productType;

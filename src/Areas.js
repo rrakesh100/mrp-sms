@@ -10,7 +10,7 @@ import FaList from 'react-icons/lib/fa/list';
 import FaEmptyCircle from 'react-icons/lib/fa/circle-thin';
 import FaSolidCircle from 'react-icons/lib/fa/circle';
 import AddArea from './AddArea';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button } from 'semantic-ui-react';
 import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
 
 

@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
-import Spinner from 'react-spinkit';
 import Items from './Items';
 import './Order.css';
 import OrderUpdate from './OrderUpdate';
-import { Table } from 'reactstrap';
 import classNames from 'classnames';
 import FaEyeClose from 'react-icons/lib/fa/eye-slash';
 import FaEyeOpen from 'react-icons/lib/fa/eye';
-import { Button, Modal, Header, Image, Divider } from 'semantic-ui-react';
+import { Button, Modal, Header, Image, Divider, Table, Loader } from 'semantic-ui-react';
 
 const LOADING = 'loading';
 const ERROR = 'error';
@@ -133,7 +131,7 @@ class Order extends Component {
   render() {
 
     if(this.state.orderData.loading === LOADING) {
-      return <Spinner spinnerName="double-bounce" />
+      return <Loader />
     }
 
     const { status, time, userName} = this.state.orderData;

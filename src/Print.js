@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import Spinner from 'react-spinkit';
 import { connectProfile } from './auth';
 import './Print.css';
 

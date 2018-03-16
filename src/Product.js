@@ -4,7 +4,7 @@ import FaSolidCircle from 'react-icons/lib/fa/circle';
 import FaClose from 'react-icons/lib/fa/close';
 import FaEdit from 'react-icons/lib/fa/edit';
 import FaDelete from 'react-icons/lib/fa/trash-o';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button } from 'semantic-ui-react';
 import AddProduct from './AddProduct';
 
 

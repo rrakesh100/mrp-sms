@@ -8,11 +8,10 @@ import FaMail from 'react-icons/lib/fa/envelope-o';
 import FaChange from 'react-icons/lib/md/swap-vert';
 
 import AlertContainer from 'react-alert';
-import { Nav, NavItem, NavLink } from 'reactstrap';
+import { Menu, Loader } from 'semantic-ui-react'
+
 import classnames from 'classnames';
 import './PriceList.css';
-import Spinner from 'react-spinkit';
-
 
 
 const columnWidth = 140;
@@ -372,36 +371,21 @@ class PriceList extends Component {
 
     const { rowsLoading, colsLoading } = this.state;
     if(rowsLoading || colsLoading) {
-      return <Spinner name='double-bounce' />
+      return <Loader />
     }
 
     const productType = this.state.productType;
 
     return <div>
       <AlertContainer ref={ a => this.msg = a} {...this.alertOptions} />
-      <Nav tabs>
-        <NavItem>
-          <NavLink
-            className={classnames({ active: this.state.productType === 'rice' })}
-            onClick={() => { this.changeProductType('rice'); }}>
-            RICE
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink
-            className={classnames({ active: this.state.productType === 'ravva' })}
-            onClick={() => { this.changeProductType('ravva'); }}>
-            RAVVA
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink
-            className={classnames({ active: this.state.productType === 'broken' })}
-            onClick={() => { this.changeProductType('broken'); }}>
-            BROKEN
-          </NavLink>
-        </NavItem>
-      </Nav>
+
+      <Menu >
+        <Menu.Item name='rice' active={this.state.productType === 'rice'} onClick={() => { this.changeProductType('rice'); }} />
+        <Menu.Item name='ravva' active={this.state.productType === 'ravva'} onClick={() => { this.changeProductType('ravva'); }} />
+        <Menu.Item name='broken' active={this.state.productType === 'broken'} onClick={() => { this.changeProductType('broken'); }} />
+      </Menu>
+
+
       <p><span style={ {color: '#ecf2f9' } }>██ </span> is agent price. <span style={ {color: '#fff7e6' } }>██ </span> is outlet price </p>
       <p>Double click on the price to change</p>
 

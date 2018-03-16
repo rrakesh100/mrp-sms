@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
-import Spinner from 'react-spinkit';
 import ObjectAssign from 'object-assign';
-import { Table } from 'reactstrap';
+import { Table, Loader } from 'semantic-ui-react';
+
 import classNames from 'classnames';
 import Collapse, { Panel } from 'rc-collapse-icon';
 import FaUserDisable from 'react-icons/lib/fa/user-times';
@@ -132,7 +132,7 @@ class User extends Component {
   render() {
 
     if(this.state.userData.loading === LOADING) {
-      return <Spinner spinnerName="double-bounce" />
+      return <Loader />
     }
 
     const { active, mobile, name} = this.state.userData;

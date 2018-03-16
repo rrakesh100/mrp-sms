@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ObjectAssign from 'object-assign';
-import { Button } from 'react-bootstrap';
+import { Button } from 'semantic-ui-react';
 import FaSave from 'react-icons/lib/fa/floppy-o';
 
 class AddDiscount extends Component {

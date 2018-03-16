@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
-import Spinner from 'react-spinkit';
-import { Table } from 'reactstrap';
 import Auth, { connectProfile, userInfo } from './auth';
 import Items from './Items';
 import './OrderSheet.css';
-import { Divider } from 'semantic-ui-react';
+import { Divider, Table, Loader } from 'semantic-ui-react';
 import moment from 'moment';
 
 
@@ -252,7 +250,7 @@ class OrderSheet extends Component {
   render() {
 
     if(this.state.orderData.loading === LOADING) {
-      return <Spinner spinnerName="ball-scale-multiple" />
+      return <Loader />
     }
 
     const { nickname, name } = userInfo();

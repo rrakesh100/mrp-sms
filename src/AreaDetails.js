@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
-import Spinner from 'react-spinkit';
-import { Table } from 'reactstrap';
 import  Img from 'react-image';
-import { Header, Divider, Message } from 'semantic-ui-react';
+import { Header, Divider, Message, Table, Loader } from 'semantic-ui-react';
 
 
 
@@ -71,7 +69,7 @@ export default class AreaDetails extends Component {
   render() {
 
     if(this.state.areaData.loading === LOADING) {
-      return <Spinner spinnerName="double-bounce" />
+      return <Loader spinnerName="double-bounce" />
     }
 
     return (

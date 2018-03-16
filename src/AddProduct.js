@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button } from 'semantic-ui-react';
 import * as firebase from 'firebase';
 import AlertContainer from 'react-alert';
 
