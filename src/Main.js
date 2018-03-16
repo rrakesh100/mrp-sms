@@ -11,6 +11,8 @@ import NoMatch from './NoMatch';
 import PriceList from './PriceList';
 import AreaDetails from './AreaDetails';
 import OrderUpdate from './OrderUpdate';
+import Feedback from './Feedback';
+import Poster from './Poster';
 
 import Users from './Users';
 import User from './User';
@@ -43,6 +45,8 @@ class Main extends Component {
           </Route>
         </Route>
         <Route component={ Print }>
+          <Route path="/fb/:gst" component={ Feedback }/>
+          <Route path="/poster/:gst" component={ Poster }/>
           <Route onEnter={requireAuth}>
             <Route path="/print/:orderId" component={ OrderSheet }/>
           </Route>
