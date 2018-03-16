@@ -754,6 +754,10 @@ a.newUserLink {
   padding-top: 40%;
 }
 
+.feedback button.ui.fluid.primary.button {
+  margin-top: 10px;
+}
+
 /* .feedback  .qrcode  canvas {
   height: 512px !important;
   width: 512px !important;

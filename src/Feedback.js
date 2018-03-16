@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import moment from 'moment';
-import { Button, Form, Message, Divider, Loader } from 'semantic-ui-react';
+import { Button, Form, Message, Divider, Loader, Rating } from 'semantic-ui-react';
 
 
 const LOADING = 'loading';
@@ -60,8 +60,8 @@ class Feedback extends Component {
     const dateStr = moment(date).format('DD-MM-YYYY');
     const dbRef = firebase.database().ref();
     const newPostKey = dbRef.child(`gstFeedback/${gst}/${dateStr}`).push().key;
-    const { name, mobile, product, feedback } = this.state;
-    const data = { ...this.state.shopInfo, date, name, mobile, product, feedback };
+    const { name, mobile, product, feedback, rating } = this.state;
+    const data = { ...this.state.shopInfo, date, name, mobile, product, feedback, rating };
 
     const updates = {};
     updates[`gstFeedback/${gst}/${dateStr}/${newPostKey}`] = data;
@@ -72,6 +72,12 @@ class Feedback extends Component {
           submitted: true
         })
       );
+  }
+
+  updateRating(e,d) {
+    this.setState({
+      rating: d.rating
+    });
   }
 
 
@@ -108,6 +114,7 @@ class Feedback extends Component {
           <Form.Input label='MOBILE' placeholder='mobile' onChange={ this.updateInputValue.bind(this,'mobile') }  error={!this.state.mobile}/>
           <Form.Input label='PRODUCT' placeholder='Product' onChange={ this.updateInputValue.bind(this,'product') }  error={!this.state.product}/>
           <Form.TextArea label='FEEDBACK' placeholder='feedback' onChange={ this.updateInputValue.bind(this,'feedback') }  error={!this.state.product}/>
+          <Rating maxRating={5} icon='star' size='massive' onRate={ this.updateRating.bind(this) }/>
           <Button primary fluid onClick={ () => { this.submitFeedback() }}>SUBMIT</Button>
 
         </Form>
