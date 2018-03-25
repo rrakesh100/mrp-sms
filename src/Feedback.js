@@ -108,6 +108,7 @@ class Feedback extends Component {
           <h2>{shopName}</h2>
           <h2>{city !== 'None' ? `${city},` : ''} {district}</h2>
           <h5>We solicit your feedback on Lalitha Products</h5>
+          <Divider />
         </div>
         <Form as="div" success error warning>
           <Form.Input label='NAME' placeholder='Name' onChange={ this.updateInputValue.bind(this,'name') }  error={!this.state.name}/>
