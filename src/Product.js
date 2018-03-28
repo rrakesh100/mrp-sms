@@ -67,16 +67,16 @@ class Product extends Component {
 
   getConfirmModal() {
     const { productType, productKey } = this.props;
-    return <Modal show={this.state.showConfirmModal} onHide={this.closeConfirmModal.bind(this)}>
+    return <Modal open={this.state.showConfirmModal} onClose={this.closeConfirmModal.bind(this)} closeIcon>
       <Modal.Header closeButton>
-        <Modal.Title>Delete { productType } item  {productKey}?</Modal.Title>
+        Delete { productType } item  {productKey}?
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Content scrollable>
         <p>Are you sure you want to delete product <bold>{ productType } item  {productKey}</bold>?</p>
-      </Modal.Body>
-      <Modal.Footer>
+      </Modal.Content>
+      <Modal.Actions>
         <Button onClick={ this.onDeleteProduct.bind(this) }>Delete Product</Button>
-      </Modal.Footer>
+      </Modal.Actions>
     </Modal>;
   }
 
@@ -87,13 +87,13 @@ class Product extends Component {
 
     const { productType, productKey } = this.props;
 
-    return <Modal show={this.state.showEditModal} onHide={ this.closeEditModal.bind(this) } bsSize="lg">
+    return <Modal open={this.state.showEditModal} onClose={ this.closeEditModal.bind(this) } size="large" closeIcon>
       <Modal.Header closeButton>
-        <Modal.Title>Edit { productType } item { productKey }?</Modal.Title>
+        Edit { productType } item { productKey }?
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Content scrollable>
         <AddProduct productType={ productType } productKey={ productKey } mode={ 'edit' } { ...this.state.data } onClose={ this.closeEditModal.bind(this) } />
-      </Modal.Body>
+      </Modal.Content>
     </Modal>;
   }
 

@@ -80,16 +80,16 @@ class Areas extends Component {
 
   getConfirmModal() {
     const { areaKey, areaId } = this.state;
-    return <Modal show={this.state.showConfirmModal} onHide={this.closeConfirmModal.bind(this)}>
+    return <Modal show={this.state.showConfirmModal} onHide={this.closeConfirmModal.bind(this)} closeIcon>
       <Modal.Header closeButton>
         <Modal.Title>Delete { areaId } area?</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Content>
         <p>Are you sure you want to delete area <bold>{ areaId }</bold>?</p>
-      </Modal.Body>
-      <Modal.Footer>
+      </Modal.Content>
+      <Modal.Actions>
         <Button onClick={this.onDeleteArea.bind(this, areaKey, areaId)}>Delete</Button>
-      </Modal.Footer>
+      </Modal.Actions>
     </Modal>;
   }
 
@@ -99,13 +99,13 @@ class Areas extends Component {
       return;
     }
     const areaData = this.state.areas[areaKey];
-    return <Modal show={this.state.showEditModal} onHide={ this.closeEditModal.bind(this) } bsSize="lg">
+    return <Modal  open={this.state.showEditModal} onClose={ this.closeEditModal.bind(this) } size="large" closeIcon>
       <Modal.Header closeButton>
-        <Modal.Title>Edit { areaId } area?</Modal.Title>
+        <Modal.Header>Edit { areaId } area?</Modal.Header>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Content scrolling image>
         <AddArea areaKey={ areaKey } mode={ 'edit' } { ...areaData } onClose={ this.closeEditModal.bind(this) } />
-      </Modal.Body>
+      </Modal.Content>
     </Modal>;
   }
 
