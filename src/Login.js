@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
-import { login}  from './auth';
+import { login } from './Authorization';
+
 import './Login.css';
 
 class Login extends Component {
+
   componentWillMount() {
-    this.login = login();
+    this.login =login();
   }
 
   componentWillUnmount() {
-    this.login.hide();
-    this.login = null;
+    // this.login.hide();
+    // this.login = null;
   }
 
   render() {
     return (
       <div className="Login">
-        <a className="Login-loginButton" onClick={() => login()}></a>
+        <a className="Login-loginButton" onClick={() => this.login()}></a>
       </div>
     );
   }

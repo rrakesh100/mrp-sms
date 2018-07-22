@@ -34,10 +34,9 @@ class Site extends Component {
   }
 
   renderUserControls() {
-    const { profile } = this.props;
+    const { profile } = window.localStorage;
 
     if (profile) {
-      if(profile.user_metadata && profile.user_metadata.user_type === 'super_admin') {
         return (
           <div className="Site-profileControls">
             <div className="menu-item">
@@ -54,18 +53,18 @@ class Site extends Component {
             </div>
           </div>
         );
-      } else {
-        return (
-          <div className="Site-profileControls">
-            <div className="menu-item">
-              <a onClick={() => logout()}><h4><FaLogout />Log Out</h4></a>
-            </div>
-            <div className="menu-item">
-              <Link to="/orders"><h4><FaOrderList />Orders</h4></Link>
-            </div>
-          </div>
-        );
-      }
+      // } else {
+      //   return (
+      //     <div className="Site-profileControls">
+      //       <div className="menu-item">
+      //         <a onClick={() => logout()}><h4><FaLogout />Log Out</h4></a>
+      //       </div>
+      //       <div className="menu-item">
+      //         <Link to="/orders"><h4><FaOrderList />Orders</h4></Link>
+      //       </div>
+      //     </div>
+      //   );
+      // }
     } else {
       return (
         <div className="Site-profileControls">

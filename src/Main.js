@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Router, Route, browserHistory } from 'react-router';
-import { requireAuth } from './auth';
+import { requireAuth } from './Authorization';
 import Site from './Site';
 import Home from './Home';
 import Login from './Login';
+import CallBack from './CallBack';
 import App from './App';
 import Orders from './Orders';
 import Order from './Order';
@@ -29,6 +30,7 @@ class Main extends Component {
         <Route component={ Site }>
           <Route path="/" component={ Home }/>
           <Route path="/login" component={ Login }/>
+          <Route path="/callback" component={ CallBack }/>
           <Route onEnter={requireAuth}>
             {/* Place all authenticated routes here */}
             <Route path="/console" component={ App }/>

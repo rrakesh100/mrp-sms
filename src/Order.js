@@ -7,7 +7,6 @@ import classNames from 'classnames';
 import FaEyeClose from 'react-icons/lib/fa/eye-slash';
 import FaEyeOpen from 'react-icons/lib/fa/eye';
 import { Button, Modal, Header, Image, Divider, Table, Loader } from 'semantic-ui-react';
-
 const LOADING = 'loading';
 const ERROR = 'error';
 

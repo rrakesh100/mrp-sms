@@ -3,7 +3,6 @@ import ReactDataGrid from 'react-data-grid';
 import * as firebase from 'firebase';
 import {Link} from 'react-router';
 import './Orders.css';
-
 const { Toolbar, Filters: { NumericFilter, AutoCompleteFilter }, Data: { Selectors } } = require('react-data-grid-addons');
 
 //TODO
