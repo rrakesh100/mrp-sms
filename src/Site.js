@@ -34,9 +34,9 @@ class Site extends Component {
   }
 
   renderUserControls() {
-    const { profile } = window.localStorage;
+    const { access_token } = window.localStorage;
 
-    if (profile) {
+    if (access_token) {
         return (
           <div className="Site-profileControls">
             <div className="menu-item">
