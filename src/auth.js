@@ -63,7 +63,8 @@ export function login(options) {
 }
 
 export function userInfo() {
-  const { nickname, name } = getProfile();
+  let nickname = window.localStorage.nickname || 'N/A';
+  let name = window.localStorage.name || 'N/A';
   return {
     nickname,
     name

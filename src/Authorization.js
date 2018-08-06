@@ -15,7 +15,7 @@ const authZero = new auth0.WebAuth({
     redirectUri: `${window.location.origin}${CALLBACK_ROUTE}`,
     audience: 'https://mrpsolutions.auth0.com/userinfo',
     responseType: 'token id_token',
-    scope: 'openid'
+    scope: 'openid profile'
   });
 
 
@@ -28,6 +28,9 @@ export function  login() {
 export function  handleAuthentication() {
     authZero.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
+        authZero.client.userInfo(authResult.accessToken, function(err, user) {
+                console.log('################', user);
+        });
         setSession(authResult);
         browserHistory.push(ROOT_ROUTE);
       } else if (err) {
@@ -46,6 +49,20 @@ export function  setSession(authResult) {
    localStorage.setItem('expires_at', expiresAt);
    // navigate to the home route
    browserHistory.push(ROOT_ROUTE);
+    // let authU = new auth0.WebAuth({
+    //    domain: 'mrpsolutions.auth0.com',
+    //    clientID: '7LVpFi0JPkfRCzqNoVpbG8Lvpkq9Fa6C',
+    //    redirectUri: `${window.location.origin}${CALLBACK_ROUTE}`,
+    //    audience: 'https://mrpsolutions.auth0.com/userinfo',
+    //    scope: 'openid profile',
+    //    responseType: 'token id_token'
+    //  });
+
+
+   authZero.client.userInfo(authResult.accessToken, function(err, user) {
+       localStorage.setItem('name', user.name);
+       localStorage.setItem('nickname', user.nickname);
+    });
   }
 
 export function  logout() {
