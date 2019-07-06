@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import ObjectAssign from 'object-assign';
-import { Table, Loader } from 'semantic-ui-react';
-
+import { Table, Loader, Button, Checkbox, Icon,Header, Image, Modal} from 'semantic-ui-react';
 import classNames from 'classnames';
 import Collapse, { Panel } from 'rc-collapse-icon';
 import FaUserDisable from 'react-icons/lib/fa/user-times';
@@ -10,7 +9,8 @@ import FaUserEnable from 'react-icons/lib/fa/user-plus';
 import Outlet from './Outlet';
 import AddOutlet from './AddOutlet';
 import './User.css';
-
+import Collapsible from 'react-collapsible';
+import AddShop from './AddShop';
 
 
 const LOADING = 'loading';
@@ -82,7 +82,10 @@ class User extends Component {
     this.state = {
       userData: {
         loading: LOADING
-      }
+      },
+      renderShopsTable: false,
+      expandedRows : [],
+      addShop: false
     };
   }
 
@@ -129,6 +132,88 @@ class User extends Component {
     })
   }
 
+    renderExpandedData(item) {
+      return (
+        <Table size='large' striped>
+    <Table.Body>
+      <Table.Row>
+        <Table.Cell>SHOP NAME</Table.Cell>
+        <Table.Cell>{item.name}</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>PROPRIETOR NAME</Table.Cell>
+        <Table.Cell>{item.proprietor_name}</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>AREA ID</Table.Cell>
+        <Table.Cell>{item.areaId}</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>AREA NAME</Table.Cell>
+        <Table.Cell>{item.areaName}</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>CITY</Table.Cell>
+        <Table.Cell>{item.city}</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>DISTRICT</Table.Cell>
+        <Table.Cell>{item.district}</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>TAX TYPE</Table.Cell>
+        <Table.Cell>{item.taxType}</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>MOBILE</Table.Cell>
+        <Table.Cell>{item.mobile}</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>STATE</Table.Cell>
+        <Table.Cell>{item.state}</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>TIN</Table.Cell>
+        <Table.Cell>{item.tin}</Table.Cell>
+      </Table.Row>
+    </Table.Body>
+  </Table>
+      )
+    }
+
+  renderItem(item) {
+       return (
+         <Collapse  key={"row-expanded-" + item.id}>
+           <Panel header={item.name}>
+               {this.renderExpandedData(item)}
+           </Panel>
+         </Collapse>
+       );
+   }
+
+  renderShops() {
+    const {userData, renderShopsTable}=this.state;
+    let allItemRows = [];
+
+       userData.shops && userData.shops.forEach(item => {
+           const perItemRows = this.renderItem(item);
+           allItemRows = allItemRows.concat(perItemRows);
+       });
+
+       return (
+         <div>
+			     <div>{allItemRows}</div>
+           {renderShopsTable &&
+            <Modal trigger={<Button color='teal'>Add Shop</Button>} centered={false}>
+             <Modal.Header>Add Shop</Modal.Header>
+             <Modal.Content>
+               <AddShop userId={this.props.params.userId} />
+             </Modal.Content>
+           </Modal>}
+        </div>
+        );
+  }
+
   render() {
 
     if(this.state.userData.loading === LOADING) {
@@ -168,10 +253,11 @@ class User extends Component {
               </ul>
           </div>
           <div className="outlets">
-            <div className="sectionHeader">
-              <h3>OUTLETS</h3>
+            <div className="sectionHeader" onClick={() => this.setState({renderShopsTable:true})}>
+              <h3>SHOPS</h3>
             </div>
             <div className="sectionBody">
+            {this.state.renderShopsTable ? this.renderShops() : null}
             </div>
           </div>
           <div className="outlets">
