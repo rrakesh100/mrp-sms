@@ -142,7 +142,19 @@ class User extends Component {
       </Table.Row>
       <Table.Row>
         <Table.Cell>PROPRIETOR NAME</Table.Cell>
-        <Table.Cell>{item.proprietor_name}</Table.Cell>
+        <Table.Cell>{item.proprietorName}</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>MOBILE</Table.Cell>
+        <Table.Cell>{item.mobile}</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>TIN</Table.Cell>
+        <Table.Cell>{item.tin}</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>GST</Table.Cell>
+        <Table.Cell>{item.gst}</Table.Cell>
       </Table.Row>
       <Table.Row>
         <Table.Cell>AREA ID</Table.Cell>
@@ -151,6 +163,14 @@ class User extends Component {
       <Table.Row>
         <Table.Cell>AREA NAME</Table.Cell>
         <Table.Cell>{item.areaName}</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>Address</Table.Cell>
+        <Table.Cell>{item.address}</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>STREET</Table.Cell>
+        <Table.Cell>{item.street}</Table.Cell>
       </Table.Row>
       <Table.Row>
         <Table.Cell>CITY</Table.Cell>
@@ -165,16 +185,8 @@ class User extends Component {
         <Table.Cell>{item.taxType}</Table.Cell>
       </Table.Row>
       <Table.Row>
-        <Table.Cell>MOBILE</Table.Cell>
-        <Table.Cell>{item.mobile}</Table.Cell>
-      </Table.Row>
-      <Table.Row>
         <Table.Cell>STATE</Table.Cell>
         <Table.Cell>{item.state}</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>TIN</Table.Cell>
-        <Table.Cell>{item.tin}</Table.Cell>
       </Table.Row>
     </Table.Body>
   </Table>
@@ -183,7 +195,7 @@ class User extends Component {
 
   renderItem(item) {
        return (
-         <Collapse  key={"row-expanded-" + item.id}>
+         <Collapse  key={"row-expanded-" + item.mobile}>
            <Panel header={item.name}>
                {this.renderExpandedData(item)}
            </Panel>
@@ -194,22 +206,26 @@ class User extends Component {
   renderShops() {
     const {userData, renderShopsTable}=this.state;
     let allItemRows = [];
+    console.log("#######" , userData.shops);
 
        userData.shops && userData.shops.forEach(item => {
            const perItemRows = this.renderItem(item);
            allItemRows = allItemRows.concat(perItemRows);
        });
 
+       console.log("#######" , allItemRows);
+
+
        return (
          <div>
 			     <div>{allItemRows}</div>
-           {renderShopsTable &&
-            <Modal trigger={<Button color='teal'>Add Shop</Button>} centered={false}>
-             <Modal.Header>Add Shop</Modal.Header>
-             <Modal.Content>
-               <AddShop userId={this.props.params.userId} />
-             </Modal.Content>
-           </Modal>}
+           <Modal trigger={<Button color='teal'>Add Shop</Button>} centered={false}>
+            <Modal.Header>Add Shop</Modal.Header>
+            <Modal.Content>
+              <AddShop userId={this.props.params.userId} />
+            </Modal.Content>
+          </Modal>
+           {renderShopsTable}
         </div>
         );
   }

@@ -18,7 +18,6 @@ class AddShop extends Component {
       mobile: this.props.mobile || '',
       pan: this.props.pan || '',
       taxType : this.props.taxType || '',
-      shopNumber: this.props.shopNumber || '',
       street: this.props.street || '',
       cityName: this.props.cityName || '',
       area: this.props.area || '',
@@ -41,55 +40,81 @@ class AddShop extends Component {
   }
 
 
+  componentDidMount() {
+    const areasPath = `areas`;
+    const areasRef = firebase.database().ref().child(areasPath);
+    areasRef.once('value', snap => {
+      console.log(snap.val());
+  //  this.setState(areasObj : snap.val());
+    })
+
+  }
+
+
   saveShop() {
+    let areaId = this.state.area;
+
     const newShopData = {
       'name': this.state.name,
       'proprietorName': this.state.proprietorName,
       'mobile': this.state.mobile,
       'pan': this.state.pan,
+      'tin': this.state.tin,
       'taxType' : this.state.taxType,
       'shopNumber': this.state.shopNumber,
       'street': this.state.street,
-      'cityName': this.state.cityName,
-      'area': this.state.area,
+      'city': this.state.cityName,
+      'areaId': this.state.area,
       'pin': this.state.pin,
+      'areaName' : this.state.areasObj[areaId].displayName,
+      'district' :  this.state.areasObj[areaId].district,
+      'state' :  this.state.areasObj[areaId].state,
+      'address': this.state.shopnumber + " ; " +
+          this.state.street + " ; " +
+          this.state.city + " ; " +
+          this.state.areasObj[areaId].displayName + " ; " +
+          this.state.areasObj[areaId].district + " ; " +
+          this.state.areasObj[areaId].state  + "; " +
+          this.state.pin
+
     };
 
+
+
     let shopRef;
-    const shopsRefPath = `users/${this.state.userId}`;
+    const shopsRefPath = `users/${this.state.userId}/shops`;
     if(this.state.mode === 'edit') {
       console.log("UPDATING shop " + this.state.userId );
-      shopRef = firebase.database().ref().child(shopsRefPath);
+    //  shopRef = firebase.database().ref().child(shopsRefPath);
 
-    } else {
+    }else {
       console.log("SAVING shop " + this.state.userId);
       shopRef = firebase.database().ref().child(shopsRefPath);
     }
 
     console.log(shopRef);
 
-    shopRef.set(newShopData, error => {
-      if(error) {
-        this.msg.error(<div className="error">Error while saving Area <h4>{ this.state.name }</h4>: { error.message }</div>, {
-          time: 2000,
-          type: 'error',
-        });
-      } else {
-        this.msg.success( <div className="success"><h4>Shop { this.state.name }</h4> is Successfully Saved</div>, {
+    let ref=this;
+
+    shopRef.transaction(function(shops){
+              shops=shops||[];
+              shops.push(newShopData);
+              return shops;
+    }, function(success) {
+        ref.msg.success( <div className="success"><h4>Shop { ref.state.name }</h4> is Successfully Saved</div>, {
           time: 2000,
           type: 'success',
         });
 
-
-        if(this.state.mode === 'edit') {
-          this.props.onClose();
+        if(ref.state.mode === 'edit') {
+          ref.props.onClose();
         } else {
-          this.setState({
-            ...this.defaultState
+          ref.setState({
+            ...ref.defaultState
           });
         }
       }
-    });
+     );
   }
 
   updateInputValue(field, event) {
@@ -161,17 +186,29 @@ class AddShop extends Component {
             </span>
           </li>
           <li>
-            <label>Tax Type</label>
+            <label>TIN</label>
             <span>
-              <select value={ this.state.taxType } style={{width: '100%'}}
-                onChange={this.updateInputValue.bind(this,'taxType')}>
-                <option value="none">None</option>
-                <option value="vat">VAT</option>
-                <option value="cst">CST</option>
-                <option value="gst">GST</option>
-              </select>
+              <input type="text"
+                name="tin"
+                placeholder="Tin Number"
+                value={ this.state.tin }
+                onChange={ this.updateInputValue.bind(this,'tin') }
+                required>
+              </input>
             </span>
           </li>
+          <li>
+            <label>GST Number</label>
+            <span>
+              <input type="text"
+                name="gst"
+                placeholder="GST Number"
+                value={ this.state.gst }
+                onChange={ this.updateInputValue.bind(this,'gst') }>
+              </input>
+            </span>
+          </li>
+
           </ul>
 
           <ul>

@@ -27,7 +27,7 @@ class Items extends Component {
                 <td className="name">{item.name}</td>
                 <td className="number">{item.weight}</td>
                 <td className="number">{item.bags}</td>
-                <td className="number green">{item.discountedQuintalPrice.toLocaleString('en-IN')}</td>
+                <td className="number green">{item.discountedQuintalPrice ? item.discountedQuintalPrice.toLocaleString('en-IN') : item.quintalWeightPrice }</td>
                 <td className="number">{grossPrice.toLocaleString('en-IN')}</td>
                 <td className="number red">{discount.toLocaleString('en-IN')}</td>
                 <td className="number">{item.price.toLocaleString('en-IN')}</td>
