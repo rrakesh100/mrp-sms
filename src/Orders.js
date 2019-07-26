@@ -136,6 +136,42 @@ class Orders extends Component {
   }
 
   componentDidMount() {
+    //code to add allowed areas
+
+    // console.log('###################');
+    // const shopsRef = this.data.dbRef.child('users');
+    // shopsRef.once('value', data => {
+    // //  console.log(data.val());
+    //   let usersObj = data.val();
+    //   let keys = Object.keys(usersObj);
+    //   keys.map(k => {
+    //     console.log('key = = ', k);
+    //     if(usersObj[k].shops) {
+    //       //console.log('value # # ',  usersObj[k].shops);
+    //       let allShops = usersObj[k].shops;
+    //       let allAreas=[];
+    //       Object.keys(allShops).map(index => {
+    //       //  console.log('shop = =', allShops[index]);
+    //         allAreas.push(allShops[index].areaId);
+    //       })
+    //       let unique = allAreas.filter((v, i, a) => a.indexOf(v) === i);
+    //     //  console.log('all unique areas = = = ', unique);
+    //       let areasObj = {};
+    //       unique.forEach((item,index) => {
+    //       //  console.log(index, item);
+    //         areasObj[index]=item;
+    //       })
+    //       console.log('areas = = ', areasObj);
+    //       const areasRef = this.data.dbRef.child('users/' + k +   '/allowedAreas');
+    //       areasRef.set(areasObj);
+    //
+    //
+    //
+    //     }
+    //
+    //   })
+    // });
+
     const that = this;
     const ordersRef = this.data.dbRef.child('orders');
     ordersRef.orderByChild('priority').limitToFirst(100).on('value', snapshot => {
