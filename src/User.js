@@ -11,6 +11,8 @@ import AddOutlet from './AddOutlet';
 import './User.css';
 import Collapsible from 'react-collapsible';
 import AddShop from './AddShop';
+import AddAllowedArea from './AddAllowedArea';
+import {Link} from 'react-router';
 
 
 const LOADING = 'loading';
@@ -84,8 +86,11 @@ class User extends Component {
         loading: LOADING
       },
       renderShopsTable: false,
+      renderOrdersTable: false,
+      renderAreasTable: false,
       expandedRows : [],
-      addShop: false
+      addShop: false,
+      showModal: false,
     };
   }
 
@@ -135,61 +140,61 @@ class User extends Component {
     renderExpandedData(item) {
       return (
         <Table size='large' striped>
-    <Table.Body>
-      <Table.Row>
-        <Table.Cell>SHOP NAME</Table.Cell>
-        <Table.Cell>{item.name}</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>PROPRIETOR NAME</Table.Cell>
-        <Table.Cell>{item.proprietorName}</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>MOBILE</Table.Cell>
-        <Table.Cell>{item.mobile}</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>TIN</Table.Cell>
-        <Table.Cell>{item.tin}</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>GST</Table.Cell>
-        <Table.Cell>{item.gst}</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>AREA ID</Table.Cell>
-        <Table.Cell>{item.areaId}</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>AREA NAME</Table.Cell>
-        <Table.Cell>{item.areaName}</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>Address</Table.Cell>
-        <Table.Cell>{item.address}</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>STREET</Table.Cell>
-        <Table.Cell>{item.street}</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>CITY</Table.Cell>
-        <Table.Cell>{item.city}</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>DISTRICT</Table.Cell>
-        <Table.Cell>{item.district}</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>TAX TYPE</Table.Cell>
-        <Table.Cell>{item.taxType}</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>STATE</Table.Cell>
-        <Table.Cell>{item.state}</Table.Cell>
-      </Table.Row>
-    </Table.Body>
-  </Table>
+          <Table.Body>
+            <Table.Row>
+              <Table.Cell>SHOP NAME</Table.Cell>
+              <Table.Cell>{item.name}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>PROPRIETOR NAME</Table.Cell>
+              <Table.Cell>{item.proprietorName}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>MOBILE</Table.Cell>
+              <Table.Cell>{item.mobile}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>TIN</Table.Cell>
+              <Table.Cell>{item.tin}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>GST</Table.Cell>
+              <Table.Cell>{item.gst}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>AREA ID</Table.Cell>
+              <Table.Cell>{item.areaId}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>AREA NAME</Table.Cell>
+              <Table.Cell>{item.areaName}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>Address</Table.Cell>
+              <Table.Cell>{item.address}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>STREET</Table.Cell>
+              <Table.Cell>{item.street}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>CITY</Table.Cell>
+              <Table.Cell>{item.city}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>DISTRICT</Table.Cell>
+              <Table.Cell>{item.district}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>TAX TYPE</Table.Cell>
+              <Table.Cell>{item.taxType}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>STATE</Table.Cell>
+              <Table.Cell>{item.state}</Table.Cell>
+            </Table.Row>
+          </Table.Body>
+        </Table>
       )
     }
 
@@ -203,31 +208,92 @@ class User extends Component {
        );
    }
 
+   renderOrderItem(item) {
+        return (
+            <div style={{height:40, backgroundColor:'#E6E6FF', marginTop:10}}>
+                <div style={{color:'#16A085', fontSize:16, marginLeft:20, marginTop:'auto', marginBottom:'auto'}}>
+                  <Link to={`/order/${item}`}>{item}</Link>
+                </div>
+            </div>
+        );
+    }
+
+    renderAreaItem(item) {
+         return (
+             <div style={{height:40, backgroundColor:'#E6E6FF', marginTop:10}}>
+                 <div style={{color:'#16A085', fontSize:16, marginLeft:20, marginTop:'auto', marginBottom:'auto'}}>
+                   {item}
+                 </div>
+             </div>
+         );
+     }
+
+     closeModal = () => {
+       this.setState({
+         showModal:false
+       })
+     }
+
   renderShops() {
     const {userData, renderShopsTable}=this.state;
     let allItemRows = [];
-    console.log("#######" , userData.shops);
 
        userData.shops && userData.shops.forEach(item => {
            const perItemRows = this.renderItem(item);
            allItemRows = allItemRows.concat(perItemRows);
        });
 
-       console.log("#######" , allItemRows);
+       return (
+         <div>
+			     <div>{allItemRows}</div>
+           <Modal
+           trigger={<Button color='teal'>Add Shop</Button>}
+           centered={false}>
+            <Modal.Header>Add Shop</Modal.Header>
+            <Modal.Content>
+              <AddShop userId={this.props.params.userId}/>
+            </Modal.Content>
+          </Modal>
+        </div>
+        );
+  }
 
+  renderOrders() {
+    const {userData}=this.state;
+    let allItemRows = [];
+
+       userData.orders && userData.orders.forEach(item => {
+         const perItemRows = this.renderOrderItem(item);
+           allItemRows = allItemRows.concat(perItemRows);
+       });
 
        return (
          <div>
 			     <div>{allItemRows}</div>
-           <Modal trigger={<Button color='teal'>Add Shop</Button>} centered={false}>
-            <Modal.Header>Add Shop</Modal.Header>
-            <Modal.Content>
-              <AddShop userId={this.props.params.userId} />
-            </Modal.Content>
-          </Modal>
-           {renderShopsTable}
         </div>
-        );
+      );
+  }
+
+  renderAreas() {
+    const {userData}=this.state;
+    let allItemRows = [];
+    userData.allowedAreas && userData.allowedAreas.forEach(item => {
+      const perItemRows = this.renderAreaItem(item);
+        allItemRows = allItemRows.concat(perItemRows);
+    });
+    return (
+      <div>
+      <div>{allItemRows}</div>
+      <Modal onClose={this.closeModal} open={this.state.showModal}
+      trigger={<Button color='teal' onClick={() => this.setState({showModal:true})}>Add Area</Button>}
+      centered={false}>
+       <Modal.Header>Add Area</Modal.Header>
+       <Modal.Content>
+         <AddAllowedArea userId={this.props.params.userId}  closeModal={this.closeModal}/>
+       </Modal.Content>
+     </Modal>
+      </div>
+    )
   }
 
   render() {
@@ -269,7 +335,7 @@ class User extends Component {
               </ul>
           </div>
           <div className="outlets">
-            <div className="sectionHeader" onClick={() => this.setState({renderShopsTable:true})}>
+            <div className="sectionHeader" onClick={() => this.setState({renderShopsTable:!this.state.renderShopsTable})}>
               <h3>SHOPS</h3>
             </div>
             <div className="sectionBody">
@@ -277,10 +343,19 @@ class User extends Component {
             </div>
           </div>
           <div className="outlets">
-            <div className="sectionHeader">
+            <div className="sectionHeader" onClick={() => this.setState({renderOrdersTable:!this.state.renderOrdersTable})}>
               <h3>ORDERS</h3>
             </div>
             <div className="sectionBody">
+            {this.state.renderOrdersTable ? this.renderOrders() : null}
+            </div>
+          </div>
+          <div className="outlets">
+            <div className="sectionHeader" onClick={() => this.setState({renderAreasTable:!this.state.renderAreasTable})}>
+              <h3>ALLOWED AREAS</h3>
+            </div>
+            <div className="sectionBody">
+            {this.state.renderAreasTable ? this.renderAreas() : null}
             </div>
           </div>
         </div>
