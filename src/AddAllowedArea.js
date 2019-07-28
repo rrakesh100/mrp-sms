@@ -39,7 +39,22 @@ class AddAllowedArea extends Component {
     let selectedAreaObj=areasObj[selectedArea];
     let areasRefPath=`users/${userId}/allowedAreas`;;
     let areasRef = firebase.database().ref().child(areasRefPath);
-    areasRef.push(selectedAreaObj);
+
+    let ref=this;
+
+    areasRef.transaction(function(areas){
+              areas=areas||[];
+              areas.push(selectedAreaObj['areaId']);
+              return areas;
+    }, function(success) {
+        ref.msg.success( <div className="success"><h4>Area </h4> is Successfully Saved</div>, {
+          time: 2000,
+          type: 'success',
+        });
+      }
+     );
+
+
     this.props.closeModal();
   }
 

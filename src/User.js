@@ -262,7 +262,9 @@ class User extends Component {
     const {userData}=this.state;
     let allItemRows = [];
 
-       userData.orders && userData.orders.forEach(item => {
+    console.log('orders = = = ', userData.orders);
+
+       userData.orders && userData.orders.reverse().forEach(item => {
          const perItemRows = this.renderOrderItem(item);
            allItemRows = allItemRows.concat(perItemRows);
        });
