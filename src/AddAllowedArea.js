@@ -11,6 +11,7 @@ class AddAllowedArea extends Component {
       areasList:[],
       areaSelected:false,
       userId:props.userId,
+      existingAreas:props.existingAreas,
     }
   }
 
@@ -59,29 +60,27 @@ class AddAllowedArea extends Component {
   }
 
   renderAllAreas() {
-    const {areasList, selectedArea, areaSelected}=this.state;
-    let returnedAreas= areasList.length>0 && areasList.map((item) => {
+    const {areasList, selectedArea, areaSelected, existingAreas}=this.state;
+    let filteredAreas=areasList.length>0 && areasList.filter(val => !existingAreas.includes(val));
+    let returnedAreas= filteredAreas.length>0 && filteredAreas.map((item) => {
       return (
         <div onClick={() => this.setState({selectedArea:item, areaSelected:!areaSelected})}
         style={areaSelected && selectedArea === item?
           {
-          height:20,
+          height:18,
           backgroundColor:'#16A085',
-          marginTop:2
+          marginTop:1
         }: {
-          height:20,
+          height:18,
           backgroundColor:'#E6E6FF',
-          marginTop:2
+          marginTop:1
         }}>
-          <div>{item}</div>
+          <div style={{fontSize:12, textAlign:'center', color:'black'}}>{item}</div>
         </div>
       )
     })
     return (
       <div>
-        <Button className="save-button" bsStyle="primary" onClick={ this.saveArea.bind(this) } >
-          Add Area
-        </Button>
         {returnedAreas}
       </div>
     );
@@ -90,9 +89,18 @@ class AddAllowedArea extends Component {
   render() {
 
     return (
-      <div className="area" style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+      <div className="area">
         <AlertContainer ref={ a => this.msg = a} {...this.alertOptions} />
         {this.renderAllAreas()}
+        <Button style={{
+          marginLeft: '40%',
+          marginTop:12,
+          color:'#fff',
+          backgroundColor: '#009C95',
+          width:'22%'
+        }} onClick={ this.saveArea.bind(this) } >
+          Add Area
+        </Button>
       </div>
     );
   }

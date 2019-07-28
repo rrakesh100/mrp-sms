@@ -245,15 +245,15 @@ class User extends Component {
 
        return (
          <div>
-			     <div>{allItemRows}</div>
            <Modal
-           trigger={<Button color='teal'>Add Shop</Button>}
+           trigger={<Button color='teal' style={{marginTop:10,marginLeft:10}}>Add Shop</Button>}
            centered={false}>
             <Modal.Header>Add Shop</Modal.Header>
             <Modal.Content>
               <AddShop userId={this.props.params.userId}/>
             </Modal.Content>
           </Modal>
+          <div>{allItemRows}</div>
         </div>
         );
   }
@@ -261,9 +261,6 @@ class User extends Component {
   renderOrders() {
     const {userData}=this.state;
     let allItemRows = [];
-
-    console.log('orders = = = ', userData.orders);
-
        userData.orders && userData.orders.reverse().forEach(item => {
          const perItemRows = this.renderOrderItem(item);
            allItemRows = allItemRows.concat(perItemRows);
@@ -285,15 +282,19 @@ class User extends Component {
     });
     return (
       <div>
-      <div>{allItemRows}</div>
       <Modal onClose={this.closeModal} open={this.state.showModal}
-      trigger={<Button color='teal' onClick={() => this.setState({showModal:true})}>Add Area</Button>}
+      trigger={<Button color='teal' style={{marginTop:10,marginLeft:10}}
+      onClick={() => this.setState({showModal:true})}>Add Area</Button>}
       centered={false}>
-       <Modal.Header>Add Area</Modal.Header>
        <Modal.Content>
-         <AddAllowedArea userId={this.props.params.userId}  closeModal={this.closeModal}/>
+         <AddAllowedArea
+          userId={this.props.params.userId}
+          closeModal={this.closeModal}
+          existingAreas={userData.allowedAreas}
+          />
        </Modal.Content>
-     </Modal>
+      </Modal>
+      <div>{allItemRows}</div>
       </div>
     )
   }
