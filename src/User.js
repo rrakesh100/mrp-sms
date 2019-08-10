@@ -202,8 +202,6 @@ class User extends Component {
     let key = item.name;
     if(item.gst && item.gst.length >0)
        key = item.gst;
-
-       console.log('key -= - ', key);
        return (
          <Collapse  key={"row-expanded-" + key }>
            <Panel header={item.name}>
