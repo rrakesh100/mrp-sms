@@ -199,8 +199,13 @@ class User extends Component {
     }
 
   renderItem(item) {
+    let key = item.name;
+    if(item.gst && item.gst.length >0)
+       key = item.gst;
+
+       console.log('key -= - ', key);
        return (
-         <Collapse  key={"row-expanded-" + item.mobile}>
+         <Collapse  key={"row-expanded-" + key }>
            <Panel header={item.name}>
                {this.renderExpandedData(item)}
            </Panel>
@@ -220,7 +225,7 @@ class User extends Component {
 
     renderAreaItem(item) {
          return (
-             <div style={{height:40, backgroundColor:'#E6E6FF', marginTop:10}}>
+             <div style={{height:40, backgroundColor:'#E6E6FF', marginTop:10}} key={item}>
                  <div style={{color:'#16A085', fontSize:16, marginLeft:20, marginTop:'auto', marginBottom:'auto'}}>
                    {item}
                  </div>
@@ -237,11 +242,14 @@ class User extends Component {
   renderShops() {
     const {userData, renderShopsTable}=this.state;
     let allItemRows = [];
+      console.log('all shops = ', userData.shops);
 
        userData.shops && userData.shops.forEach(item => {
            const perItemRows = this.renderItem(item);
            allItemRows = allItemRows.concat(perItemRows);
        });
+
+
 
        return (
          <div>
@@ -250,7 +258,7 @@ class User extends Component {
            centered={false}>
             <Modal.Header>Add Shop</Modal.Header>
             <Modal.Content>
-              <AddShop userId={this.props.params.userId}/>
+              <AddShop userId={this.props.params.userId} allowedAreas={userData.allowedAreas || []}/>
             </Modal.Content>
           </Modal>
           <div>{allItemRows}</div>

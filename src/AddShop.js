@@ -22,6 +22,8 @@ class AddShop extends Component {
       cityName: this.props.cityName || '',
       area: this.props.area || '',
       pin: this.props.pin || '',
+      allowedAreas : this.props.allowedAreas || [],
+      areasObj : {}
     };
 
 
@@ -45,7 +47,7 @@ class AddShop extends Component {
     const areasRef = firebase.database().ref().child(areasPath);
     areasRef.once('value', snap => {
       console.log(snap.val());
-  //  this.setState(areasObj : snap.val());
+      this.setState( {areasObj : snap.val()});
     })
 
   }
@@ -60,7 +62,8 @@ class AddShop extends Component {
       'mobile': this.state.mobile,
       'pan': this.state.pan,
       'tin': this.state.tin,
-      'taxType' : this.state.taxType,
+      'gst': this.state.gst,
+      'taxType' : this.state.gst ? 'GST' : 'TIN',
       'shopNumber': this.state.shopNumber,
       'street': this.state.street,
       'city': this.state.cityName,
@@ -69,11 +72,11 @@ class AddShop extends Component {
       'areaName' : this.state.areasObj[areaId].displayName,
       'district' :  this.state.areasObj[areaId].district,
       'state' :  this.state.areasObj[areaId].state,
-      'address': this.state.shopnumber + " ; " +
+      'address': this.state.shopNumber + " ; " +
           this.state.street + " ; " +
-          this.state.city + " ; " +
           this.state.areasObj[areaId].displayName + " ; " +
           this.state.areasObj[areaId].district + " ; " +
+          this.state.cityName + " ; " +
           this.state.areasObj[areaId].state  + "; " +
           this.state.pin
 
@@ -93,6 +96,8 @@ class AddShop extends Component {
     }
 
     console.log(shopRef);
+
+    console.log('shp data  = = =', newShopData);
 
     let ref=this;
 
@@ -121,6 +126,18 @@ class AddShop extends Component {
     this.setState({
       [field]: event.target.value
     });
+  }
+
+  createOptions() {
+    let allowedAreas = this.state.allowedAreas;
+    let options = [];
+    options.push(<option value="noArea">No Area</option>);
+    allowedAreas.forEach(areaId => {
+      if(this.state.areasObj[areaId])
+      options.push(<option value={areaId}>{this.state.areasObj[areaId].displayName}</option>);
+
+    })
+    return options;
   }
 
   render() {
@@ -253,9 +270,7 @@ class AddShop extends Component {
               <span>
                 <select value={ this.state.area } style={{width: '100%'}}
                   onChange={this.updateInputValue.bind(this,'area')}>
-                  <option value="noArea">No Area</option>
-                  <option value="eastdt">EAST DT RURAL</option>
-                  <option value="eastgodavari">EAST GODAVARI TOWNS</option>
+                  {this.createOptions()}
                 </select>
               </span>
             </li>
