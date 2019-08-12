@@ -13,15 +13,18 @@ class AddShop extends Component {
     this.defaultState = {
       userId: this.props.userId,
       mode: this.props.mode || 'new',
-      name: this.props.name || '',
-      proprietorName: this.props.proprietorName || '',
-      mobile: this.props.mobile || '',
-      pan: this.props.pan || '',
-      taxType : this.props.taxType || '',
-      street: this.props.street || '',
-      cityName: this.props.cityName || '',
-      area: this.props.area || '',
-      pin: this.props.pin || '',
+      name: this.props.editItem &&  this.props.editItem.name || '',
+      proprietorName: this.props.editItem && this.props.editItem.proprietorName || '',
+      mobile:this.props.editItem &&  this.props.editItem.mobile || '',
+      pan :this.props.editItem &&  this.props.editItem.pan || '',
+      tin :this.props.editItem &&  this.props.editItem.tin || '',
+      gst :this.props.editItem &&  this.props.editItem.gst || '',
+      taxType :this.props.editItem &&  this.props.editItem.taxType || '',
+      street:this.props.editItem &&  this.props.editItem.street || '',
+      cityName: this.props.editItem && this.props.editItem.cityName || '',
+      area: this.props.editItem && this.props.editItem.area || '',
+      areaName: this.props.editItem && this.props.editItem.areaName || '',
+      pin: this.props.editItem &&  this.props.editItem.pin || '',
       allowedAreas : this.props.allowedAreas || [],
       areasObj : {}
     };
@@ -49,13 +52,13 @@ class AddShop extends Component {
       console.log(snap.val());
       this.setState( {areasObj : snap.val()});
     })
-
+    console.log('iiiiiiiiiiiiiiiiiiiiiiiiiii',this.props)
   }
 
 
   saveShop() {
     let areaId = this.state.area;
-
+    console.log(this.state)
     const newShopData = {
       'name': this.state.name,
       'proprietorName': this.state.proprietorName,
@@ -88,7 +91,7 @@ class AddShop extends Component {
     const shopsRefPath = `users/${this.state.userId}/shops`;
     if(this.state.mode === 'edit') {
       console.log("UPDATING shop " + this.state.userId );
-    //  shopRef = firebase.database().ref().child(shopsRefPath);
+     shopRef = firebase.database().ref().child(shopsRefPath);
 
     }else {
       console.log("SAVING shop " + this.state.userId);
@@ -225,9 +228,7 @@ class AddShop extends Component {
               </input>
             </span>
           </li>
-
           </ul>
-
           <ul>
           <li>
             <label>House/Door/Shop Number</label>

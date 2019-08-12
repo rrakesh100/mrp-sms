@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import Collapse, { Panel } from 'rc-collapse-icon';
 import FaUserDisable from 'react-icons/lib/fa/user-times';
 import FaUserEnable from 'react-icons/lib/fa/user-plus';
+import {FaEdit} from 'react-icons/lib/fa';
 import Outlet from './Outlet';
 import AddOutlet from './AddOutlet';
 import './User.css';
@@ -137,6 +138,10 @@ class User extends Component {
     })
   }
 
+  onShopEditClick = () => {
+    console.log('edit');
+  }
+
     renderExpandedData(item) {
       return (
         <Table size='large' striped>
@@ -144,6 +149,16 @@ class User extends Component {
             <Table.Row>
               <Table.Cell>SHOP NAME</Table.Cell>
               <Table.Cell>{item.name}</Table.Cell>
+              <Table.Cell>
+                <Modal
+                trigger={<FaEdit onClick={this.onShopEditClick}/>}
+                centered={false}>
+                <Modal.Header>Edit Shop</Modal.Header>
+                <Modal.Content scrolling >
+                  <AddShop mode={'edit'} editItem={item} userId={this.props.params.userId}/>
+                </Modal.Content>
+              </Modal>
+              </Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell>PROPRIETOR NAME</Table.Cell>
