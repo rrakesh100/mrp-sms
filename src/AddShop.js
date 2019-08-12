@@ -23,7 +23,6 @@ class AddShop extends Component {
       street:this.props.editItem &&  this.props.editItem.street || '',
       cityName: this.props.editItem && this.props.editItem.cityName || '',
       area: this.props.editItem && this.props.editItem.area || '',
-      areaName: this.props.editItem && this.props.editItem.areaName || '',
       pin: this.props.editItem &&  this.props.editItem.pin || '',
       allowedAreas : this.props.allowedAreas || [],
       areasObj : {}
@@ -58,7 +57,9 @@ class AddShop extends Component {
 
   saveShop() {
     let areaId = this.state.area;
-    console.log(this.state)
+    console.log(areaId)
+    console.log('=============-----',this.state.areasObj)
+    console.log('=============-----',this.state.areasObj[areaId]);
     const newShopData = {
       'name': this.state.name,
       'proprietorName': this.state.proprietorName,
@@ -72,7 +73,7 @@ class AddShop extends Component {
       'city': this.state.cityName,
       'areaId': this.state.area,
       'pin': this.state.pin,
-      'areaName' : this.state.areasObj[areaId].displayName,
+      'areaName' :  this.state.areasObj[areaId].displayName,
       'district' :  this.state.areasObj[areaId].district,
       'state' :  this.state.areasObj[areaId].state,
       'address': this.state.shopNumber + " ; " +
@@ -82,7 +83,6 @@ class AddShop extends Component {
           this.state.cityName + " ; " +
           this.state.areasObj[areaId].state  + "; " +
           this.state.pin
-
     };
 
 
