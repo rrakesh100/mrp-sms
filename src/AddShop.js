@@ -47,6 +47,7 @@ class AddShop extends Component {
 
 
   componentDidMount() {
+    console.log('index = = = ', this.props.index);
     const areasPath = `areas`;
     const areasRef = firebase.database().ref().child(areasPath);
     areasRef.once('value', snap => {

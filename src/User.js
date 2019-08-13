@@ -6,12 +6,13 @@ import classNames from 'classnames';
 import Collapse, { Panel } from 'rc-collapse-icon';
 import FaUserDisable from 'react-icons/lib/fa/user-times';
 import FaUserEnable from 'react-icons/lib/fa/user-plus';
-import {FaEdit} from 'react-icons/lib/fa';
+import {FaEdit, FaTrashO} from 'react-icons/lib/fa';
 import Outlet from './Outlet';
 import AddOutlet from './AddOutlet';
 import './User.css';
 import Collapsible from 'react-collapsible';
 import AddShop from './AddShop';
+import DeleteShop from './DeleteShop';
 import AddAllowedArea from './AddAllowedArea';
 import {Link} from 'react-router';
 
@@ -92,6 +93,7 @@ class User extends Component {
       expandedRows : [],
       addShop: false,
       showModal: false,
+      deleteShop : false
     };
   }
 
@@ -162,6 +164,19 @@ class User extends Component {
                   closeModal={this.closeModal}/>
                 </Modal.Content>
               </Modal>
+              </Table.Cell>
+              <Table.Cell>
+                <Modal trigger={<FaTrashO  onClick={() => this.setState({deleteShop : true})} />} open={this.state.deleteShop} closeIcon>
+                  <Header content='Delete Shop ?' />
+                  <Modal.Content>
+                    <p>
+                      Are you sure you want to delete shop? If you select yes, then the shop will be deleted forever
+                    </p>
+                  </Modal.Content>
+                  <Modal.Actions>
+                    <DeleteShop closeDeleteShop={this.closeDeleteShop} index={index} userId={this.props.params.userId}/>
+                  </Modal.Actions>
+                </Modal>
               </Table.Cell>
             </Table.Row>
             <Table.Row>
@@ -256,6 +271,20 @@ class User extends Component {
        })
      }
 
+     closeAddShopModal = () => {
+       this.setState({
+         addShop : false
+       })
+     }
+
+     closeDeleteShop = () => {
+       this.setState({
+         deleteShop : false
+       })
+     }
+
+
+
   renderShops() {
     const {userData, renderShopsTable}=this.state;
     let allItemRows = [];
@@ -269,12 +298,12 @@ class User extends Component {
 
        return (
          <div>
-           <Modal onClose={this.closeModal}
-           trigger={<Button color='teal' style={{marginTop:10,marginLeft:10}} onClick={() => this.setState({showModal : true})}>Add Shop</Button>}
-           centered={false} open={this.state.showModal}>
+           <Modal onClose={this.closeAddShopModal}
+           trigger={<Button color='teal' style={{marginTop:10,marginLeft:10}} onClick={() => this.setState({addShop : true})}>Add Shop</Button>}
+           centered={false} open={this.state.addShop}>
             <Modal.Header>Add Shop</Modal.Header>
             <Modal.Content>
-              <AddShop userId={this.props.params.userId} allowedAreas={userData.allowedAreas || []} closeModal={this.closeModal}/>
+              <AddShop userId={this.props.params.userId} allowedAreas={userData.allowedAreas || []} closeModal={this.closeAddShopModal}/>
             </Modal.Content>
           </Modal>
           <div>{allItemRows}</div>
