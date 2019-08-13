@@ -139,10 +139,13 @@ class User extends Component {
   }
 
   onShopEditClick = () => {
-    console.log('edit');
+    this.setState({
+      showModal : true
+    })
   }
 
-    renderExpandedData(item) {
+    renderExpandedData(item, index) {
+      const {userData}=this.state;
       return (
         <Table size='large' striped>
           <Table.Body>
@@ -150,12 +153,13 @@ class User extends Component {
               <Table.Cell>SHOP NAME</Table.Cell>
               <Table.Cell>{item.name}</Table.Cell>
               <Table.Cell>
-                <Modal
+                <Modal  onClose={this.closeModal} open={this.state.showModal}
                 trigger={<FaEdit onClick={this.onShopEditClick}/>}
                 centered={false}>
                 <Modal.Header>Edit Shop</Modal.Header>
                 <Modal.Content scrolling >
-                  <AddShop mode={'edit'} editItem={item} userId={this.props.params.userId}/>
+                  <AddShop mode={'edit'} editItem={item} userId={this.props.params.userId} allowedAreas={userData.allowedAreas || []} index={index}
+                  closeModal={this.closeModal}/>
                 </Modal.Content>
               </Modal>
               </Table.Cell>
@@ -213,14 +217,14 @@ class User extends Component {
       )
     }
 
-  renderItem(item) {
+  renderItem(item , index) {
     let key = item.name;
     if(item.gst && item.gst.length >0)
        key = item.gst;
        return (
          <Collapse  key={"row-expanded-" + key }>
            <Panel header={item.name}>
-               {this.renderExpandedData(item)}
+               {this.renderExpandedData(item, index)}
            </Panel>
          </Collapse>
        );
@@ -255,10 +259,9 @@ class User extends Component {
   renderShops() {
     const {userData, renderShopsTable}=this.state;
     let allItemRows = [];
-      console.log('all shops = ', userData.shops);
 
-       userData.shops && userData.shops.forEach(item => {
-           const perItemRows = this.renderItem(item);
+       userData.shops && userData.shops.forEach((item , index)=> {
+           const perItemRows = this.renderItem(item, index);
            allItemRows = allItemRows.concat(perItemRows);
        });
 
@@ -266,12 +269,12 @@ class User extends Component {
 
        return (
          <div>
-           <Modal
-           trigger={<Button color='teal' style={{marginTop:10,marginLeft:10}}>Add Shop</Button>}
-           centered={false}>
+           <Modal onClose={this.closeModal}
+           trigger={<Button color='teal' style={{marginTop:10,marginLeft:10}} onClick={() => this.setState({showModal : true})}>Add Shop</Button>}
+           centered={false} open={this.state.showModal}>
             <Modal.Header>Add Shop</Modal.Header>
             <Modal.Content>
-              <AddShop userId={this.props.params.userId} allowedAreas={userData.allowedAreas || []}/>
+              <AddShop userId={this.props.params.userId} allowedAreas={userData.allowedAreas || []} closeModal={this.closeModal}/>
             </Modal.Content>
           </Modal>
           <div>{allItemRows}</div>

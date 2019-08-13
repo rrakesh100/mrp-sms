@@ -20,11 +20,13 @@ class AddShop extends Component {
       tin :this.props.editItem &&  this.props.editItem.tin || '',
       gst :this.props.editItem &&  this.props.editItem.gst || '',
       taxType :this.props.editItem &&  this.props.editItem.taxType || '',
+      shopNumber :this.props.editItem &&  this.props.editItem.shopNumber || '',
       street:this.props.editItem &&  this.props.editItem.street || '',
-      cityName: this.props.editItem && this.props.editItem.cityName || '',
-      area: this.props.editItem && this.props.editItem.area || '',
+      cityName: this.props.editItem && this.props.editItem.city || '',
+      area: this.props.editItem && this.props.editItem.areaId || '',
       pin: this.props.editItem &&  this.props.editItem.pin || '',
       allowedAreas : this.props.allowedAreas || [],
+      index : this.props.index,
       areasObj : {}
     };
 
@@ -48,18 +50,13 @@ class AddShop extends Component {
     const areasPath = `areas`;
     const areasRef = firebase.database().ref().child(areasPath);
     areasRef.once('value', snap => {
-      console.log(snap.val());
       this.setState( {areasObj : snap.val()});
     })
-    console.log('iiiiiiiiiiiiiiiiiiiiiiiiiii',this.props)
   }
 
 
   saveShop() {
     let areaId = this.state.area;
-    console.log(areaId)
-    console.log('=============-----',this.state.areasObj)
-    console.log('=============-----',this.state.areasObj[areaId]);
     const newShopData = {
       'name': this.state.name,
       'proprietorName': this.state.proprietorName,
@@ -88,41 +85,42 @@ class AddShop extends Component {
 
 
     let shopRef;
-    const shopsRefPath = `users/${this.state.userId}/shops`;
-    if(this.state.mode === 'edit') {
-      console.log("UPDATING shop " + this.state.userId );
-     shopRef = firebase.database().ref().child(shopsRefPath);
-
-    }else {
-      console.log("SAVING shop " + this.state.userId);
-      shopRef = firebase.database().ref().child(shopsRefPath);
-    }
-
-    console.log(shopRef);
-
-    console.log('shp data  = = =', newShopData);
 
     let ref=this;
+    let shopsRefPath = `users/${this.state.userId}/shops`;
+    if(this.state.mode === 'edit') {
+      shopRef = firebase.database().ref().child(shopsRefPath + '/'+ this.state.index);
+       let promise = shopRef.update(newShopData);
+       promise.then(() => {
+         this.props.closeModal();
+         this.msg.success( <div className="success"><h4>Shop { ref.state.name }</h4> is Successfully edited</div>, {
+           time: 2000,
+           type: 'success',
+         });
 
-    shopRef.transaction(function(shops){
-              shops=shops||[];
-              shops.push(newShopData);
-              return shops;
-    }, function(success) {
-        ref.msg.success( <div className="success"><h4>Shop { ref.state.name }</h4> is Successfully Saved</div>, {
-          time: 2000,
-          type: 'success',
-        });
+       })
 
-        if(ref.state.mode === 'edit') {
-          ref.props.onClose();
-        } else {
-          ref.setState({
-            ...ref.defaultState
+    }else {
+      shopRef = firebase.database().ref().child(shopsRefPath);
+
+      shopRef.transaction(function(shops){
+                shops=shops||[];
+                shops.push(newShopData);
+                return shops;
+      }, function(success) {
+
+          ref.msg.success( <div className="success"><h4>Shop { ref.state.name }</h4> is Successfully Saved</div>, {
+            time: 2000,
+            type: 'success',
           });
+          ref.props.closeModal();
         }
-      }
-     );
+       );
+    }
+
+
+
+
   }
 
   updateInputValue(field, event) {
@@ -144,11 +142,10 @@ class AddShop extends Component {
   }
 
   render() {
-    console.log(this.state)
     let buttonText =  'ADD SHOP';
     let opts = {};
     if(this.state.mode === 'edit'){
-      buttonText = 'UPDATE AREA';
+      buttonText = 'UPDATE SHOP';
       opts['disabled'] = 'disabled';
     }
 
