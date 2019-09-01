@@ -52,11 +52,55 @@ class AddShop extends Component {
     const areasRef = firebase.database().ref().child(areasPath);
     areasRef.once('value', snap => {
       this.setState( {areasObj : snap.val()});
-    })
-  }
+    });
+
+
+  //   const usersRef= firebase.database().ref().child('users');
+  //
+  //   usersRef.once('value', s => {
+  //     console.log(s.val());
+  //     let allUsers = s.val();
+  //     Object.keys(allUsers).forEach((u) => {
+  //       console.log(allUsers[u].name);
+  //       let name = allUsers[u].name;
+  //       if(name) {
+  //         let modifiedName= name.replace(/\./g,'');
+  //         console.log(modifiedName);
+  //         let path = 'users/' + u + '/' + 'name';
+  //         console.log(path);
+  //         let uRef = firebase.database().ref().child(path);
+  //         let promise = uRef.set(modifiedName);
+  //
+  //
+  //       }
+  //     }
+  //   )
+  // })
+}
 
 
   saveShop() {
+    if(!this.state.name) {
+      alert('Name required');
+      return;
+    }else if(!this.state.proprietorName) {
+      alert('Proprietor Name required');
+      return;
+    }else if(!this.state.mobile) {
+      alert('Mobile number required');
+      return;
+    }else if(!this.state.gst) {
+      alert('GST number required');
+      return;
+    }else if(!this.state.street) {
+      alert('Address required');
+      return;
+    }else if(!this.state.area) {
+      alert('Area required. Please select area');
+      return;
+    }
+
+
     let areaId = this.state.area;
     const newShopData = {
       'name': this.state.name,
@@ -82,10 +126,10 @@ class AddShop extends Component {
           this.state.areasObj[areaId].state  + "; " +
           this.state.pin
     };
-
-
-
     let shopRef;
+
+
+
 
     let ref=this;
     let shopsRefPath = `users/${this.state.userId}/shops`;

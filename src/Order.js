@@ -26,7 +26,8 @@ class Order extends Component {
       orderData: {
         loading: LOADING
       },
-      open: false
+      open: false,
+      isAgent: false
     };
   }
 
@@ -39,6 +40,18 @@ class Order extends Component {
     orderRef.on('value', snap => {
       const orderData = snap.val();
       if(orderData) {
+        console.log(orderData);
+        let path = 'users' + '/' + orderData.uid;
+        console.log(path);
+         const usersRef = firebase.database().ref().child(path)
+         usersRef.once('value', data =>{
+           let userData = data.val();
+           if(userData.isAgent) {
+             this.setState({
+               isAgent : true
+             })
+           }
+         })
         this.setState({
           orderData
         });
@@ -50,6 +63,8 @@ class Order extends Component {
         });
       }
     });
+
+    console.log(this.props);
   }
 
 
@@ -129,6 +144,7 @@ class Order extends Component {
 
   render() {
 
+   console.log('===', this.state);
     if(this.state.orderData.loading === LOADING) {
       return <Loader />
     }
@@ -176,6 +192,7 @@ class Order extends Component {
             </div>
             <ul className="header" style={{backgroundColor: orderStatusColor, textAlign: 'center', listStyle: 'none' }}>
               <li><h2>{orderId}</h2></li>
+              <li><h2>User type = {this.state.isAgent ? 'AGENT' : 'OUTLET'}</h2></li>
               <li><strong>{userName}</strong> ordered on <strong>{ timeString}</strong></li>
               <li>Order is <strong>{status}</strong></li>
             </ul>
