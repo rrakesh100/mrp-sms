@@ -14,6 +14,7 @@
 .order-list {
   display: flex;
   flex-direction: column;
+  padding: 0 1em;
 }
 
 .order-list .react-grid-Grid{
@@ -22,4 +23,8 @@
 
 .order-list h4 {
   justify-content: center;
+}
+
+.orders .react-grid-Container {
+  padding: 0 1em;
 }

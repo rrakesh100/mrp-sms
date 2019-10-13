@@ -249,7 +249,7 @@ class Orders extends Component {
 
   render() {
     return (
-      <div tabTitle="Orders" className="order-list">
+      <div tabTitle="Orders" className="orders">
         <ReactDataGrid
           columns={this._columns}
           rowGetter={this.rowGetter.bind(this)}

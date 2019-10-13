@@ -87,7 +87,10 @@ class Product extends Component {
 
     const { productType, productKey } = this.props;
 
-    return <Modal open={this.state.showEditModal} onClose={ this.closeEditModal.bind(this) } size="large" closeIcon>
+    return <Modal
+      open={this.state.showEditModal}
+      onClose={ this.closeEditModal.bind(this) }
+      size="large" closeIcon>
       <Modal.Header closeButton>
         Edit { productType } item { productKey }?
       </Modal.Header>
@@ -104,7 +107,7 @@ class Product extends Component {
     const editModal =  this.getEditModal();
 
     const imageUrl = `https://mrps-orderform.firebaseapp.com/${this.data.productType}_200/${this.data.productKey}.png`;
-    console.log("IMG: "+imageUrl);
+    // console.log("IMG: "+imageUrl);
     return (
       <div className="product">
         { confirmModal }

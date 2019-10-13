@@ -218,7 +218,7 @@ class Users extends Component {
 
   render() {
     return (
-      <div tabTitle="Users" className="order-list">
+      <div tabTitle="Users" className="orders">
         <Link to="/new-user" className="newUserLink">Create new Party</Link>
         <ReactDataGrid
           columns={this._columns}

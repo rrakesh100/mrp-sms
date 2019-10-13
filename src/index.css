@@ -115,8 +115,8 @@ footer {
 
 .rc-collapse {
   border: 0px !important;
-  min-width: 800px;
 }
+
 .rc-collapse .rc-collapse-item {
   margin-top: 4px;
   margin-bottom: 4px;
@@ -184,7 +184,6 @@ footer {
 }
 .area > ul {
   list-style-type: none;
-  min-width: 1000px;
 }
 
 .area li {
@@ -194,18 +193,18 @@ footer {
 
 .area li label {
   color: #8e44ad;
-  font-size: 14px;
+  font-size: 1em;
   display: inline-block;
+  padding: 0.25em 0;
 }
 
 .area li {
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin: 0.5em 1em;
 }
 
 .area li input, textarea, select {
   color: #red;
-  font-size: 20px;
+  font-size: 1.2em;
 }
 
 .area li textarea {
@@ -227,8 +226,9 @@ footer {
 
 .add-product > ul {
   list-style-type: none;
-  min-width: 800px;
+  /* min-width: 800px; */
   justify-content: center;
+  overflow: auto;
 }
 
 .add-product li {
@@ -238,7 +238,8 @@ footer {
 
 .add-product li label {
   color: #db70b8;
-  font-size: 8px;
+  font-size: 1em;
+  padding: 0.5em 0;
   display: inline-block;
 }
 
@@ -271,15 +272,21 @@ footer {
 
 .right label {
   color: #db70b8;
-  font-size: 10px;
+  font-size: 0.8em;
+  padding: 0.75em 0;
 }
 
 .right span {
   color: #5900b3;
-  font-size: 20px;
+  font-size: 1.2em;
   display: block;
-  margin-top: -12px;
+  padding: 0 0;
 }
+
+.right li {
+  padding: 0.5em 0;
+}
+
 
 .add-panel > .rc-collapse-header {
   background-color: white !important;
@@ -764,3 +771,10 @@ a.newUserLink {
   height: 512px !important;
   width: 512px !important;
 } */
+
+.ui.modal.transition.visible.active {
+  margin-top: 0px !important;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: visible;
+}
