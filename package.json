@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "babel-preset-env": "^1.6.0",
-    "react-scripts": "0.6.1"
+    "react-scripts": "3.3.0"
   },
   "dependencies": {
     "Base64": "^0.2.1",
@@ -383,7 +383,6 @@
     "fs-vacuum": "^1.2.10",
     "fs-write-stream-atomic": "^1.0.10",
     "fs.realpath": "^1.0.0",
-    "fsevents": "^1.0.14",
     "fstream": "^1.0.11",
     "fstream-ignore": "^1.0.5",
     "fstream-npm": "^1.2.1",
@@ -1018,5 +1017,17 @@
     "yargs-parser": "^3.2.0"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
