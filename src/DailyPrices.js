@@ -1,6 +1,6 @@
 import React from 'react';
 import * as firebase from 'firebase';
-import { Header, Table, Rating } from 'semantic-ui-react'
+import { Header, Table, Rating, Button } from 'semantic-ui-react'
 import moment from 'moment';
 
 class DailyPrices extends React.Component {
@@ -19,6 +19,7 @@ class DailyPrices extends React.Component {
     const constituencyRef = firebase.database().ref().child(constituencyPath);
     constituencyRef.on('value', snap => {
       const constituencyData = snap.val();
+      delete constituencyData.items;
       this.setState({
         constituencyData
       })
@@ -42,17 +43,10 @@ class DailyPrices extends React.Component {
   }
 
   fetchTodayPricesData = () => {
-     // let varietyVsNumbersData={};
      const date = new Date();
      const dateStr = moment(date).format('DD-MM-YYYY');
      const {dailyPriceData, selectedOPtion}=this.state;
      let pricesDataObj=dailyPriceData[dateStr][selectedOPtion];
-     // Object.keys(pricesDataObj).map(eachNumber => {
-     //   console.log(eachNumber);
-     //   let varitiesObj=pricesDataObj[eachNumber];
-     //   console.log(varitiesObj);
-     //   varietyVsNumbersData.
-     // })
      this.setState({
        todayPricesData: pricesDataObj
      })
@@ -79,9 +73,10 @@ class DailyPrices extends React.Component {
 
   renderVarietyTables() {
     const {todayPricesData}=this.state;
+    let agentPrices=todayPricesData && todayPricesData.agentPrices;
     let renderTables=[];
-    todayPricesData && Object.keys(todayPricesData).map(eachVariety => {
-      let varietyData=todayPricesData[eachVariety];
+    todayPricesData && Object.keys(agentPrices).map(eachVariety => {
+      let varietyData=agentPrices[eachVariety];
       renderTables.push(
         <Table celled padded>
          <Table.Header>
@@ -91,9 +86,6 @@ class DailyPrices extends React.Component {
              <Table.HeaderCell>Moisture</Table.HeaderCell>
              <Table.HeaderCell>Freight</Table.HeaderCell>
              <Table.HeaderCell>Mobile Number</Table.HeaderCell>
-             <Table.HeaderCell>Price</Table.HeaderCell>
-             <Table.HeaderCell>Moisture</Table.HeaderCell>
-             <Table.HeaderCell>Freight</Table.HeaderCell>
            </Table.Row>
          </Table.Header>
 
@@ -113,9 +105,6 @@ class DailyPrices extends React.Component {
                  <Table.Cell>{varietyDetailsObj.moisture}</Table.Cell>
                  <Table.Cell>{varietyDetailsObj.freight}</Table.Cell>
                  <Table.Cell>{eachNumber}</Table.Cell>
-                 <Table.Cell>{varietyDetailsObj.price}</Table.Cell>
-                 <Table.Cell>{varietyDetailsObj.moisture}</Table.Cell>
-                 <Table.Cell>{varietyDetailsObj.freight}</Table.Cell>
                </Table.Row>
              )
            })
@@ -127,6 +116,55 @@ class DailyPrices extends React.Component {
     return renderTables;
   }
 
+  onEditClick = () => {
+    console.log('edit');
+  }
+
+  renderAskingPrices() {
+    const {todayPricesData}=this.state;
+    let askingPrices=todayPricesData && todayPricesData.askingPrices;
+    return (
+      <div>
+        {todayPricesData &&
+        <div>
+        <h2>Asking Prices</h2>
+        <Table celled padded>
+         <Table.Header>
+           <Table.Row>
+             <Table.HeaderCell>Variety</Table.HeaderCell>
+             <Table.HeaderCell>Sub variety</Table.HeaderCell>
+             <Table.HeaderCell>Price</Table.HeaderCell>
+             <Table.HeaderCell>Moisture</Table.HeaderCell>
+             <Table.HeaderCell>Freight</Table.HeaderCell>
+             <Table.HeaderCell></Table.HeaderCell>
+           </Table.Row>
+         </Table.Header>
+         <Table.Body>
+           {todayPricesData && Object.keys(askingPrices).map(eachVariety => {
+             let varietyData=askingPrices[eachVariety];
+             return Object.keys(varietyData).map(eachItem => {
+               let eachSubVarietyData=varietyData[eachItem];
+                 return (
+                   <Table.Row>
+                     <Table.Cell>{eachVariety}</Table.Cell>
+                     <Table.Cell>{eachItem}</Table.Cell>
+                     <Table.Cell>{eachSubVarietyData.price}</Table.Cell>
+                     <Table.Cell>{eachSubVarietyData.moisture}</Table.Cell>
+                     <Table.Cell>{eachSubVarietyData.freight}</Table.Cell>
+                     <Table.Cell>
+                      <Button content='Edit' onClick={this.onEditClick}/>
+                     </Table.Cell>
+                   </Table.Row>
+                 )
+             })
+           })}
+         </Table.Body>
+       </Table>
+       </div>}
+      </div>
+    )
+  }
+
   render() {
     return (
       <div>
@@ -135,7 +173,10 @@ class DailyPrices extends React.Component {
        </div>
         <div style={{margin:20}}>
           {this.renderVarietyTables()}
-         </div>
+        </div>
+        <div style={{margin:20}}>
+          {this.renderAskingPrices()}
+        </div>
       </div>
     )
   }
