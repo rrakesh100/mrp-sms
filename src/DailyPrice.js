@@ -56,12 +56,19 @@ class DailyPrice extends React.Component {
             }
         }
         console.log(agentPrices);
+        this.setState({ agentPrices });
+        // this.setGraphData();
+    }
+
+    setGraphData = () => {
         var data = {
             values : []
         };
-        console.log(agentPrices, "AAADATEEEEEEEEEEE");
         var min = 0, max = 0;
-        agentPrices.forEach(item => {
+        
+        this.state.agentPrices.filter(item => item.id === this.state.selectedItem.id)
+        // this.state.agentPrices
+        .forEach(item => {
             var date = item["date"] || "10-02-2020";
             date = date.split("-")[2] + "-" + date.split("-")[1] + "-" + date.split("-")[0];
             date += "T00:00";
@@ -73,14 +80,14 @@ class DailyPrice extends React.Component {
                 max = item.price;
         });
         console.log(data, "DATA");
-        data.values.push([ "2020-02-11T00:00", 60]);
-        data.values.push([ "2020-02-12T00:00", 120]);
-        data.values.push([ "2020-02-13T00:00", 150]);
-        data.values.push([ "2020-02-14T00:00", 180]);
-        data.values.push([ "2020-02-15T00:00", 60]);
-        data.values.push([ "2020-02-16T00:00", 120]);
-        data.values.push([ "2020-02-17T00:00", 150]);
-        data.values.push([ "2020-02-18T00:00", 180]);
+        // data.values.push([ "2020-02-11T00:00", 60]);
+        // data.values.push([ "2020-02-12T00:00", 120]);
+        // data.values.push([ "2020-02-13T00:00", 150]);
+        // data.values.push([ "2020-02-14T00:00", 180]);
+        // data.values.push([ "2020-02-15T00:00", 60]);
+        // data.values.push([ "2020-02-16T00:00", 120]);
+        // data.values.push([ "2020-02-17T00:00", 150]);
+        // data.values.push([ "2020-02-18T00:00", 180]);
         this.setState({ data, min, max });
     }
 
@@ -111,12 +118,16 @@ class DailyPrice extends React.Component {
         })
     }
 
+    showGraph = () => {
+        this.setGraphData();
+    }
+
     renderGraph = () => {
+        console.log(this.state.data, "DATATAA");
         const series = new TimeSeries({
             name: "Prices",
             columns: ["index", "precip"],
             points: this.state.data && this.state.data.values.map(([d, value]) => {
-                console.log(d, "DDDDDDDD");
                 return [
                     new Date(d).toISOString(),
                     value
@@ -133,32 +144,34 @@ class DailyPrice extends React.Component {
             }
           ]);
         return (
-            <Resizable>
-                <ChartContainer timeRange={series.range()}>
-                <ChartRow height="150">
-                    <YAxis
-                    id="rain"
-                    label="Rainfall (inches/hr)"
-                    min={this.state.min}
-                    max={200 || this.state.max}
-                    format=".2f"
-                    width="70"
-                    type="linear"
-                    />
-                    <Charts>
-                    <BarChart
-                        axis="rain"
-                        style={style}
-                        spacing={1}
-                        columns={["precip"]}
-                        series={series}
-                        minBarHeight={1}
-                    />
-                    {/* <Baseline axis="price" style={{}} value={series.avg() - series.stdev()}/> */}
-                    </Charts>
-                </ChartRow>
-                </ChartContainer>
-            </Resizable>
+            <div style={{marginLeft : 40, marginRight : 40, marginTop : 80}}>
+                <Resizable>
+                    <ChartContainer timeRange={series.range()}>
+                    <ChartRow height="500">
+                        <YAxis
+                        id="rain"
+                        label="Price"
+                        min={this.state.min}
+                        max={this.state.max}
+                        format=".2f"
+                        width="70"
+                        type="linear"
+                        />
+                        <Charts>
+                        <BarChart
+                            axis="rain"
+                            style={style}
+                            spacing={1}
+                            columns={["precip"]}
+                            series={series}
+                            minBarHeight={1}
+                        />
+                        {/* <Baseline axis="price" style={{}} value={series.avg() - series.stdev()}/> */}
+                        </Charts>
+                    </ChartRow>
+                    </ChartContainer>
+                </Resizable>
+            </div>
         )
     }
 
@@ -166,10 +179,11 @@ class DailyPrice extends React.Component {
         // console.log(this.state.constituencyData, "Constituency Data");
         return (
             <div>
+                <div style={{ display : "flex", width : '92%', marginLeft: '4%' }}>
                 {
                     this.state.constituencyData && this.state.constituencyData.length > 0 && (
-                        <div>
-                            <select onChange={e => {
+                        <div style={{ width : '20%'}}>
+                            <select style={{ width : '100%', height : 40}} onChange={e => {
                                     this.setState({ selectedConstituency : JSON.parse(e.target.value) });
                                 }}>
                                 <option> Please select a constituency </option>
@@ -187,11 +201,11 @@ class DailyPrice extends React.Component {
 
                 {
                     this.state.selectedConstituency && this.state.selectedConstituency.variety && (
-                        <div>
-                            <select onChange={e => {
+                        <div style={{ width : '20%', marginLeft: '2%' }}>
+                            <select style={{ width : '100%', height : 40}} onChange={e => {
                                 this.setState({ selectedVariety : JSON.parse(e.target.value) });
                             }}>
-                                <option> Please select a constituency </option>
+                                <option> Please select a variety </option>
                                 {
                                         this.state.selectedConstituency.variety.map((item, index) => {
                                             return (<option key={index} value={JSON.stringify(item)}>
@@ -206,11 +220,11 @@ class DailyPrice extends React.Component {
 
                 {
                     this.state.selectedVariety && this.state.selectedVariety.item && (
-                        <div>
-                            <select onChange={e => {
+                        <div style={{ width : '20%', marginLeft: '2%' }}>
+                            <select style={{ width : '100%', height : 40}} onChange={e => {
                                 this.setState({ selectedItem : JSON.parse(e.target.value) });
                             }}>
-                                <option> Please select a constituency </option>
+                                <option> Please select an item </option>
                                 {
                                         this.state.selectedVariety.item.map((item, index) => {
                                             return (<option key={index} value={JSON.stringify(item)}>
@@ -226,16 +240,22 @@ class DailyPrice extends React.Component {
                     this.state.selectedItem && (
                         <button onClick={e => {
                             this.showGraph();
+                        }} style={{ 
+                            marginLeft : '2%',
+                            width : "20%",
+                            height: "40px",
+                            borderRadius: 4,
+                            backgroundColor: "#16a085",
+                            color: "white"
                         }}>
                             Show Graph
                         </button>
                     )
                 }
-                
+                </div>
                 {
                     this.renderGraph()
                 }
-
             </div>
         )
     }
