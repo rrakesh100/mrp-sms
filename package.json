@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "babel-preset-env": "^1.6.0",
-    "react-scripts": "0.6.1"
+    "react-scripts": "3.3.0"
   },
   "dependencies": {
     "Base64": "^0.2.1",
@@ -383,7 +383,6 @@
     "fs-vacuum": "^1.2.10",
     "fs-write-stream-atomic": "^1.0.10",
     "fs.realpath": "^1.0.0",
-    "fsevents": "^1.0.14",
     "fstream": "^1.0.11",
     "fstream-ignore": "^1.0.5",
     "fstream-npm": "^1.2.1",
@@ -705,7 +704,9 @@
     "pinkie-promise": "^2.0.1",
     "pkg-dir": "^1.0.0",
     "pkg-up": "^1.0.0",
+    "plotly.js": "^1.52.2",
     "pluralize": "^1.2.1",
+    "pondjs": "^0.9.0",
     "postcss": "^5.2.18",
     "postcss-calc": "^5.3.1",
     "postcss-colormin": "^2.2.2",
@@ -796,6 +797,7 @@
     "react-notify-resize": "^1.0.3",
     "react-overlays": "^0.6.12",
     "react-panels": "^2.5.1",
+    "react-plotly.js": "^2.4.0",
     "react-prop-types": "^0.4.0",
     "react-qr-component": "^0.7.3",
     "react-qr-svg": "^2.1.0",
@@ -806,6 +808,7 @@
     "react-style-normalizer": "^1.2.8",
     "react-tab-panel": "^2.2.7",
     "react-tabs": "^0.8.3",
+    "react-timeseries-charts": "^0.16.1",
     "react-transition-group": "^1.2.1",
     "reactable": "^0.14.1",
     "read": "^1.0.7",
@@ -1018,5 +1021,17 @@
     "yargs-parser": "^3.2.0"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

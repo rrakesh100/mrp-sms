@@ -8,6 +8,7 @@ import FaLogin from 'react-icons/lib/fa/user-plus';
 import FaSettings from 'react-icons/lib/fa/cogs';
 import FaUsers from 'react-icons/lib/fa/group';
 import FaMoney from 'react-icons/lib/fa/money';
+import FaTags from 'react-icons/lib/fa/tag';
 
 
 class Site extends Component {
@@ -41,6 +42,9 @@ class Site extends Component {
           <div className="Site-profileControls">
             <div className="menu-item">
               <a onClick={() => logout()}><h4><FaLogout />Log Out</h4></a>
+            </div>
+            <div className="menu-item">
+              <Link to="/dailyprices"><h4><FaTags />DailyPrices</h4></Link>
             </div>
             <div className="menu-item">
               <Link to="/users"><h4><FaUsers />Users</h4></Link>

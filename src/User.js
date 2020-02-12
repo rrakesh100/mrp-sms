@@ -90,6 +90,9 @@ class User extends Component {
       renderShopsTable: false,
       renderOrdersTable: false,
       renderAreasTable: false,
+      renderConstituenciesTable: false,
+      constituencySelected: false,
+      constituencySelectedObj:{},
       expandedRows : [],
       addShop: false,
       showModal: false,
@@ -97,7 +100,7 @@ class User extends Component {
     };
   }
 
-  componentDidMount() {
+  fetchUserData() {
     const userPath = `users/${this.props.params.userId}`;
     const userRef = firebase.database().ref().child(userPath);
     userRef.on('value', snap => {
@@ -114,6 +117,22 @@ class User extends Component {
         });
       }
     });
+  }
+
+  fetchConstituencies() {
+    const constituencyPath = `constituency`;
+    const constituencyRef = firebase.database().ref().child(constituencyPath);
+    constituencyRef.on('value', snap => {
+      const constituencyData = snap.val();
+      this.setState({
+        constituencyData
+      })
+    })
+  }
+
+  componentDidMount() {
+    this.fetchUserData();
+    this.fetchConstituencies();
   }
 
 
@@ -265,6 +284,37 @@ class User extends Component {
          );
      }
 
+     onConstituencySelectClick = (item, index) => {
+       const {constituencySelected,constituencySelectedObj, selectedConstituenciesArr=[]}=this.state;
+       constituencySelectedObj[index]=!constituencySelectedObj[index];
+       if(selectedConstituenciesArr.indexOf(item) != -1) {
+         selectedConstituenciesArr.splice(selectedConstituenciesArr.indexOf(item),1);
+       } else {
+         selectedConstituenciesArr.push(item);
+       }
+       this.setState({
+         constituencySelectedObj,
+         selectedConstituenciesArr
+       })
+     }
+
+     renderConstituencyItem(item, index) {
+       const { constituencySelectedObj } = this.state;
+          return (
+              <div key={index} onClick={() => this.onConstituencySelectClick(item,index)}
+              style={constituencySelectedObj[index] ?
+                      {height:40, backgroundColor:'#16A085', marginTop:10} :
+                      {height:40, backgroundColor:'#E6E6FF', marginTop:10} }>
+                  <div
+                  style={constituencySelectedObj[index] ?
+                        {color:'#fff', fontSize:16, marginLeft:20, marginTop:'auto', marginBottom:'auto'} :
+                        {color:'#16A085', fontSize:16, marginLeft:20, marginTop:'auto', marginBottom:'auto'} }>
+                    {item}
+                  </div>
+              </div>
+          );
+      }
+
      closeModal = () => {
        this.setState({
          showModal:false
@@ -322,6 +372,47 @@ class User extends Component {
        return (
          <div>
 			     <div>{allItemRows}</div>
+        </div>
+      );
+  }
+
+  addConstituencies(selectedConstituenciesArr) {
+    console.log('add constituencies', selectedConstituenciesArr);
+    console.log(this.props.params.userId);
+    let constituencyRefPath=`users/${this.props.params.userId}/constituencies`;
+    let constituencyRef = firebase.database().ref().child(constituencyRefPath);
+
+    let ref=this;
+
+    constituencyRef.transaction(function(constituencies){
+              constituencies=constituencies||[];
+              constituencies=selectedConstituenciesArr;
+              console.log(constituencies);
+              return constituencies;
+    }, function(success) {
+        ref.msg.success( <div className="success"><h4>Constituencies </h4>Successfully Saved</div>, {
+          time: 2000,
+          type: 'success',
+        });
+      }
+     );
+  }
+
+  renderConstituencies() {
+    const {constituencyData,selectedConstituenciesArr, dailyPriceData}=this.state;
+    let allItemRows = [];
+       constituencyData && Object.keys(constituencyData).forEach((item, index) => {
+         const eachConstituency = constituencyData[item];
+         const perItemRows = this.renderConstituencyItem(eachConstituency.name.toUpperCase(), index);
+              allItemRows = allItemRows.concat(perItemRows)
+       });
+       return (
+         <div>
+			     <div>{allItemRows}</div>
+           <Button color='teal' style={{marginTop:10,marginLeft:10}}
+             onClick={this.addConstituencies.bind(this,selectedConstituenciesArr)}>
+             Add Constituencies
+           </Button>
         </div>
       );
   }
@@ -412,6 +503,14 @@ class User extends Component {
             </div>
             <div className="sectionBody">
             {this.state.renderAreasTable ? this.renderAreas() : null}
+            </div>
+          </div>
+          <div className="outlets">
+            <div className="sectionHeader" onClick={() => this.setState({renderConstituenciesTable:!this.state.renderConstituenciesTable})}>
+              <h3>CONSTITUENCIES</h3>
+            </div>
+            <div className="sectionBody">
+            {this.state.renderConstituenciesTable ? this.renderConstituencies() : null}
             </div>
           </div>
         </div>

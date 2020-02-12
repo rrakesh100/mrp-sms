@@ -22,6 +22,8 @@ import Print from './Print';
 import OrderSheet from './OrderSheet';
 import CreateUser from './CreateUser';
 import Purge from './Purge';
+import DailyPrices from './DailyPrices';
+import DailyPrice from './DailyPrice';
 
 class Main extends Component {
   render() {
@@ -44,6 +46,7 @@ class Main extends Component {
             <Route path="/input" component={ Input }/>
             <Route path="/new-user" component={ CreateUser } />
             <Route path="/purge" component={ Purge } />
+            <Route path="/dailyprices" component={ DailyPrice } />
           </Route>
         </Route>
         <Route component={ Print }>
