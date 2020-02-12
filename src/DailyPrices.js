@@ -27,7 +27,7 @@ class DailyPrices extends React.Component {
   }
 
   fetchDailyPrices() {
-    const dailyPricePath = `dailyAdmin`;
+    const dailyPricePath = `dailyPricesAdmin`;
     const dailyPriceRef = firebase.database().ref().child(dailyPricePath);
     dailyPriceRef.on('value', snap => {
       const dailyPriceData = snap.val();
@@ -46,7 +46,7 @@ class DailyPrices extends React.Component {
      const date = new Date();
      const dateStr = moment(date).format('DD-MM-YYYY');
      const {dailyPriceData, selectedOPtion}=this.state;
-     let pricesDataObj=dailyPriceData[dateStr][selectedOPtion];
+     let pricesDataObj=dailyPriceData[dateStr]['constituencies'][selectedOPtion];
      this.setState({
        todayPricesData: pricesDataObj
      })
@@ -73,46 +73,47 @@ class DailyPrices extends React.Component {
 
   renderVarietyTables() {
     const {todayPricesData}=this.state;
-    let agentPrices=todayPricesData && todayPricesData.agentPrices;
     let renderTables=[];
-    todayPricesData && Object.keys(agentPrices).map(eachVariety => {
-      let varietyData=agentPrices[eachVariety];
+    todayPricesData && Object.keys(todayPricesData).map(eachCategory => {
+
+      let eachCategoryData=todayPricesData[eachCategory];
+      eachCategoryData && Object.keys(eachCategoryData).map(eachVariety => {
+        let eachVarietyData=eachCategoryData[eachVariety]['agentPrice'];
       renderTables.push(
         <Table celled padded>
          <Table.Header>
            <Table.Row>
-             <Table.HeaderCell singleLine>{eachVariety}</Table.HeaderCell>
+           <Table.HeaderCell singleLine>Category</Table.HeaderCell>
+             <Table.HeaderCell singleLine>Variety</Table.HeaderCell>
+             <Table.HeaderCell>Mobile Number</Table.HeaderCell>
+             <Table.HeaderCell>Weight</Table.HeaderCell>
              <Table.HeaderCell>Price</Table.HeaderCell>
              <Table.HeaderCell>Moisture</Table.HeaderCell>
              <Table.HeaderCell>Freight</Table.HeaderCell>
-             <Table.HeaderCell>Mobile Number</Table.HeaderCell>
+             <Table.HeaderCell>Total Price</Table.HeaderCell>
            </Table.Row>
          </Table.Header>
-
-       <Table.Body>
-         {Object.keys(varietyData).map(eachNumber => {
-           let eachSubVarietyData=varietyData[eachNumber];
-           return Object.keys(eachSubVarietyData).map(varietyName => {
-             let varietyDetailsObj=eachSubVarietyData[varietyName];
-             return (
-               <Table.Row>
-                 <Table.Cell>
-                   <Header as='h4' textAlign='left'>
-                     {varietyName}
-                   </Header>
-                 </Table.Cell>
-                 <Table.Cell>{varietyDetailsObj.price}</Table.Cell>
-                 <Table.Cell>{varietyDetailsObj.moisture}</Table.Cell>
-                 <Table.Cell>{varietyDetailsObj.freight}</Table.Cell>
+         <Table.Body>
+           {Object.keys(eachVarietyData).map(eachNumber => {
+             let agentDataForAVariety=eachVarietyData[eachNumber];
+               return (
+                 <Table.Row>
+                 <Table.Cell>{eachCategory}</Table.Cell>
+                 <Table.Cell>{eachVariety}</Table.Cell>
                  <Table.Cell>{eachNumber}</Table.Cell>
-               </Table.Row>
-             )
-           })
-         })}
-       </Table.Body>
+                 <Table.Cell>{agentDataForAVariety.weight}</Table.Cell>
+                   <Table.Cell>{agentDataForAVariety.price}</Table.Cell>
+                   <Table.Cell>{agentDataForAVariety.moisture}</Table.Cell>
+                   <Table.Cell>{agentDataForAVariety.freight}</Table.Cell>
+                   <Table.Cell>{agentDataForAVariety.totalPrice}</Table.Cell>
+                 </Table.Row>
+               )
+           })}
+         </Table.Body>
        </Table>
       )
     })
+  })
     return renderTables;
   }
 
@@ -175,7 +176,6 @@ class DailyPrices extends React.Component {
           {this.renderVarietyTables()}
         </div>
         <div style={{margin:20}}>
-          {this.renderAskingPrices()}
         </div>
       </div>
     )

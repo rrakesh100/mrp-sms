@@ -47,6 +47,9 @@ class Site extends Component {
               <Link to="/dailyprices"><h4><FaTags />DailyPrices</h4></Link>
             </div>
             <div className="menu-item">
+              <Link to="/dailyprice"><h4><FaTags />DailyPrices History</h4></Link>
+            </div>
+            <div className="menu-item">
               <Link to="/users"><h4><FaUsers />Users</h4></Link>
             </div>
             <div className="menu-item">

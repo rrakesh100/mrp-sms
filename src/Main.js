@@ -46,7 +46,8 @@ class Main extends Component {
             <Route path="/input" component={ Input }/>
             <Route path="/new-user" component={ CreateUser } />
             <Route path="/purge" component={ Purge } />
-            <Route path="/dailyprices" component={ DailyPrice } />
+            <Route path="/dailyprice" component={ DailyPrice } />
+            <Route path="/dailyPrices" component={ DailyPrices } />
           </Route>
         </Route>
         <Route component={ Print }>
