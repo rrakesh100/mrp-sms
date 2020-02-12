@@ -321,7 +321,7 @@
     "escape-string-regexp": "^1.0.5",
     "escodegen": "^1.8.1",
     "escope": "^3.6.0",
-    "eslint": "^3.5.0",
+    "eslint": "^4.18.2",
     "eslint-config-react-app": "^0.2.1",
     "eslint-import-resolver-node": "^0.2.3",
     "eslint-loader": "^1.5.0",
