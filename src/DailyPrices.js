@@ -9,19 +9,20 @@ class DailyPrices extends React.Component {
     this.state = {
       dailyPriceData: null,
       constituencyOptions:[],
-      selectedOPtion:'',
+      selectedOption:'',
+      selectedState:'',
       todayPricesData:null
     };
   }
 
-  fetchConstituencies() {
-    const constituencyPath = `constituency`;
-    const constituencyRef = firebase.database().ref().child(constituencyPath);
-    constituencyRef.on('value', snap => {
-      const constituencyData = snap.val();
-      delete constituencyData.items;
+  fetchStates() {
+    const path = `statesVsConstituencies`;
+    const pathRef = firebase.database().ref().child(path);
+    pathRef.on('value', snap => {
+      const stateData = snap.val();
+      console.log(stateData);
       this.setState({
-        constituencyData
+        stateData
       })
     })
   }
@@ -38,15 +39,15 @@ class DailyPrices extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchConstituencies();
+    this.fetchStates();
     this.fetchDailyPrices();
   }
 
   fetchTodayPricesData = () => {
      const date = new Date();
      const dateStr = moment(date).format('DD-MM-YYYY');
-     const {dailyPriceData, selectedOPtion}=this.state;
-     let pricesDataObj=dailyPriceData[dateStr]['constituencies'][selectedOPtion];
+     const {dailyPriceData, selectedOption}=this.state;
+     let pricesDataObj=dailyPriceData[dateStr]['constituencies'][selectedOption];
      this.setState({
        todayPricesData: pricesDataObj
      })
@@ -54,32 +55,44 @@ class DailyPrices extends React.Component {
 
   handleChange = (event) => {
     this.setState({
-      selectedOPtion: event.target.value
+      selectedOption: event.target.value
     },this.fetchTodayPricesData);
   }
 
-  renderSelectField() {
-    const {constituencyData}=this.state;
+  handleStateChange = (event) => {
+    this.setState({
+      selectedState: event.target.value
+    })
+  }
+
+  renderConstituencySelectField() {
+    const {stateData,selectedState}=this.state;
+    let constituencyData = stateData[selectedState].constituencies;
     return (
-      <select value={this.state.selectedOPtion} onChange={this.handleChange}>
+      <div style={{ width : '20%', marginLeft: '2%'}}>
+      <select style={{ width : '100%', height : 40}} value={this.state.selectedOption} onChange={this.handleChange}>
+      <option> Please select a constituency</option>
         {
           constituencyData && Object.keys(constituencyData).map(eachConstituency => {
             return <option key={eachConstituency} value={eachConstituency}>{eachConstituency}</option>
           })
         }
       </select>
+      </div>
     )
   }
 
   renderVarietyTables() {
     const {todayPricesData}=this.state;
+    console.log(todayPricesData);
     let renderTables=[];
     todayPricesData && Object.keys(todayPricesData).map(eachCategory => {
-
       let eachCategoryData=todayPricesData[eachCategory];
-      eachCategoryData && Object.keys(eachCategoryData).map(eachVariety => {
+      console.log(eachCategoryData);
+      eachCategoryData && Object.keys(eachCategoryData).map((eachVariety,index) => {
         let eachVarietyData=eachCategoryData[eachVariety]['agentPrice'];
       renderTables.push(
+        <div style={{marginLeft: '2%'}}>
         <Table celled padded>
          <Table.Header>
            <Table.Row>
@@ -97,11 +110,11 @@ class DailyPrices extends React.Component {
            {Object.keys(eachVarietyData).map(eachNumber => {
              let agentDataForAVariety=eachVarietyData[eachNumber];
                return (
-                 <Table.Row>
-                 <Table.Cell>{eachCategory}</Table.Cell>
-                 <Table.Cell>{eachVariety}</Table.Cell>
-                 <Table.Cell>{eachNumber}</Table.Cell>
-                 <Table.Cell>{agentDataForAVariety.weight}</Table.Cell>
+                 <Table.Row key={eachVariety}>
+                   <Table.Cell>{eachCategory}</Table.Cell>
+                   <Table.Cell>{eachVariety}</Table.Cell>
+                   <Table.Cell>{eachNumber}</Table.Cell>
+                   <Table.Cell>{agentDataForAVariety.weight}</Table.Cell>
                    <Table.Cell>{agentDataForAVariety.price}</Table.Cell>
                    <Table.Cell>{agentDataForAVariety.moisture}</Table.Cell>
                    <Table.Cell>{agentDataForAVariety.freight}</Table.Cell>
@@ -111,6 +124,7 @@ class DailyPrices extends React.Component {
            })}
          </Table.Body>
        </Table>
+       </div>
       )
     })
   })
@@ -166,11 +180,28 @@ class DailyPrices extends React.Component {
     )
   }
 
+  renderStateSelectField() {
+    const {stateData}=this.state;
+    return (
+      <div style={{ width : '20%'}}>
+      <select style={{ width : '100%', height : 40}} value={this.state.selectedState} onChange={this.handleStateChange}>
+      <option> Please select a state</option>
+        {
+          stateData && Object.keys(stateData).map(eachState => {
+            return <option key={eachState} value={eachState}>{stateData[eachState].name}</option>
+          })
+        }
+      </select>
+      </div>
+    )
+  }
+
   render() {
     return (
       <div>
-       <div style={{marginLeft:20,marginTop:20}}>
-          {this.renderSelectField()}
+       <div style={{display : "flex", width : '92%', marginLeft: '4%'}}>
+          {this.renderStateSelectField()}
+          {this.state.selectedState && this.renderConstituencySelectField()}
        </div>
         <div style={{margin:20}}>
           {this.renderVarietyTables()}
