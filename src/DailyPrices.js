@@ -2,6 +2,12 @@ import React from 'react';
 import * as firebase from 'firebase';
 import { Header, Table, Rating, Button } from 'semantic-ui-react'
 import moment from 'moment';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import 'react-day-picker/lib/style.css';
+import {
+  formatDate,
+  parseDate,
+} from 'react-day-picker/moment';
 
 class DailyPrices extends React.Component {
   constructor(props) {
@@ -11,7 +17,8 @@ class DailyPrices extends React.Component {
       constituencyOptions:[],
       selectedOption:'',
       selectedState:'',
-      todayPricesData:null
+      todayPricesData:null,
+      startDate: new Date()
     };
   }
 
@@ -20,7 +27,6 @@ class DailyPrices extends React.Component {
     const pathRef = firebase.database().ref().child(path);
     pathRef.on('value', snap => {
       const stateData = snap.val();
-      console.log(stateData);
       this.setState({
         stateData
       })
@@ -44,9 +50,9 @@ class DailyPrices extends React.Component {
   }
 
   fetchTodayPricesData = () => {
-     const date = new Date();
-     const dateStr = moment(date).format('DD-MM-YYYY');
-     const {dailyPriceData, selectedOption}=this.state;
+    const {dailyPriceData, selectedOption, selectedDay}=this.state;
+     const dateStr = selectedDay || moment(new Date()).format('DD-MM-YYYY');
+     console.log(dateStr);
      let pricesDataObj=dailyPriceData[dateStr]['constituencies'][selectedOption];
      this.setState({
        todayPricesData: pricesDataObj
@@ -84,11 +90,9 @@ class DailyPrices extends React.Component {
 
   renderVarietyTables() {
     const {todayPricesData}=this.state;
-    console.log(todayPricesData);
     let renderTables=[];
     todayPricesData && Object.keys(todayPricesData).map(eachCategory => {
       let eachCategoryData=todayPricesData[eachCategory];
-      console.log(eachCategoryData);
       eachCategoryData && Object.keys(eachCategoryData).map((eachVariety,index) => {
         let eachVarietyData=eachCategoryData[eachVariety]['agentPrice'];
       renderTables.push(
@@ -129,10 +133,6 @@ class DailyPrices extends React.Component {
     })
   })
     return renderTables;
-  }
-
-  onEditClick = () => {
-    console.log('edit');
   }
 
   renderAskingPrices() {
@@ -183,7 +183,7 @@ class DailyPrices extends React.Component {
   renderStateSelectField() {
     const {stateData}=this.state;
     return (
-      <div style={{ width : '20%'}}>
+      <div style={{ width : '20%', marginLeft: '4%'}}>
       <select style={{ width : '100%', height : 40}} value={this.state.selectedState} onChange={this.handleStateChange}>
       <option> Please select a state</option>
         {
@@ -196,10 +196,29 @@ class DailyPrices extends React.Component {
     )
   }
 
+  handleDayChange = (day) => {
+   const dateStr = moment(day).format('DD-MM-YYYY');
+   this.setState({ selectedDay: dateStr });
+ }
+
+  renderDatePicker() {
+    return (
+      <div>
+        <DayPickerInput
+         formatDate={formatDate}
+         parseDate={parseDate}
+         inputProps={{ style: { width: '120%', height:40, color:'black' } }}
+         placeholder={`${formatDate(new Date())}`}
+         onDayChange={this.handleDayChange} />
+      </div>
+    )
+  }
+
   render() {
     return (
       <div>
        <div style={{display : "flex", width : '92%', marginLeft: '4%'}}>
+          {this.renderDatePicker()}
           {this.renderStateSelectField()}
           {this.state.selectedState && this.renderConstituencySelectField()}
        </div>
